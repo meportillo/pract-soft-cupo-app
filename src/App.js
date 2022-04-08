@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from "react";
+import Consult from "./components/request/Consult";
+import CreateRequest from "./components/request/CreateRequest";
+import Navbar from "./components/navigation/NavBar";
+import SignIn from "./components/home/SignIn";
+import Home from "./components/home/Home";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    render(){
+        return (
+                <>
+                <Navbar></Navbar>
+                <Routes>
+                    <Route path='/'  element={<Home></Home>} />
+                    <Route path='cupo' element={<CreateRequest/>} />
+                    <Route path='consulta' element={<Consult></Consult>} />
+                    <Route path='sign-up' element={<SignIn></SignIn>} />
+                </Routes>                
+                </>
+      );
+    }
 }
 
 export default App;
