@@ -16,10 +16,10 @@ class App extends Component {
             <BrowserRouter>
                 <Navbar></Navbar>
                 <Routes>
-                    <Route path='/'  Component={<Home/>} />
-                    <Route path='cupo' Component={<CreateRequest/>} />
-                    <Route path='consulta' Component={<Consult/>} />
-                    <Route path='sign-up' Component={<SignIn/>} />
+                    <Route path='/'  element={<Home/>} />
+                    <Route path='cupo' element={<CreateRequest/>} />
+                    <Route path='consulta' element={<Consult/>} />
+                    <Route path='sign-up' element={<SignIn/>} />
                 </Routes>
             </BrowserRouter>
     );
