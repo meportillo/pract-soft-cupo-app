@@ -32,6 +32,7 @@ export default function SignIn() {
 
     return (
         <Container>
+            <div className="mb-5"></div>
             <Row className="justify-content-md-center">
             <Col className="col-md-4" >
             {
@@ -43,6 +44,7 @@ export default function SignIn() {
             <div className="d-flex justify-content-center">   
                 <FaSignInAlt className="mb-3" size={80}/>
             </div>
+            <h3 className="d-flex justify-content-center mb-3">Sign In</h3>
             <Form>
                 <Form.Group className="mb-3" controlId="formGroupEmail" >
                     <Form.Label>Direccion de Correo Electronico</Form.Label>
