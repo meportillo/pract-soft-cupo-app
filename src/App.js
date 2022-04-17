@@ -6,23 +6,23 @@ import SignIn from "./components/home/SignIn";
 import Home from "./components/home/Home";
 import {
   BrowserRouter,
-  Routes,
   Route,
+  Routes
 } from "react-router-dom";
 
 class App extends Component {
     render(){
         return (
-                <>
+            <BrowserRouter>
                 <Navbar></Navbar>
                 <Routes>
-                    <Route path='/'  element={<Home></Home>} />
-                    <Route path='cupo' element={<CreateRequest/>} />
-                    <Route path='consulta' element={<Consult></Consult>} />
-                    <Route path='sign-up' element={<SignIn></SignIn>} />
-                </Routes>                
-                </>
-      );
+                    <Route path='/'  Component={<Home/>} />
+                    <Route path='cupo' Component={<CreateRequest/>} />
+                    <Route path='consulta' Component={<Consult/>} />
+                    <Route path='sign-up' Component={<SignIn/>} />
+                </Routes>
+            </BrowserRouter>
+    );
     }
 }
 
