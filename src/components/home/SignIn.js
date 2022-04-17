@@ -1,21 +1,18 @@
-import React, {useState} from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Alert from '@mui/material/Alert';
-const theme = createTheme();
-    
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';   
+import Container from 'react-bootstrap/Container';  
+import Row from 'react-bootstrap/Row';    
+import Col from 'react-bootstrap/Col';    
+import Alert from 'react-bootstrap/Alert';    
+import { FaSignInAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 export default function SignIn() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [error,setError] = useState(false);
-
+    const navigate = useNavigate();
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);
     }
@@ -26,8 +23,7 @@ export default function SignIn() {
 
     const handleSubmit = () => {
         if (email.trim() === "miguel@gmail.com" && password.trim() === "1234") {
-            setError(false);
-            console.log("logueado");
+            navigate("/");
         }
         else {
             setError(true);
@@ -35,62 +31,35 @@ export default function SignIn() {
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-                >
-                    {
-                        error ? <Alert  severity="error" onClose={() => {setError(false)}}>Correo electronico o passaword incorretos</Alert> : <></>
-                    }
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <Box 
-                    noValidate sx={{ mt: 1 }} 
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            handleSubmit();
-                        }
-                     }} 
-                    >
-                        <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Direccion de Correo Electronico"
-                        autoFocus
-                        onChange={(e) => handleChangeEmail(e)}
-                        />
-                        <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Contraseña"
-                        type="password"
-                        onChange={(e) => handleChangePassword(e)}
-                        />
-                        <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        onClick={handleSubmit}
-                        >
-                        Ingresar 
-                        </Button>
-                    </Box>
-                </Box>
-            </Container>
-        </ThemeProvider>
+        <Container>
+            <Row className="justify-content-md-center">
+            <Col className="col-md-4" >
+            {
+                error ? <Alert variant="danger" onClose={() => setError(false)} dismissible>
+                            Correo Electronico o contraseña incorrectos
+                        </Alert>
+                : <></>
+            }
+            <div className="d-flex justify-content-center">   
+                <FaSignInAlt className="mb-3" size={80}/>
+            </div>
+            <Form>
+                <Form.Group className="mb-3" controlId="formGroupEmail" >
+                    <Form.Label>Direccion de Correo Electronico</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" onChange={(e) => handleChangeEmail(e)} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPassword">
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="Password" onChange={(e) => handleChangePassword(e)} />
+                </Form.Group>
+                <div className="d-flex justify-content-center">
+                    <Button variant="primary" onClick={handleSubmit} style={{width: '50%'}}>
+                        Login
+                    </Button>
+                </div>
+            </Form>
+            </Col>
+            </Row>
+        </Container>
     );
 }
