@@ -8,11 +8,16 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { ThemeProvider } from "react-bootstrap";
 
 class App extends Component {
     render(){
         return (
-                <>
+
+              <>
+              <ThemeProvider
+                breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+              >
                 <Navbar></Navbar>
                 <Routes>
                     <Route path='/'  element={<Home></Home>} />
@@ -20,6 +25,8 @@ class App extends Component {
                     <Route path='consulta' element={<Consult></Consult>} />
                     <Route path='sign-up' element={<SignIn></SignIn>} />
                 </Routes>                
+              </ThemeProvider>
+
                 </>
       );
     }

@@ -1,131 +1,167 @@
-import React from "react";
-import {collegeSubect} from '../../utils/mock.js';
-import Select from 'react-select';
-import './CreateRequest.css';
+import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
-import * as ReactDOM from 'react-dom';
+import { getSubjects } from '../../services/SubjectService';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+import { AlertRequest } from "./AlertRequest";
 
-export default class CreateRequest extends React.Component {
+export default function CreateRequest()  {
 
-    constructor(props){
-        super(props);
-        this.state={
-            legajo:'',
-            nroDocumento:'',
-            materias :[],
-            subOptions: [],
-            materiaTemp: {},
-            comisionTemp: {}
-        };
-        this.opcionesMaterias = collegeSubect.map( function(elem){
-         var ret = {"value": elem, "label": elem.nombre} 
-         return ret;          
-        });
-        this.subCommi=true;
-    }
-    _submit(e){
+    const [legajo,setLegajo] = useState('');
+    const [nroDocumento, setNroDocumento] = useState('');
+    const [materias, setMaterias] = useState([]);
+    const [materia, setMateria] = useState({});
+    const [subOptions, setSubOptions] = useState([]);
+    const [materiaTemp, setMateriaTemp ] = useState({});
+    const [comisionTemp, setComisionTemp] = useState({});
+    const [opcionesMaterias, setOpcionesMaterias] = useState([]);
+    const [showAlert, setShowAlert] = useState(false);
+
+    const _submit = (e)=> {
         e.preventDefault();
-        console.log('Solicitud de cupo', this.state);
-        this._clean(e);
-    }
-    _setValueInput = (e) => {
-        e.preventDefault();
-        console.log(e.target.id + e.target.value);
-        this.setState({
-            [e.target.id] : e.target.value
-        });
-    }
-    _clean(e) {
-        e.preventDefault();
-        this.setState({
-            legajo:'',
-            nroDocumento:'',
-            materias :[],
-            subOptions:[]
+        console.log('Solicitud de cupo', e);
+        console.log(materias);
+        console.log(opcionesMaterias);        
+        console.log(legajo);
+        console.log(nroDocumento);
+        _clean(e);
+    };
+
+    useEffect(()=>{
+        getSubjects
+        .then(collejeSubject => 
+            setOpcionesMaterias(collejeSubject.map( function(elem){
+                var ret = {"value": elem, "label": elem.nombre} 
+                return ret;          
+            }))
+        )
+        .catch( error=> {
+            console.error("ERROR ", error)
         })
-    }
-    _onSelectCom(com){
-        console.log(com.value);
-        if(this.state.materias.filter(mat => mat.codigo == com.value.codigo).length == 0){
-            let mats = this.state.materias;
-            mats.push(com.value);
-            this.setState({'materias': mats});
-        }else{
-            let mats = this.state.materias.filter(mat => mat.codigo != com.value.codigo);
-            mats.push(com.value);        
-            this.setState({'materias': mats});
+    },[]);
 
+
+    
+    useEffect(() => {
+        async function  updateOption(){
+            console.log('async ---> ', materia);
+            setSubOptions(materia.comisiones);
+            console.log(subOptions);
         }
-        this.setState({materiaTemp: '', comisionTemp: ''});
-    }
-    _onSelectChange = (materia) => {
-        this.subCommi = false;
-        this.setState({'subOptions':materia.value.comisiones.map(function(comision){
-            return {"value":{ 'codigo':materia.value.codigo , 'codComision': comision.codComision, 'nombre':materia.value.nombre, 'horario':comision.horaInicio+ "-"+comision.horaFin }, "label": comision.codComision + " - Horario:" + 
-            "" + comision.horaInicio+ "-"+comision.horaFin }
-        }), materiaTemp: materia});
-      }
-    _cleanCom(com, evt){
+        updateOption();
+    },[materia]);
+    
+    useEffect(()=>{
+    console.log('userEffect ---->   ' );
+    },[]);
+
+    const _clean = (e) => {
+        e.preventDefault();
+        setLegajo('');
+        setMaterias([]);
+        setSubOptions([]);
+        setNroDocumento('');
+    };
+    
+    const _cleanCom= (com, evt)=> {
         evt.preventDefault();
         console.log(com);
+        let mates = materias;
+        
+        //mates.push(mate);
+        setMateria(mates.filter(mat => mat.codigo != com.codigo));
+        setShowAlert(false);
+    };
+
+    const _onClick = (e)=> {
+        let mate = JSON.parse(e.target.value);
+        if(materias.filter(mat => mat.codigo == mate.codigo).length == 0){
+            let mates = materias;
+            mates.push(mate);
+            setMateria(mates);
+            setShowAlert(false);
+        }else{
+            setShowAlert(true);
+        }
     }
-    _getOptions(){
-        return(<span>
-            {this.state.materias.map(matSelect => {
-                return (<div>
-                    Materia: {matSelect.nombre}  - Comision: {matSelect.codComision} - Horario: {matSelect.horario} <button onClick={ e => this._cleanCom(matSelect, e)}><FcCancel  /></button>
-                </div>)
-            }) }
-            
-        </span>)
-    }const 
 
+    return(
+        <>
+            <Form className="container">
+                <Form.Label>Completar la Siguiente Solicitud para iniciar el proceso de alta de Cupo</Form.Label>
 
-    render(){
-        return(
-            <div>
-                <br/>
-                <div className="box">
-                    <h4>Completa la siguiente solicitud para pedir Cupo: </h4>
-                    <br/>
-                        <form onSubmit={ e=> this._submit(e)}>
-                            <input className="input"
-                                type="text"
-                                name="legajo"
-                                id="legajo" 
-                                placeholder="Legajo"
-                                onChange={ e => this._setValueInput(e)}></input>
-                            <br/>
-                            <input className="input"
-                                type="number"
-                                id="nroDocumento"
-                                placeholder="Nro. de Documento"
-                                name="nroDocumento"
-                                onChange={ e => this._setValueInput(e)}></input>
-                            <br/>
-                            <br/>
-                            <Select id="selectMateria" 
-                                    options={this.opcionesMaterias} 
-                                    onChange={ materia => this._onSelectChange(materia)}
-                                    value={this.state.materiaTemp || ''} />
-                            <br/>
-                            <Select id="selectComision" 
-                                    options={this.state.subOptions} 
-                                    onChange={     
-                                    comision =>this._onSelectCom(comision)}
-                                    value={this.state.comisionTemp} >
-                            </Select>
-                            <div>
-                                <br/>
-                                { this.state.materias.length == 0 ? <div></div> :  this._getOptions()}
-                            </div>
-                            <div>
-                                <button className="button" type="submit">Solicitar Cupo</button>
-                            </div>
-                        </form>
-                </div>    
-            </div>
+                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Legajo</Form.Label>
+                        <Form.Control onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
+                    </Form.Group>
+                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Número de Documento</Form.Label>
+                        <Form.Control onChange={e => setNroDocumento(e.target.value)} type="text" placeholder="... Numero de Documento" />
+                    </Form.Group>
+                    <Form.Group >
+                    <Card>
+                        <Card.Header>
+                            <Form.Label>Seleccionar Materias</Form.Label>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
+                            <Form.Select aria-label="Default select example" onChange={e => { setMateria(JSON.parse(e.target.value))}}>
+                                <option key={Math.random()} >Seleccionar opcion</option>
+                            {
+                            opcionesMaterias.map( function(e){ 
+                                    return <option key={Math.random()} value={JSON.stringify(e.value)}>{e.label}</option>
+                                })
+                            }
+                        </Form.Select>
+                        <Card.Title><Form.Label>Seleccionar Comision</Form.Label></Card.Title>
+                        <Form.Select aria-label="Default select example" onChange={e => { setComisionTemp(e.target.value)}}>
+                            <option key={Math.random()} >Seleccionar opcion</option>
+                            {
+                            (subOptions) ? subOptions.map( function(comision){ 
+                                return <option key={Math.random()} value={JSON.stringify({ 'codigo':materia.codigo , 'codComision': comision.codComision, 'nombre':materia.nombre, 'horario':comision.horaInicio+ "-"+comision.horaFin })}>
+                                    {comision.codComision + " - Horario:" +" " + comision.horaInicio+ "-"+comision.horaFin }
+                                    </option>
+                            }): <></>
+                            }
+                        </Form.Select>
+                        <br/>
+                        <Button value={comisionTemp} variant="primary" onClick={e => _onClick(e)}>Agregar Materia</Button>
+                        </Card.Body>
+                    </Card>
+                    </Form.Group>
+                    <Form.Group className="row">
+                    <Form.Label>
+                        {showAlert? <AlertRequest message="Ya se encuentra seleccionada" show={showAlert}></AlertRequest>:
+                        <></>}
+                        <Table size="sm">
+                            <thead>
+                                <tr key={Math.random()}>
+                                <th>Cancelar</th>
+                                <th>Materia</th>
+                                <th>Comision</th>
+                                <th>Horario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                   materias.map(matSelect => 
+                                        <tr key={Math.random()}>
+                                            <td>{<button value={matSelect.codigo} onClick={ e => _cleanCom(matSelect, e)}><FcCancel  /></button>}</td>
+                                            <td>{matSelect.nombre}</td>
+                                            <td>{matSelect.codComision}</td>
+                                            <td>{matSelect.horario}</td>
+                                        </tr>    
+                                    )
+                                }
+                            </tbody>
+                        </Table>
+                    </Form.Label>
+                        <Button onClick={e => _submit(e)} type="submit" className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
+                    </Form.Group>
+                </Form>      
+            </>
         );
-    }
-
 }
