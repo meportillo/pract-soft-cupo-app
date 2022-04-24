@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import SSRProvider from 'react-bootstrap/SSRProvider';
@@ -6,6 +6,8 @@ import SSRProvider from 'react-bootstrap/SSRProvider';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    <SSRProvider>
-      <App />
-    </SSRProvider>);
+    <StrictMode>
+      <SSRProvider>
+        <App />
+      </SSRProvider>
+    </StrictMode>);

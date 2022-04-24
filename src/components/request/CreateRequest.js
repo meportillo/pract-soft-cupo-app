@@ -10,6 +10,7 @@ import { AlertRequest } from "./AlertRequest";
 
 export default function CreateRequest(props)  {
 
+    const [encabezado, setEncabezado]= useState(props.encabezado)
     const [legajo,setLegajo] = useState(props.legajo);
     const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
     const [materias, setMaterias] = useState(props.materias);
@@ -21,11 +22,11 @@ export default function CreateRequest(props)  {
 
     const _submit = (e)=> {
         e.preventDefault();
-        console.log('Solicitud de cupo', e);
-        console.log(materias);
-        console.log(opcionesMaterias);        
-        console.log(legajo);
-        console.log(nroDocumento);
+        //console.log('Solicitud de cupo', e);
+        //console.log(materias);
+        //console.log(opcionesMaterias);        
+        //console.log(legajo);
+        //console.log(nroDocumento);
         _clean(e);
     };
 
@@ -38,7 +39,7 @@ export default function CreateRequest(props)  {
             }))
         )
         .catch( error=> {
-            console.error("ERROR ", error)
+            //console.error("ERROR ", error)
         })
     },[]);
 
@@ -46,15 +47,15 @@ export default function CreateRequest(props)  {
     
     useEffect(() => {
         async function  updateOption(){
-            console.log('async ---> ', materia);
+            //console.log('async ---> ', materia);
             setSubOptions(materia.comisiones);
-            console.log(subOptions);
+            //console.log(subOptions);
         }
         updateOption();
     },[materia]);
     
     useEffect(()=>{
-    console.log('userEffect ---->   ' );
+    //console.log('userEffect ---->   ' );
     },[]);
 
     const _clean = (e) => {
@@ -82,6 +83,7 @@ export default function CreateRequest(props)  {
             setMateria(mates);
             setShowAlert(false);
         }else{
+            //console.log('Ver alerta');
             setShowAlert(true);
         }
     }
@@ -89,10 +91,10 @@ export default function CreateRequest(props)  {
     return(
         <>
             <Form className="container">
-                <Form.Label>Completar la Siguiente Solicitud para iniciar el proceso de alta de Cupo</Form.Label>
+                <Form.Label><h3>{encabezado}</h3></Form.Label>
                     <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                         <Form.Label>Legajo</Form.Label>
-                        <Form.Control onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
+                        <Form.Control id="inputLegajo" onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
                     </Form.Group>
                     <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                         <Form.Label>Número de Documento</Form.Label>
@@ -107,7 +109,7 @@ export default function CreateRequest(props)  {
                             <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
                             <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => { 
                                     setMateria(JSON.parse(e.target.value));
-                                    console.log(e.target);
+                                    //console.log(e.target);
                                 }
                                 }>
                                 <option key={Math.random()} >Seleccionar opcion</option>
@@ -135,8 +137,10 @@ export default function CreateRequest(props)  {
                     </Form.Group>
                     <Form.Group className="row">
                     <Form.Label>
-                        {showAlert? <AlertRequest message="Ya se encuentra seleccionada" show={showAlert}></AlertRequest>:
-                        <></>}
+                        <Form.Label>
+                            <AlertRequest message="Ya se encuentra seleccionada" show={showAlert}></AlertRequest>
+                        </Form.Label>
+
                         <Table size="sm">
                             <thead>
                                 <tr key={Math.random()}>
