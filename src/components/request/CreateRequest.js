@@ -68,8 +68,10 @@ export default function CreateRequest(props)  {
     const _cleanCom= (com, evt)=> {
         evt.preventDefault();
         let mates = materias.filter(mat => mat.codigo != com.codigo);
+        //mates.push(mate);
         setMaterias(mates);
         setShowAlert(false);
+
     };
 
     const _onClick = (e)=> {
@@ -103,7 +105,11 @@ export default function CreateRequest(props)  {
                         </Card.Header>
                         <Card.Body>
                             <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
-                            <Form.Select aria-label="Default select example" onChange={e => { setMateria(JSON.parse(e.target.value))}}>
+                            <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => { 
+                                    setMateria(JSON.parse(e.target.value));
+                                    console.log(e.target);
+                                }
+                                }>
                                 <option key={Math.random()} >Seleccionar opcion</option>
                             {
                             opcionesMaterias.map( function(e){ 
