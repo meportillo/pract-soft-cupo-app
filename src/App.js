@@ -7,6 +7,7 @@ import Home from "./components/home/Home";
 import {
   Routes,
   Route,
+  BrowserRouter,
 } from "react-router-dom";
 import { ThemeProvider } from "react-bootstrap";
 
@@ -18,13 +19,15 @@ class App extends Component {
               <ThemeProvider
                 breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
               >
-                <Navbar></Navbar>
-                <Routes>
-                    <Route path='/'  element={<Home></Home>} />
-                    <Route path='cupo' element={<CreateRequest/>} />
-                    <Route path='consulta' element={<Consult></Consult>} />
-                    <Route path='sign-up' element={<SignIn></SignIn>} />
-                </Routes>                
+                 <BrowserRouter>
+                    <Navbar></Navbar>
+                    <Routes>
+                        <Route path='/'  element={<Home></Home>} />
+                        <Route path='cupo' element={<CreateRequest legajo='' nroDocumento='' materias={[]}/>} />
+                        <Route path='consulta' element={<Consult></Consult>} />
+                        <Route path='sign-up' element={<SignIn></SignIn>} />
+                    </Routes>
+                  </BrowserRouter>
               </ThemeProvider>
 
                 </>

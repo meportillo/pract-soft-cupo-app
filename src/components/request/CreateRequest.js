@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
 import { getSubjects } from '../../services/SubjectService';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import { AlertRequest } from "./AlertRequest";
 
-export default function CreateRequest()  {
+export default function CreateRequest(props)  {
 
-    const [legajo,setLegajo] = useState('');
-    const [nroDocumento, setNroDocumento] = useState('');
-    const [materias, setMaterias] = useState([]);
+    const [legajo,setLegajo] = useState(props.legajo);
+    const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
+    const [materias, setMaterias] = useState(props.materias);
     const [materia, setMateria] = useState({});
     const [subOptions, setSubOptions] = useState([]);
-    const [materiaTemp, setMateriaTemp ] = useState({});
     const [comisionTemp, setComisionTemp] = useState({});
     const [opcionesMaterias, setOpcionesMaterias] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
@@ -68,11 +67,8 @@ export default function CreateRequest()  {
     
     const _cleanCom= (com, evt)=> {
         evt.preventDefault();
-        console.log(com);
-        let mates = materias;
-        
-        //mates.push(mate);
-        setMateria(mates.filter(mat => mat.codigo != com.codigo));
+        let mates = materias.filter(mat => mat.codigo != com.codigo);
+        setMaterias(mates);
         setShowAlert(false);
     };
 
@@ -92,7 +88,6 @@ export default function CreateRequest()  {
         <>
             <Form className="container">
                 <Form.Label>Completar la Siguiente Solicitud para iniciar el proceso de alta de Cupo</Form.Label>
-
                     <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                         <Form.Label>Legajo</Form.Label>
                         <Form.Control onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
