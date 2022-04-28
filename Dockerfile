@@ -1,4 +1,4 @@
-from node:14.19-alpine
+FROM node:14.19-alpine
 
 # set working directory
 WORKDIR /usr/src/app
@@ -7,9 +7,10 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
+COPY package.json /usr/src/app/
+
+RUN npm install --silent
+
 COPY . /usr/src/app/
-
-CMD ["npm", "install"] 
-
 # start app
 CMD ["npm", "start"]
