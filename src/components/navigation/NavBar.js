@@ -7,13 +7,18 @@ NavMenu,
 NavBtn,
 NavBtnLink,
 } from './NavbarElements';
+//import logo from "/public/logo_unqui.png"
+
 
 export default class Navbar extends Component {
+
+
 
     render() {
         return(
         <Nav>
             <Bars />
+            <img src="http://alimentos.web.unq.edu.ar/wp-content/uploads/sites/99/2017/10/LOGO_UNQ-HD.jpg" alt='unq'></img>
             <NavMenu>
                 <NavLink to='/'>
                     Home
