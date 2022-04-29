@@ -7,7 +7,6 @@ NavMenu,
 NavBtn,
 NavBtnLink,
 } from './NavbarElements';
-//import logo from "/public/logo_unqui.png"
 
 
 export default class Navbar extends Component {

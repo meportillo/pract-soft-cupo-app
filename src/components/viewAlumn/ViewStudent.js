@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getStudents } from '../../services/AlumnService';
 import Table from 'react-bootstrap/Table'
+import Container from 'react-bootstrap/Container';  
+import Row from 'react-bootstrap/Row';    
+import Col from 'react-bootstrap/Col'; 
 import "../../styles/ViewAlumn.css"
 import { Button } from 'react-bootstrap';
 
@@ -20,7 +23,11 @@ export  default function ViewStudent(props){
     },[])
 
     return (
-        <>
+        <Container>
+            <div className="mb-8"></div>
+            <Row className="justify-content-md-center">
+            <Col className="col-md-10" >
+
         <div>
           <h4>{alumno.nombre} {alumno.apellido}</h4>
           <h4>Legajo : {alumno.legajo}</h4>
@@ -54,6 +61,7 @@ export  default function ViewStudent(props){
                         <td>Comision</td>
                         <td>Horario</td>
                         <td>Acciones</td>
+                        <td>Estado</td>
                     </tr>
 
                     {
@@ -68,12 +76,15 @@ export  default function ViewStudent(props){
                                     
                                     <Button variant="danger">Rechazar</Button>
                                 </td>
+                                <td>Pendiente</td>
                             </tr>)
                         })
                     }
                 </tbody>
             </Table>
         </div>
-        </>
+        </Col>
+        </Row>
+        </Container>
       );
     };
