@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getStudents } from '../../services/AlumnService';
 import Table from 'react-bootstrap/Table'
 import "../../styles/ViewAlumn.css"
+import { Button } from 'react-bootstrap';
 
 export  default function ViewStudent(props){
 
@@ -52,6 +53,7 @@ export  default function ViewStudent(props){
                         <td>Nombre</td>
                         <td>Comision</td>
                         <td>Horario</td>
+                        <td>Acciones</td>
                     </tr>
 
                     {
@@ -61,6 +63,11 @@ export  default function ViewStudent(props){
                                 <td>{mat.nombre}</td>
                                 <td>{mat.comision.codComision}</td>
                                 <td>{mat.comision.horaInicio}-{mat.comision.horaFin}</td>
+                                <td>
+                                    <Button variant="primary">Aceptar</Button>
+                                    
+                                    <Button variant="danger">Rechazar</Button>
+                                </td>
                             </tr>)
                         })
                     }
