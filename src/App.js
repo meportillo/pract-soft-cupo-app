@@ -25,7 +25,7 @@ class App extends Component {
                         <Route path='/'  element={<Home></Home>} />
                         <Route path='cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
                         <Route path='consulta' element={<Consult></Consult>} />
-                        <Route path='sign-up' element={<SignIn></SignIn>} />
+                        <Route path='sign-up' element={<SignIn></SignIn>} />                        
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>
