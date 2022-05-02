@@ -24,6 +24,7 @@ export default function TableRequests(props){
                         <td>{request.materia}</td>
                         <td>{request.quarter}</td>
                         <td>{request.year}</td>
+                        <td>{request.state}</td>
                         <td>
                             <ButtonGroup>
                                 <Button>
