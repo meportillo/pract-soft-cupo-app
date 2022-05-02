@@ -14,7 +14,7 @@ export default function CreateRequest(props)  {
     const [legajo,setLegajo] = useState(props.legajo);
     const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
     const [materias, setMaterias] = useState(props.materias);
-    const [materia, setMateria] = useState({});
+    const [materia, setMateria] = useState();
     const [subOptions, setSubOptions] = useState([]);
     const [comisionTemp, setComisionTemp] = useState({});
     const [opcionesMaterias, setOpcionesMaterias] = useState([]);
@@ -92,11 +92,11 @@ export default function CreateRequest(props)  {
         <>
             <Form className="container">
                 <Form.Label><h3>{encabezado}</h3></Form.Label>
-                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-2" >
                         <Form.Label>Legajo</Form.Label>
                         <Form.Control id="inputLegajo" onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
                     </Form.Group>
-                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-2" >
                         <Form.Label>Número de Documento</Form.Label>
                         <Form.Control onChange={e => setNroDocumento(e.target.value)} type="text" placeholder="... Numero de Documento" />
                     </Form.Group>
@@ -107,11 +107,7 @@ export default function CreateRequest(props)  {
                         </Card.Header>
                         <Card.Body>
                             <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
-                            <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => { 
-                                    setMateria(JSON.parse(e.target.value));
-                                    //console.log(e.target);
-                                }
-                                }>
+                            <Form.Select value={materia} id="selectMateria1" aria-label="Default select example"  onChange={e =>{setMateria(JSON.parse(e.target.value))}}>
                                 <option key={Math.random()} >Seleccionar opcion</option>
                             {
                             opcionesMaterias.map( function(e){ 
@@ -120,7 +116,7 @@ export default function CreateRequest(props)  {
                             }
                         </Form.Select>
                         <Card.Title><Form.Label>Seleccionar Comision</Form.Label></Card.Title>
-                        <Form.Select aria-label="Default select example" onChange={e => { setComisionTemp(e.target.value)}}>
+                        <Form.Select value={comisionTemp} aria-label="Default select example" onChange={e => { setComisionTemp(e.target.value)}}>
                             <option key={Math.random()} >Seleccionar opcion</option>
                             {
                             (subOptions) ? subOptions.map( function(comision){ 
@@ -158,8 +154,7 @@ export default function CreateRequest(props)  {
                                             <td>{matSelect.nombre}</td>
                                             <td>{matSelect.codComision}</td>
                                             <td>{matSelect.horario}</td>
-                                        </tr>    
-                                    )
+                                        </tr>)
                                 }
                             </tbody>
                         </Table>
