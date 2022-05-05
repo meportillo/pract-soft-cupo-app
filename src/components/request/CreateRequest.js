@@ -7,166 +7,129 @@ import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import { AlertRequest } from "./AlertRequest";
+import Alert from 'react-bootstrap/Alert';    
 
-export default function CreateRequest(props)  {
-
-    const [encabezado, setEncabezado]= useState(props.encabezado)
+export default function CreateRequest(props){
     const [legajo,setLegajo] = useState(props.legajo);
     const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
-    const [materias, setMaterias] = useState(props.materias);
-    const [materia, setMateria] = useState({});
-    const [subOptions, setSubOptions] = useState([]);
-    const [comisionTemp, setComisionTemp] = useState({});
-    const [opcionesMaterias, setOpcionesMaterias] = useState([]);
-    const [showAlert, setShowAlert] = useState(false);
+    const [subjects,setSubjects] = useState([]);
+    const [selected,setSelected] = useState("");
+    const [comisionSelected,setComisionSelected] = useState(""); 
+    const [subjectsSelected,setSubjectsSelected] = useState([]);
+    const [error,setError] = useState("");
 
-    const _submit = (e)=> {
-        e.preventDefault();
-        //console.log('Solicitud de cupo', e);
-        //console.log(materias);
-        //console.log(opcionesMaterias);        
-        //console.log(legajo);
-        //console.log(nroDocumento);
-        _clean(e);
-    };
-
-    useEffect(()=>{
+    const getAllSubjects = () => {
         getSubjects
-        .then(collejeSubject => 
-            setOpcionesMaterias(collejeSubject.map( function(elem){
-                var ret = {"value": elem, "label": elem.nombre} 
-                return ret;          
-            }))
-        )
-        .catch( error=> {
-            //console.error("ERROR ", error)
+        .then(data => {
+            setSubjects(data);
         })
-    },[]);
-
-
-    
-    useEffect(() => {
-        async function  updateOption(){
-            //console.log('async ---> ', materia);
-            setSubOptions(materia.comisiones);
-            //console.log(subOptions);
+    };
+    const getComisiones = () => { 
+        if (selected === ""){
+            return []; 
         }
-        updateOption();
-    },[materia]);
-    
-    useEffect(()=>{
-    //console.log('userEffect ---->   ' );
-    },[]);
-
-    const _clean = (e) => {
-        e.preventDefault();
-        setLegajo('');
-        setMaterias([]);
-        setSubOptions([]);
-        setNroDocumento('');
-    };
-    
-    const _cleanCom= (com, evt)=> {
-        evt.preventDefault();
-        let mates = materias.filter(mat => mat.codigo != com.codigo);
-        //mates.push(mate);
-        setMaterias(mates);
-        setShowAlert(false);
-
-    };
-
-    const _onClick = (e)=> {
-        let mate = JSON.parse(e.target.value);
-        if(materias.filter(mat => mat.codigo == mate.codigo).length == 0){
-            let mates = materias;
-            mates.push(mate);
-            setMateria(mates);
-            setShowAlert(false);
-        }else{
-            //console.log('Ver alerta');
-            setShowAlert(true);
+        else{
+            const sub = subjects.find(sub => sub.codigo == selected);  
+            return sub.comisiones;
         }
     }
-
-    return(
-        <>
-            <Form className="container">
-                <Form.Label><h3>{encabezado}</h3></Form.Label>
-                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Legajo</Form.Label>
-                        <Form.Control id="inputLegajo" onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
-                    </Form.Group>
-                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Número de Documento</Form.Label>
-                        <Form.Control onChange={e => setNroDocumento(e.target.value)} type="text" placeholder="... Numero de Documento" />
-                    </Form.Group>
-                    <Form.Group >
-                    <Card>
-                        <Card.Header>
-                            <Form.Label>Seleccionar Materias</Form.Label>
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
-                            <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => { 
-                                    setMateria(JSON.parse(e.target.value));
-                                    //console.log(e.target);
-                                }
-                                }>
-                                <option key={Math.random()} >Seleccionar opcion</option>
+    const addSubject = () => {
+        if(selected === "" || comisionSelected === "") {
+            setError("Falta seleccionar una materia o una comision"); 
+        }
+        else{
+            const sub = subjects.find(sub => sub.codigo == selected);
+            const repetidos = subjectsSelected.filter(s => s.codigo == sub.codigo); 
+            if (repetidos.length == 0) {
+                const comision = sub.comisiones.find(com => com.codComision == comisionSelected);
+                const obj = {"codigo":sub.codigo, "nombre":sub.nombre,"codComision":comisionSelected,"horario":`${comision.horaInicio}-${comision.horaFin}`}
+                const res =  subjectsSelected.slice();
+                res.push(obj);
+                setSubjectsSelected(res);
+            }
+            else{
+                setError(`La materia ${sub.nombre} ya se agrego`); 
+            }
+        } 
+    }
+    const deleteSubjectSelected = (codSubject,e) =>{
+        e.preventDefault();
+        const res = subjectsSelected.filter(sub => sub.codigo != codSubject);
+        setSubjectsSelected(res);
+    }
+    useEffect(getAllSubjects,[]);
+    return( 
+        <Form className="container">
+            <h1></h1>
+            {
+                error != "" ? <Alert variant="danger" onClose={() => setError("")} dismissible>
+                            {error}
+                        </Alert>
+                : <></>
+            }
+            <Form.Label className="d-flex justify-content-center"><h3>{props.encabezado}</h3></Form.Label>
+            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                <Form.Label>Legajo</Form.Label>
+                <Form.Control id="inputLegajo" onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                <Form.Label>Número de Documento</Form.Label>
+                <Form.Control onChange={e => setNroDocumento(e.target.value)} type="text" placeholder="... Numero de Documento" />
+            </Form.Group>
+            <Form.Group >
+                <Card>
+                    <Card.Header>
+                        <Form.Label>Seleccionar Materias</Form.Label>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
+                        <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => {setSelected(e.target.value)}}>
+                            <option key={0} value={""} >Seleccionar opcion</option>
                             {
-                            opcionesMaterias.map( function(e){ 
-                                    return <option key={Math.random()} value={JSON.stringify(e.value)}>{e.label}</option>
-                                })
+                            subjects.map((sub,index) => <option key={index} value={sub.codigo}>{sub.nombre}</option>)
                             }
                         </Form.Select>
-                        <Card.Title><Form.Label>Seleccionar Comision</Form.Label></Card.Title>
-                        <Form.Select aria-label="Default select example" onChange={e => { setComisionTemp(e.target.value)}}>
-                            <option key={Math.random()} >Seleccionar opcion</option>
+                    </Card.Body>
+                    <Card.Body>
+                        <Card.Title><Form.Label>Seleccionar Comisión</Form.Label></Card.Title>
+                        <Form.Select id="selectComision1" key="selectComision" className="form-control" onChange={e => {setComisionSelected(e.target.value)}}>
+                            <option key={0} value={""} >Seleccionar opcion</option>
                             {
-                            (subOptions) ? subOptions.map( function(comision){ 
-                                return <option key={Math.random()} value={JSON.stringify({ 'codigo':materia.codigo , 'codComision': comision.codComision, 'nombre':materia.nombre, 'horario':comision.horaInicio+ "-"+comision.horaFin })}>
-                                    {comision.codComision + " - Horario:" +" " + comision.horaInicio+ "-"+comision.horaFin }
-                                    </option>
-                            }): <></>
+                            getComisiones().map((sub,index) => <option key={index} value={sub.codComision}>{sub.horaInicio}-{sub.horaFin}</option>)
                             }
                         </Form.Select>
                         <br/>
-                        <Button value={comisionTemp} variant="primary" onClick={e => _onClick(e)}>Agregar Materia</Button>
-                        </Card.Body>
-                    </Card>
-                    </Form.Group>
-                    <Form.Group className="row">
-                    <Form.Label>
-                        <Form.Label>
-                            <AlertRequest message="Ya se encuentra seleccionada" show={showAlert}></AlertRequest>
-                        </Form.Label>
-
-                        <Table size="sm">
-                            <thead>
-                                <tr key={Math.random()}>
-                                <th>Cancelar</th>
-                                <th>Materia</th>
-                                <th>Comision</th>
-                                <th>Horario</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                   materias.map(matSelect => 
-                                        <tr key={Math.random()}>
-                                            <td>{<button value={matSelect.codigo} onClick={ e => _cleanCom(matSelect, e)}><FcCancel  /></button>}</td>
-                                            <td>{matSelect.nombre}</td>
-                                            <td>{matSelect.codComision}</td>
-                                            <td>{matSelect.horario}</td>
-                                        </tr>    
-                                    )
-                                }
-                            </tbody>
-                        </Table>
-                    </Form.Label>
-                        <Button onClick={e => _submit(e)} type="submit" className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
-                    </Form.Group>
-                </Form>      
-            </>
-        );
+                        <Button variant="primary" onClick={addSubject}>Agregar Materia</Button>
+                    </Card.Body>
+                </Card>
+            </Form.Group>
+            <Form.Group className="row">
+                <Form.Label>
+                    <Table size="sm">
+                        <thead>
+                            <tr key={0}>
+                            <th>Cancelar</th>
+                            <th>Materia</th>
+                            <th>Comision</th>
+                            <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                subjectsSelected.map((matSelect,index) => 
+                                    <tr key={index}>
+                                        <td>{<button onClick={ e => deleteSubjectSelected(matSelect.codigo,e)}><FcCancel  /></button>}</td>
+                                        <td>{matSelect.nombre}</td>
+                                        <td>{matSelect.codComision}</td>
+                                        <td>{matSelect.horario}</td>
+                                    </tr>    
+                                )
+                            }
+                        </tbody>
+                    </Table>
+                </Form.Label>
+                    <Button onClick={e => {}} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
+            </Form.Group>
+        </Form>
+    )
 }
