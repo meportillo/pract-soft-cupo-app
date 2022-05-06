@@ -25,13 +25,13 @@ export default class Navbar extends Component {
                 <NavLink to='/cupo'>
                     Formulario Alta de Cupo
                 </NavLink>
-                <NavLink to='/consulta'>
+{/* {                <NavLink to='/consulta'>
                     Consulta solicitud de Cupo
-                </NavLink>
+                </NavLink>} */}
             </NavMenu>
-            <NavBtn>
-            <NavBtnLink to='/sign-up'>Ingresar</NavBtnLink>
-            </NavBtn>
+            {/* <NavBtn> */}
+            {/* <NavBtnLink to='/sign-up'>Ingresar</NavBtnLink>
+            </NavBtn> */}
 	    </Nav>
     );
     };

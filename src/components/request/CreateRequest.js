@@ -8,6 +8,8 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import { AlertRequest } from "./AlertRequest";
 import Alert from 'react-bootstrap/Alert';    
+import { useNavigate } from "react-router-dom";
+
 
 export default function CreateRequest(props){
     const [legajo,setLegajo] = useState(props.legajo);
@@ -17,6 +19,7 @@ export default function CreateRequest(props){
     const [comisionSelected,setComisionSelected] = useState(""); 
     const [subjectsSelected,setSubjectsSelected] = useState([]);
     const [error,setError] = useState("");
+    const navigate = useNavigate();
 
     const getAllSubjects = () => {
         getSubjects
@@ -128,7 +131,7 @@ export default function CreateRequest(props){
                         </tbody>
                     </Table>
                 </Form.Label>
-                    <Button onClick={e => {}} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
+                    <Button onClick={e => { navigate('/')}} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
             </Form.Group>
         </Form>
     )

@@ -21,7 +21,6 @@ export default function Home() {
     return(<>
         <div className="container">
             <div>
-                    HOME: suponemos que esta logueado un director
             </div>
             <hr></hr>
             <hr></hr>
