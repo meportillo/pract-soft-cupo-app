@@ -5,25 +5,33 @@ import Navbar from "./components/navigation/NavBar";
 import SignIn from "./components/home/SignIn";
 import Home from "./components/home/Home";
 import {
-  BrowserRouter,
   Routes,
   Route,
+  BrowserRouter,
 } from "react-router-dom";
+import { ThemeProvider } from "react-bootstrap";
+import ViewStudent from "./components/viewAlumn/ViewStudent";
 
 class App extends Component {
     render(){
         return (
-                <>
-                <Navbar></Navbar>
-                <Routes>
-                    <Route path='/'  element={<Home></Home>} />
-                    <Route path='cupo' element={<CreateRequest/>} />
-                    <Route path='consulta' element={<Consult></Consult>} />
-                    <Route path='sign-up' element={<SignIn></SignIn>} />
-                </Routes>                
+
+              <>
+              <ThemeProvider
+                breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+              >
+                 <BrowserRouter>
+                    <Navbar></Navbar>
+                    <Routes>
+                        <Route path='/'  element={<Home></Home>} />
+                        <Route path='cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
+                        <Route path='consulta' element={<Consult></Consult>} />
+                    </Routes>
+                  </BrowserRouter>
+              </ThemeProvider>
+
                 </>
       );
     }
 }
-
 export default App;
