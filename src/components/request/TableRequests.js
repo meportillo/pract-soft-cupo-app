@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useNavit } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from "react-router-dom";
+
 
 export default function TableRequests(props){
+    const navigate = useNavigate();
      return(<>
         <Table>
             <thead>
@@ -27,7 +30,7 @@ export default function TableRequests(props){
                         <td>{request.state}</td>
                         <td>
                             <ButtonGroup>
-                                <Button>
+                                <Button key={Math.random()} onClick={ e => navigate('student')}>
                                     Ver Detalle
                                 </Button>
                             </ButtonGroup>  
