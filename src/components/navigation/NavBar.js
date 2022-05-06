@@ -8,12 +8,16 @@ NavBtn,
 NavBtnLink,
 } from './NavbarElements';
 
+
 export default class Navbar extends Component {
+
+
 
     render() {
         return(
         <Nav>
             <Bars />
+            <img src="http://alimentos.web.unq.edu.ar/wp-content/uploads/sites/99/2017/10/LOGO_UNQ-HD.jpg" alt='unq'></img>
             <NavMenu>
                 <NavLink to='/'>
                     Home

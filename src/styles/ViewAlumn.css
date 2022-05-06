@@ -1,0 +1,11 @@
+.Aprobadas{
+    width: 50%;
+}
+
+.Cupos{
+    width: 50%;
+}
+
+.Elementos{
+    display: flexbox;
+}
