@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+var path = process.env.REACT_APP_BACK_URL_API
+
 const getSubjects = new Promise(function(resolve, error ){
     
     let subjects = [
@@ -16,6 +20,26 @@ const getSubjects = new Promise(function(resolve, error ){
 
 });
 
+const getSubjects2 = ()=>{
+    axios.get(path+'/api/materia')
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error=> {
+        console.log(error);
+    });
+}
+
+const getCommissions = (anio,semestre,setter)=>{
+    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
+    .then(response => {
+        console.log(response.data);
+        setter(response.data);
+    })
+    .catch(error=> {
+        console.log(error);
+    });
+}
 const getRequests = new Promise(function(resolve,error){
     let listRequests= [{ 'id':1, 'dni': 40555666, 'legajo': 1256, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente'},
     { 'id':2, 'dni': 40555666, 'legajo': 123456, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente' },
@@ -33,4 +57,4 @@ const getRequests = new Promise(function(resolve,error){
 
 });
 
-export {getSubjects,getRequests};
+export {getSubjects,getRequests,getSubjects2, getCommissions};

@@ -10,24 +10,19 @@ export default function TableRequests(props){
         <Table>
             <thead>
                 <tr key={Math.random()}>
-                    <th>Dni</th>
-                    <th>Legajo</th>
+                    <th>Comision</th>
                     <th>Materia</th>
-                    <th>Cuatrimestre</th>
-                    <th>Año</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Cupos Totales</th>
+                    <th>Cupos Disponibles</th>
                 </tr>
             </thead>                
             <tbody>
-                {props.requests.map(request => 
+                {props.requests.map(commission => 
                     <tr key={Math.random()}>
-                        <td>{request.dni}</td>
-                        <td>{request.legajo}</td>
-                        <td>{request.materia}</td>
-                        <td>{request.quarter}</td>
-                        <td>{request.year}</td>
-                        <td>{request.state}</td>
+                        <td>{commission.comision}</td>
+                        <td>{commission.materia}</td>
+                        <td>{commission.sobrecuposTotales}</td>
+                        <td>{commission.sobrecuposDisponibles}</td>
                         <td>
                             <ButtonGroup>
                                 <Button key={Math.random()} onClick={ e => navigate('student')}>
