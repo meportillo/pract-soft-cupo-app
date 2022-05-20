@@ -1,4 +1,5 @@
 import { useState, useNavit } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 export default function TableRequests(props){
     const navigate = useNavigate();
      return(<>
+       <br></br>
+       <br></br>       
         <Table>
             <thead>
                 <tr key={Math.random()}>
@@ -25,7 +28,7 @@ export default function TableRequests(props){
                         <td>{commission.sobrecuposDisponibles}</td>
                         <td>
                             <ButtonGroup>
-                                <Button key={Math.random()} onClick={ e => navigate('student')}>
+                                <Button key={Math.random()} onClick={ e => navigate('commissionRequest/'+commission.id)}>
                                     Ver Detalle
                                 </Button>
                             </ButtonGroup>  

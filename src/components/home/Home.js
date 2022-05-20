@@ -29,7 +29,7 @@ export default function Home() {
             <hr></hr>
             <Accordion>
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header>Filtrar Solicitudes</Accordion.Header>
+                    <Accordion.Header>Filtrar Comisiones</Accordion.Header>
                     <Accordion.Body>
                     <FilterRequests onClickFilter={clickFilters}></FilterRequests>
                         </Accordion.Body>
