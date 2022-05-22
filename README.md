@@ -1,4 +1,6 @@
 # Frontend UNQUE-PostInscripciones
+![UNQUE](https://github.com/meportillo/pract-soft-cupo-app/actions/workflows/master.yaml/badge.svg)
+
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6c3035d7961f469487d83d30105a6229)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=meportillo/pract-soft-cupo-app&amp;utm_campaign=Badge_Grade) 
 
