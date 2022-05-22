@@ -4,8 +4,11 @@ import '@testing-library/jest-dom';
 //import { render} from '@testing-library/react';
 import { act  } from "react-dom/test-utils";
 import { unmountComponentAtNode , render } from 'react-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
+
 
 let container; 
+
 
 beforeEach(() => {
     // setup a DOM element as a render target
@@ -24,7 +27,9 @@ afterEach(() => {
 it('Encabezado del formulario', () => {
     //Renderizado de componente
     act(() => {
-        render(<CreateRequest encabezado='Completar formulario' materias={[]}/>, container)
+        render(<Router>
+                    <CreateRequest encabezado='Completar formulario' materias={[]}/>
+               </Router>, container)
     });
     //Asersion a validar.
     expect(container.textContent).toContain('Completar formulario');
@@ -33,7 +38,9 @@ it('Encabezado del formulario', () => {
 it('Texto selector de materias', () => {
     //Renderizado de componente
     act( async() => {
-        render(<CreateRequest encabezado='Completar formulario' materias={[]}/>, container)
+        render(<Router>
+                    <CreateRequest encabezado='Completar formulario' materias={[]}/>
+               </Router>, container)
     });
     //Asersion a validar.
     expect(container.querySelector('#selectMateria1').textContent).toContain('Seleccionar opcion');
@@ -42,7 +49,9 @@ it('Texto selector de materias', () => {
 it('Input Legajo', () => {
     //Renderizado de componente
     act( async() => {
-        render(<CreateRequest legajo="123456" materias={[]}/>, container)
+        render(<Router>
+                    <CreateRequest legajo="123456" materias={[]}/>
+               </Router>, container)
     });
     //Asersion a validar.
     console.log(container.querySelector('#inputLegajo').value);
