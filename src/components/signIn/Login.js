@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import { login } from "../../services/AlumnService"
 export function Login() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -22,8 +22,15 @@ export function Login() {
     }
 
     const handleSubmit = () => {
-        navigate("/");
-        document.body.style = 'background: white;'
+        login(email.trim(),password.trim())
+        .then(res => {
+            localStorage.setItem("jwt",res.token)
+            navigate("/");
+            document.body.style = 'background: white;'
+        })
+        .catch(err => {
+            setError(err.message);
+        })
         // if (email.trim() === "miguel@gmail.com" && password.trim() === "1234") {
         //     navigate("/");
         // }

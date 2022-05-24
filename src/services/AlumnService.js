@@ -20,4 +20,15 @@ const getStudents = new Promise(function(resolve, error ){
 
 })
 
-export {getStudents};
+const login = (password,username) => new Promise((resolve,error) => {
+    console.log(password,username)
+    return resolve({token:"asdasdda"})
+    // return error({message:"no existe el usuario"})
+})
+
+const createUser = (data) => new Promise((resolve,error) => {
+    return resolve({token:"asdasdda"})
+}) 
+
+
+export {getStudents, login, createUser};

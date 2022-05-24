@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import { createUser } from '../../services/AlumnService';
 export function CreateAccount() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -24,9 +24,21 @@ export function CreateAccount() {
     }
 
     const handleSubmit = () => {
-        navigate("/")
-        document.body.style = 'background: white;'
-        console.log("clickee")
+        const data = {
+            email:email,
+            dni:dni,
+            username:username,
+            password:password
+        }
+        createUser(data)
+        .then(res => {
+            localStorage.setItem("jwt",res.token)
+            navigate("/")
+            document.body.style = 'background: white;'
+        })
+        .catch(err => {
+            setError(err.message);
+        })
         // if ( dni == "" || email.trim() == "" || username.trim() == "" || password.trim() == "" ) {
         //     setError("Faltan datos por completar")
         // }
