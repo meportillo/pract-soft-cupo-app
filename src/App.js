@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import Consult from "./components/request/Consult";
 import CreateRequest from "./components/request/CreateRequest";
 import Navbar from "./components/navigation/NavBar";
-import SignIn from "./components/home/SignIn";
+import { SignIn } from "./components/signIn/SignIn";
 import Home from "./components/home/Home";
 import {
   Routes,
@@ -21,12 +21,13 @@ class App extends Component {
                 breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
               >
                  <BrowserRouter>
-                    <Navbar></Navbar>
                     <Routes>
                         <Route path='/'  element={<Home></Home>} />
-                        <Route path='cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
-                        <Route path='consulta' element={<Consult></Consult>} />
-                        <Route path='student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='/cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
+                        <Route path='/consulta' element={<Consult></Consult>} />
+                        <Route path='/student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='/signIn' element={<SignIn/>}/>
+
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>

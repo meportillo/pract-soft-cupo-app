@@ -8,9 +8,11 @@ import Alert from 'react-bootstrap/Alert';
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export function CreateAccount() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [username,setUsername] = useState("");
+    const [dni,setDni] = useState("");
     const [error,setError] = useState(false);
     const navigate = useNavigate();
     const handleChangeEmail = (event) => {
@@ -22,41 +24,56 @@ export default function SignIn() {
     }
 
     const handleSubmit = () => {
-        if (email.trim() === "miguel@gmail.com" && password.trim() === "1234") {
-            navigate("/");
-        }
-        else {
-            setError(true);
-        }
+        navigate("/")
+        document.body.style = 'background: white;'
+        console.log("clickee")
+        // if ( dni == "" || email.trim() == "" || username.trim() == "" || password.trim() == "" ) {
+        //     setError("Faltan datos por completar")
+        // }
     }
 
+    const handleChangeUsername = (event) => {
+        setUsername(event.target.value);
+    }
+
+    const handleChangeDNI = (event) => {
+        setDni(event.target.value)
+    }
     return (
         <Container>
             <div className="mb-5"></div>
             <Row className="justify-content-md-center">
-            <Col className="col-md-4" >
+            <Col className="col-md-6" >
             {
                 error ? <Alert variant="danger" onClose={() => setError(false)} dismissible>
-                            Correo Electronico o contraseña incorrectos
+                            {error}
                         </Alert>
                 : <></>
             }
             <div className="d-flex justify-content-center">   
                 <FaSignInAlt className="mb-3" size={80}/>
             </div>
-            <h3 className="d-flex justify-content-center mb-3">Sign In</h3>
+            <h3 className="d-flex justify-content-center mb-3">Crear Cuenta</h3>
             <Form>
-                <Form.Group className="mb-3" controlId="formGroupEmail" >
+                <Form.Group className="mb-3">
                     <Form.Label>Direccion de Correo Electronico</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" onChange={(e) => handleChangeEmail(e)} />
+                    <Form.Control type="email" placeholder="Introduzca un mail" onChange={(e) => handleChangeEmail(e)} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupPassword">
+                <Form.Group className="mb-3">
+                    <Form.Label>Nombre de Usuario</Form.Label>
+                    <Form.Control type="text" placeholder="Introduzca un nombre" onChange={(e) => handleChangeUsername(e)} />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>DNI de Alumno</Form.Label>
+                    <Form.Control type="number" placeholder="Introduzca su DNI" onChange={(e) => handleChangeDNI(e)} />
+                </Form.Group>                
+                <Form.Group className="mb-3">
                     <Form.Label>Contraseña</Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={(e) => handleChangePassword(e)} />
+                    <Form.Control type="password" placeholder="Contraseña" onChange={(e) => handleChangePassword(e)} />
                 </Form.Group>
                 <div className="d-flex justify-content-center">
                     <Button variant="primary" onClick={handleSubmit} style={{width: '50%'}}>
-                        Login
+                        Crear 
                     </Button>
                 </div>
             </Form>
