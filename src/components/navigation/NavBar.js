@@ -9,12 +9,8 @@ NavBtnLink,
 } from './NavbarElements';
 
 
-export default class Navbar extends Component {
-
-
-
-    render() {
-        return(
+export const Navbar = () => {
+    return(
         <Nav>
             <Bars />
             <img src="http://alimentos.web.unq.edu.ar/wp-content/uploads/sites/99/2017/10/LOGO_UNQ-HD.jpg" alt='unq'></img>
@@ -25,14 +21,10 @@ export default class Navbar extends Component {
                 <NavLink to='/cupo'>
                     Formulario Alta de Cupo
                 </NavLink>
-{/* {                <NavLink to='/consulta'>
-                    Consulta solicitud de Cupo
-                </NavLink>} */}
             </NavMenu>
-            {/* <NavBtn> */}
-            {/* <NavBtnLink to='/sign-up'>Ingresar</NavBtnLink>
-            </NavBtn> */}
+            <NavBtn>
+             <NavBtnLink to='/signIn' onClick={() => localStorage.removeItem("user")}>Sign Out</NavBtnLink>
+            </NavBtn>
 	    </Nav>
     );
-    };
 }

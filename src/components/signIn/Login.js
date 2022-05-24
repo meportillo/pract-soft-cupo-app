@@ -22,9 +22,10 @@ export function Login() {
     }
 
     const handleSubmit = () => {
+        console.log(email)
         login(email.trim(),password.trim())
         .then(res => {
-            localStorage.setItem("jwt",res.token)
+            localStorage.setItem("user",JSON.stringify(res))
             navigate("/");
             document.body.style = 'background: white;'
         })

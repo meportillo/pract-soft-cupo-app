@@ -1,3 +1,4 @@
+import axios from 'axios'; 
 const getStudents = new Promise(function(resolve, error ){
 
     let students = {
@@ -20,9 +21,8 @@ const getStudents = new Promise(function(resolve, error ){
 
 })
 
-const login = (password,username) => new Promise((resolve,error) => {
-    console.log(password,username)
-    return resolve({token:"asdasdda"})
+const login = (username,password) => new Promise((resolve,error) => {
+    return resolve({username:username,dni:"12345678"})
     // return error({message:"no existe el usuario"})
 })
 
@@ -30,5 +30,17 @@ const createUser = (data) => new Promise((resolve,error) => {
     return resolve({token:"asdasdda"})
 }) 
 
+const getSubjectsOfStudent = (dni) => {
+    return axios.get(`http://localhost:8081/api/alumnos/materias/${dni}`)
+    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+}
 
-export {getStudents, login, createUser};
+const getRequestsOfStudent = (dni) => {
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}`)
+    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+}
+ 
+
+export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent};
