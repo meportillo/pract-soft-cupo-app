@@ -9,7 +9,6 @@ export default function TableCupos({cupos}){
         <Table striped bordered hover className='Cupos'>
             <tbody>
                 <tr>
-                    <td>Estado</td>
                     <td>Comision</td>
                     <td>Estado</td>
                     <td>Acciones</td>
@@ -18,16 +17,14 @@ export default function TableCupos({cupos}){
                     cupos.map(cupo => {
                         return(
                         <tr key={cupo.id}>
-                            <td>{cupo.estado}</td>
                             <td>{cupo.comisionId}</td>
-                            <td>Pendiente</td>
+                            <td>{cupo.estado}</td>
                             <td>
                             <ButtonGroup className="col">
                                 <Button variant="primary">Aceptar</Button>
                                 <Button variant="danger">Rechazar</Button>
                             </ButtonGroup>
                             </td>
-
                         </tr>)
                     })
                 }
