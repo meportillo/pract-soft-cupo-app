@@ -21,7 +21,6 @@ export  default function ViewStudent(props){
 
         getInfoStudent(12345677)
         .then(({dni,nombre,formulario : {estado,solicitudes},resumenCursadas}) => {
-            //let {dni,nombre,formulario : {estado,solicitudes},resumenCursadas}  = data;
             setMateriasAprobadas(materias);
             setAlumno({"nombre" : nombre, "dni": dni});
             setCuposPedidos(solicitudes);

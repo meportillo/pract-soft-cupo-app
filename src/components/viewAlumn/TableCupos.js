@@ -4,8 +4,8 @@ import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 
 export default function TableCupos({cupos}){
 
-    function testeo(algo){
-        return algo.map(({dia,inicio,fin}) => {
+    function horarioToString(horarios){
+        return horarios.map(({dia,inicio,fin}) => {
             return `${dia} ${inicio}-${fin}||`
         })
     }
@@ -30,7 +30,7 @@ export default function TableCupos({cupos}){
                             <td>{materia}</td>
                             <td>{idComision}</td>
                             <td>{modalidad}</td>
-                            <td>{testeo(horarios)}</td>
+                            <td>{horarioToString(horarios)}</td>
                             <td>{estado}</td>
                             <td>
                             <Row className="mx-0">
