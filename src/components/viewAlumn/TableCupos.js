@@ -3,27 +3,36 @@ import Table from 'react-bootstrap/Table'
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 
 export default function TableCupos({cupos}){
+
+    function testeo(algo){
+        return algo.map(({dia,inicio,fin}) => {
+            return `${dia} ${inicio}-${fin}||`
+        })
+    }
+
     return (
         <>
         <h2>Cupos Pedidos</h2>
         <Table striped bordered hover className='Cupos'>
             <tbody>
                 <tr>
+                    <td>Materia</td>
                     <td>Comision</td>
+                    <td>Modalidad</td>
+                    <td>Horario</td>
                     <td>Estado</td>
                     <td>Acciones</td>
                 </tr>
                 {
-                    cupos.map(cupo => {
+                    cupos.map(({id,estado,comision:{materia,modalidad,horarios,id:idComision}}) => {
                         return(
-                        <tr key={cupo.id}>
-                            <td>{cupo.comisionId}</td>
-                            <td>{cupo.estado}</td>
+                        <tr key={id}>
+                            <td>{materia}</td>
+                            <td>{idComision}</td>
+                            <td>{modalidad}</td>
+                            <td>{testeo(horarios)}</td>
+                            <td>{estado}</td>
                             <td>
-                            {/* <ButtonGroup className="col">
-                                <Button variant="primary">Aceptar</Button>
-                                <Button variant="danger">Rechazar</Button>
-                            </ButtonGroup> */}
                             <Row className="mx-0">
                                 <Button as={Col} variant="primary">Aceptar</Button>
                                 <Button as={Col} variant="danger" className="mx-2">Rechazar</Button>
