@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 
 export default function TableCupos({cupos}){
     return (
@@ -20,10 +20,14 @@ export default function TableCupos({cupos}){
                             <td>{cupo.comisionId}</td>
                             <td>{cupo.estado}</td>
                             <td>
-                            <ButtonGroup className="col">
+                            {/* <ButtonGroup className="col">
                                 <Button variant="primary">Aceptar</Button>
                                 <Button variant="danger">Rechazar</Button>
-                            </ButtonGroup>
+                            </ButtonGroup> */}
+                            <Row className="mx-0">
+                                <Button as={Col} variant="primary">Aceptar</Button>
+                                <Button as={Col} variant="danger" className="mx-2">Rechazar</Button>
+                            </Row>
                             </td>
                         </tr>)
                     })
