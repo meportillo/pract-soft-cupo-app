@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 export default function TableMateria({materias}){
     return(
         <>
-        <h2>Materias Aprobadas</h2>
+        <h2>Materias Cursadas</h2>
         <Table striped bordered hover className='Aprobadas'>
             <tbody>
                 <tr>
