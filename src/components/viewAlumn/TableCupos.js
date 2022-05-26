@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import { FiCheck } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
+
 
 export default function TableCupos({cupos}){
 
@@ -34,8 +39,34 @@ export default function TableCupos({cupos}){
                             <td>{estado}</td>
                             <td>
                             <Row className="mx-0">
-                                <Button as={Col} variant="primary">Aceptar</Button>
-                                <Button as={Col} variant="danger" className="mx-2">Rechazar</Button>
+                                <ButtonGroup>
+                                <OverlayTrigger
+                                    key="accept-id"
+                                    placement="top"
+                                    overlay={
+                                        <Tooltip id={`tooltip-accept`}>
+                                            Aprobar solicitud
+                                        </Tooltip>
+                                    }
+                                    >
+                                    <Button variant="primary">
+                                        <FiCheck></FiCheck>
+                                    </Button>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger
+                                    key="accept-id"
+                                    placement="top"
+                                    overlay={
+                                        <Tooltip id={`tooltip-accept`}>
+                                            Rechazar solicitud
+                                        </Tooltip>
+                                    }
+                                    >
+                                    <Button variant="danger">
+                                        <FiX></FiX>
+                                    </Button>
+                                    </OverlayTrigger>
+                                </ButtonGroup>
                             </Row>
                             </td>
                         </tr>)
