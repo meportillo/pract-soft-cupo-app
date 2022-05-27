@@ -18,10 +18,11 @@ const getSubjects = new Promise(function(resolve, error ){
 
 });
 
-const getSubjects2 = ()=>{
+const getSubjects2 = (setter)=>{
     axios.get(path+'/api/materia')
     .then(response => {
         console.log(response);
+        setter(response.data);
     })
     .catch(error=> {
         console.log(error);
