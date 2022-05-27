@@ -46,5 +46,19 @@ const getRequestsOfStudent = (dni) => {
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
  
+const sendRequest = (subjects,dni) => {
+    const comisiones = subjects.map(s => s.comisiones.map(com => com.id)).flat()
+    const url = `http://localhost:8081/api/alumnos/solicitudes/${dni}`
+    // const options = {
+    //     method: 'POST',
+    //     headers: { 'content-type':'application/json' },
+    //     data: {"comisiones":comisiones},
+    //     url,
+    //   };
+    console.log(comisiones,dni)
+    return axios.post(url,{"comisiones":comisiones})
+    // .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    // .catch(err=>new Promise((resolve,error)=>error(err.response)))
+}
 
-export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent};
+export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest};

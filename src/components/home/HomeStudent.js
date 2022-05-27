@@ -37,21 +37,24 @@ const TableRequestsStudent = (props) => {
         <Table striped bordered hover>
         <thead>
             <tr>
-            <th>id</th>
-            <th>Estado</th>
-            <th>Comision Id </th>
+            <th>Comision</th>
+            <th>Modalidad</th>
+            <th>Materia</th>
+            <th>Horarios</th>
             </tr>
         </thead>
         <tbody>
             {
                 props.solicitudes.map((sol,index) => {
-                   return (
-                        <tr key={index}>
-                        <td>{sol.id}</td>
-                        <td>{sol.estado}</td>
-                        <td>{sol.comisionId}</td>
-                        </tr>
-                    )
+                    const horarios = sol.comision.horarios.map(c => `${c.dia} ${c.inicio}-${c.fin}`).join() 
+                    return (
+                            <tr key={index}>
+                            <td>{sol.comision.numero}</td>
+                            <td>{sol.comision.modalidad}</td>
+                            <td>{sol.comision.materia}</td>
+                            <td>{horarios}</td>
+                            </tr>
+                        )
                 })
             }
         </tbody>
