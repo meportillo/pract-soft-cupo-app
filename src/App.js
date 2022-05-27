@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { ThemeProvider } from "react-bootstrap";
 import ViewStudent from "./components/viewAlumn/ViewStudent";
+import CommissionRequest from "./components/request/CommissionRequest";
 
 class App extends Component {
     render(){
@@ -27,6 +28,7 @@ class App extends Component {
                         <Route path='cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
                         <Route path='consulta' element={<Consult></Consult>} />
                         <Route path='student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='commissionRequest/:idcomision' element={<CommissionRequest></CommissionRequest>}/>
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>
