@@ -8,7 +8,7 @@ NavBtn,
 NavBtnLink,
 } from './NavbarElements';
 
-export const Navbar = () => {
+export const NavbarAdmin = () => {
     return(
         <Nav style={{background:"white"}}>
             <Bars />
@@ -16,10 +16,7 @@ export const Navbar = () => {
             <NavMenu>
                 <NavLink to='/'>
                     Home
-                </NavLink>
-                <NavLink to='/cupo'>
-                    Formulario Alta de Cupo
-                </NavLink>             
+                </NavLink>                
             </NavMenu>
             <NavBtn>
              <NavBtnLink to='/signIn' onClick={() => localStorage.removeItem("jwt")}>Sign Out</NavBtnLink>
