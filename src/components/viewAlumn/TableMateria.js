@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 export default function TableMateria({materias}){
     return(
         <>
-        <h2>Materias Cursadas</h2>
+        <h4>Materias Cursadas</h4>
         <Table striped bordered hover className='Aprobadas'>
             <tbody>
                 <tr>
@@ -13,7 +13,6 @@ export default function TableMateria({materias}){
                     <td>Fecha</td>
                     <td>Veces cursada</td>
                 </tr>
-
                 {
                     materias.map(mat => {
                         return(

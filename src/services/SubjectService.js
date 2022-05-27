@@ -39,6 +39,14 @@ const getCommissions = (anio,semestre,setter)=>{
         console.log(error);
     });
 }
+const getCommisionsBySubject = (code,setter) => {
+    axios.get(path+'/api/comision/materia/'+code)
+    .then(response => {
+        console.log('getCommisionsBySubject',response);
+        setter(response.data);
+    })
+    .catch();
+}
 const getRequestsByCommision = (comisionId, setter) => {
     axios.get(path+'/api/comision/solicitantes?comisionId='+comisionId)
     .then(response => {
@@ -49,6 +57,19 @@ const getRequestsByCommision = (comisionId, setter) => {
         console.log(error);
     });
 }
+
+const postCreateRequest= (dni,listComm) =>{
+
+        axios.post(path+'/api/alumnos/solicitudes/'+dni,[JSON.parse(listComm)])
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error=>{
+            console.log(error);
+            alert(error.response.data.error+ ": " + error.response.data.message );
+        })
+
+};
 
 const getRequests = new Promise(function(resolve,error){
     let listRequests= [{ 'id':1, 'dni': 40555666, 'legajo': 1256, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente'},
@@ -67,4 +88,4 @@ const getRequests = new Promise(function(resolve,error){
 
 });
 
-export {getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision};
+export {getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest};

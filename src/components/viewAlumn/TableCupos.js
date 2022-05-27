@@ -17,7 +17,7 @@ export default function TableCupos({cupos}){
 
     return (
         <>
-        <h2>Cupos Pedidos</h2>
+        <h4>Cupos Pedidos</h4>
         <Table striped bordered hover className='Cupos'>
             <tbody>
                 <tr>

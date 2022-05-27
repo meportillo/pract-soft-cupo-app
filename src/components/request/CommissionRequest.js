@@ -33,7 +33,7 @@ export default function CommissionRequest(props){
                         <td>{request.sobrecuposDisponibles}</td>
                         <td>
                             <ButtonGroup>
-                                <Button key={Math.random()} onClick={ e => navigate('/student')}>
+                                <Button key={Math.random()} onClick={ e => navigate('/student/'+request.dni)}>
                                     Ver Detalle
                                 </Button>
                             </ButtonGroup>  
