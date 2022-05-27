@@ -20,9 +20,13 @@ const getStudents = new Promise(function(resolve, error ){
     }
 
 })
-
+// const users = {gabi: {isAdmin:true}, miguel: {username:"miguel",dni:"12345678",isAdmin:false}}
 const login = (username,password) => new Promise((resolve,error) => {
-    return resolve({username:username,dni:"12345678"})
+    if (username === "miguel") {
+        return resolve({username:username,dni:"12345678",isAdmin:false})
+    }else{
+        return resolve({username:username,dni:"12345678",isAdmin:true})
+    }
     // return error({message:"no existe el usuario"})
 })
 

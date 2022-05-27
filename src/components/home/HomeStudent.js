@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { getRequestsOfStudent } from '../../services/AlumnService';
 import { Navbar } from "../navigation/NavBar";
 import Table from 'react-bootstrap/Table';
+import { getUser } from "../../utils/auth";
 
-export default function Home() {
+export function HomeStudent() {
     const [solicitudes, setSolicitudes] = useState([]);
 
     useEffect(()=>{
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = JSON.parse(getUser());
         getRequestsOfStudent(user.dni)
         .then(data => {
             setSolicitudes(data.formulario.solicitudes)
@@ -19,7 +20,6 @@ export default function Home() {
 
     return(
         <div>
-            <Navbar></Navbar>
         <div className="container">
             <h1 className="d-flex justify-content-center mb-3">Solicitudes</h1>
             {

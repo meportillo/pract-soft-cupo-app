@@ -25,7 +25,7 @@ export function Login() {
         console.log(email)
         login(email.trim(),password.trim())
         .then(res => {
-            localStorage.setItem("user",JSON.stringify(res))
+            localStorage.setItem("jwt",JSON.stringify(res))
             navigate("/");
             document.body.style = 'background: white;'
         })

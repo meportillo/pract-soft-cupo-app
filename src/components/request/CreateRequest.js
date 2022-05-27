@@ -8,12 +8,11 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';    
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../navigation/NavBar";
+import { getUser } from "../../utils/auth";
 
 
 export default function CreateRequest(props){
-    const [legajo,setLegajo] = useState(props.legajo);
-    const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
+
     const [subjects,setSubjects] = useState([]);
     const [selected,setSelected] = useState("");
     const [comisionSelected,setComisionSelected] = useState(""); 
@@ -22,7 +21,7 @@ export default function CreateRequest(props){
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = JSON.parse(getUser());
         getSubjectsOfStudent(user.dni)
         .then(data => {
             setSubjects(data);
@@ -64,7 +63,6 @@ export default function CreateRequest(props){
     useEffect(getAllSubjects,[]);
     return( 
         <div>
-        <Navbar></Navbar>
         <Form className="container">
             <h1></h1>
             {
