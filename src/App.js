@@ -31,11 +31,12 @@ class App extends Component {
                     <Routes>
                         <Route path='/'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Solicitud de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
-                        <Route path='/consulta' element={<Consult></Consult>} />
-                        <Route path='/student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='/commissionRequest/:idcomision' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<CommissionRequest></CommissionRequest>} navAdmin={<NavbarAdmin/>}/>} />}/>
+                        <Route path='/student' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent admin={<ViewStudent></ViewStudent>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/signIn' element={<SignIn/>}/>
-                        <Route path='commissionRequest/:idcomision' element={<CommissionRequest></CommissionRequest>}/>
-
+                        {/* <Route path='/consulta' element={<Consult></Consult>} /> */}
+                        {/* <Route path='/student' element={<ViewStudent></ViewStudent>}/> */}
+                        {/* <Route path='commissionRequest/:idcomision' element={<CommissionRequest></CommissionRequest>}/> */}
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>

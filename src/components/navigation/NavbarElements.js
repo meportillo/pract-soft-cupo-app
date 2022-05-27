@@ -14,7 +14,7 @@ z-index: 12;
 `;
 
 export const NavLink = styled(Link)`
-color: #FFFFFF;
+color: #808080;
 display: flex;
 align-items: center;
 text-decoration: none;
@@ -72,7 +72,7 @@ export const NavBtnLink = styled(Link)`
 border-radius: 4px;
 background: #808080;
 padding: 10px 22px;
-color: #000000;
+color: #ffffff;
 outline: none;
 border: none;
 cursor: pointer;
