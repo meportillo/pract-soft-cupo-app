@@ -10,12 +10,7 @@ export default function Home() {
     const [requestsTable, setRequestsTable] = useState([]);
 
     useEffect(()=>{
-        getRequests.then( response => {
-            console.log(response);
-        
-        }).catch(e => console.error(e));
-
-        getCommissions('2022','S1', setRequestsTable);
+     getCommissions('2022','S1', setRequestsTable);
     },[])
 
     const clickFilters = (condition)=>{

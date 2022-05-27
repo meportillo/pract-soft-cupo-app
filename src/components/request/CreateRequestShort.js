@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import {getCommissions} from '../../services/SubjectService';
+import {getCommissions, getSubjects2} from '../../services/SubjectService';
 
 
 export default function CreateRequestShort(props){
     console.log(props);
-    const [commisions, setCommisions] = useState([]);
+    const [subjects, setSubjects] = useState([]);
 
     useEffect(()=>{
-        getCommissions('2022','S1', setCommisions);
+        getSubjects2(setSubjects);
     },[])
 return(<>
         <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -20,19 +20,15 @@ return(<>
             </Modal.Header>
             <Modal.Body className="show-grid">
                 <Container>
-                    {commisions.map(commision=>{
-                        console.log(commision);
+                    {subjects.map(subject=>{
+                        console.log(subject);
                         return(
                         <Row>
-                            <Col xs={6} md={4}>
-                                .col-xs-6 .col-md-4
+                            <Col xs={4} md={8}>
+                                {subject.nombre}
                             </Col>
-                            <Col xs={6} md={4}>
-                                .col-xs-6 .col-md-4
-                            </Col>
-                            <Col xs={6} md={4}>
-                                .col-xs-6 .col-md-4
-                            </Col>
+                            <Col xs={4} md={4}>
+                            </Col>                            
                         </Row>) 
 
                     })}
