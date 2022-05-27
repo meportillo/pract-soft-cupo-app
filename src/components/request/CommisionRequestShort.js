@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import {getCommisionsBySubject} from '../../services/SubjectService';
+import {FiSend} from  "react-icons/fi";
 
 export default function CommisionRequestShort(props){
 
@@ -20,7 +21,7 @@ export default function CommisionRequestShort(props){
                     return  <div>{dia}: {inicio}-{fin}</div> 
                     })}
                         <Button onClick={e => {props.createRequest(props.dni, commission.id)}}>
-                            OK
+                            <FiSend></FiSend>
                         </Button>
 
                     </Col>
