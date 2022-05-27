@@ -7,7 +7,7 @@ import { FiCheck } from "react-icons/fi";
 import { FiX } from "react-icons/fi";
 
 
-export default function TableCupos({cupos}){
+export default function TableCupos({cupos,setCuposPedidos}){
 
     function horarioToString(horarios){
         return horarios.map(({dia,inicio,fin}) => {

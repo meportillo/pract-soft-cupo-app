@@ -32,11 +32,11 @@ export  default function ViewStudent(props){
         <>
             <div className='container'>
                 <div>
-                    <h4>{alumno.nombre}</h4>
+                    <h4>Formulario de {alumno.nombre}</h4>
                     <h4>Dni : {alumno.dni}</h4>
                 </div>
                 <TableMateria materias={materiasAprobadas}> </TableMateria>
-                <TableCupos cupos={cuposPedidos}></TableCupos>   
+                <TableCupos cupos={[cuposPedidos,setCuposPedidos]}></TableCupos>   
             </div>  
         </>
       );
