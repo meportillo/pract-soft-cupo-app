@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getStudents } from '../../services/AlumnService';
 import Table from 'react-bootstrap/Table'
 import { Button, ButtonGroup } from 'react-bootstrap';
+import CreateRequestShort from '../request/CreateRequestShort';
 
 export  default function ViewStudent(props){
 
     const [materiasAprobadas, setMateriasAprobadas]= useState([])
     const [cuposPedidos, setCuposPedidos]= useState([])
-    const [alumno,setAlumno] = useState({})
+    const [alumno,setAlumno] = useState({'dni': '1234567'})
+    const [createRequestShow, setCreateRequestShow] = useState(false);
 
     useEffect(() => {
         getStudents
@@ -78,7 +80,11 @@ export  default function ViewStudent(props){
                         </tbody>
                     </Table>
                 </div>
-            </div>  
+            </div>
+            <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
+                    Agregar Solicitudes
+                </Button>              
         </>
       );
     };
