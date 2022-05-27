@@ -36,7 +36,7 @@ export  default function ViewStudent(props){
                     <h4>Dni : {alumno.dni}</h4>
                 </div>
                 <TableMateria materias={materiasAprobadas}> </TableMateria>
-                <TableCupos cupos={[cuposPedidos,setCuposPedidos]}></TableCupos>   
+                <TableCupos cupos={cuposPedidos}></TableCupos>   
             </div>  
         </>
       );
