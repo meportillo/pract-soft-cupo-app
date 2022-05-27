@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getInfoStudent } from '../../helpers/getInfoStudent';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
-import { getStudents } from '../../services/AlumnService';
+//import { getStudents } from '../../services/AlumnService';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 
@@ -42,7 +42,6 @@ export  default function ViewStudent(props){
                   <TableMateria materias={materiasAprobadas}> </TableMateria>
                   <TableCupos cupos={cuposPedidos}></TableCupos>   
               </div>  
-              </div>
               <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                   <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
                       Agregar Solicitudes
