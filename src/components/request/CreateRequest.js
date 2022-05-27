@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
-import { getSubjects } from '../../services/SubjectService';
+import { getSubjectsOfStudent } from '../../services/AlumnService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
-import { AlertRequest } from "./AlertRequest";
 import Alert from 'react-bootstrap/Alert';    
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../utils/auth";
 
 
 export default function CreateRequest(props){
-    const [legajo,setLegajo] = useState(props.legajo);
-    const [nroDocumento, setNroDocumento] = useState(props.nroDocumento);
+
     const [subjects,setSubjects] = useState([]);
     const [selected,setSelected] = useState("");
     const [comisionSelected,setComisionSelected] = useState(""); 
@@ -22,7 +21,8 @@ export default function CreateRequest(props){
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        getSubjects
+        const user = JSON.parse(getUser());
+        getSubjectsOfStudent(user.dni)
         .then(data => {
             setSubjects(data);
         })
@@ -62,6 +62,7 @@ export default function CreateRequest(props){
     }
     useEffect(getAllSubjects,[]);
     return( 
+        <div>
         <Form className="container">
             <h1></h1>
             {
@@ -71,14 +72,6 @@ export default function CreateRequest(props){
                 : <></>
             }
             <Form.Label className="d-flex justify-content-center"><h3>{props.encabezado}</h3></Form.Label>
-            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                <Form.Label>Legajo</Form.Label>
-                <Form.Control id="inputLegajo" onChange={e => setLegajo(e.target.value)} type="text" placeholder="... Numero de Legajo" />
-            </Form.Group>
-            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                <Form.Label>Número de Documento</Form.Label>
-                <Form.Control onChange={e => setNroDocumento(e.target.value)} type="text" placeholder="... Numero de Documento" />
-            </Form.Group>
             <Form.Group >
                 <Card>
                     <Card.Header>
@@ -134,6 +127,7 @@ export default function CreateRequest(props){
                     <Button onClick={e => { navigate('/')}} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
             </Form.Group>
         </Form>
+        </div>
     )
 
 }

@@ -1,17 +1,23 @@
 import React,{Component} from "react";
 import Consult from "./components/request/Consult";
 import CreateRequest from "./components/request/CreateRequest";
-import Navbar from "./components/navigation/NavBar";
-import SignIn from "./components/home/SignIn";
-import Home from "./components/home/Home";
+import { Navbar } from "./components/navigation/NavBar";
+import { NavbarAdmin } from "./components/navigation/NavBarAdmin"; 
+import { SignIn } from "./components/signIn/SignIn";
+import { HomeStudent } from "./components/home/HomeStudent";
+import { Wrapper } from "./components/wrapper/Wrapper";
+import { WrapperComponent } from "./components/wrapper/WrapperComponent";
+import ViewStudent from "./components/viewAlumn/ViewStudent";
+import { HomeAdmin } from "./components/home/HomeAdmin";
 import {
   Routes,
   Route,
   BrowserRouter,
+  Navigate
 } from "react-router-dom";
 import { ThemeProvider } from "react-bootstrap";
-import ViewStudent from "./components/viewAlumn/ViewStudent";
 import CommissionRequest from "./components/request/CommissionRequest";
+
 
 class App extends Component {
     render(){
@@ -22,13 +28,14 @@ class App extends Component {
                 breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
               >
                  <BrowserRouter>
-                    <Navbar></Navbar>
                     <Routes>
-                        <Route path='/'  element={<Home></Home>} />
-                        <Route path='cupo' element={<CreateRequest encabezado='Solicitud de cupo para materias' legajo='' nroDocumento='' materias={[]}/>} />
-                        <Route path='consulta' element={<Consult></Consult>} />
-                        <Route path='student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='/'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Solicitud de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/consulta' element={<Consult></Consult>} />
+                        <Route path='/student' element={<ViewStudent></ViewStudent>}/>
+                        <Route path='/signIn' element={<SignIn/>}/>
                         <Route path='commissionRequest/:idcomision' element={<CommissionRequest></CommissionRequest>}/>
+
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>
