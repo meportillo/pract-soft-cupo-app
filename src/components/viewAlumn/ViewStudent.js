@@ -10,7 +10,7 @@ export  default function ViewStudent(props){
 
     const [materiasAprobadas, setMateriasAprobadas]= useState([])
     const [cuposPedidos, setCuposPedidos]= useState([])
-    const [alumno,setAlumno] = useState({'dni': '1234567'})
+    const [alumno,setAlumno] = useState({'dni': '12345679'})
     const [createRequestShow, setCreateRequestShow] = useState(false);
 
     useEffect(() => {
@@ -40,12 +40,12 @@ export  default function ViewStudent(props){
                       <h4>Dni : {alumno.dni}</h4>
                   </div>
                   <TableMateria materias={materiasAprobadas}> </TableMateria>
-                  <TableCupos cupos={cuposPedidos}></TableCupos>   
-              </div>  
-              <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                  <TableCupos cupos={cuposPedidos}></TableCupos>
+                  <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                   <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
                       Agregar Solicitudes
                   </Button>              
+              </div>  
           </>
       );
     };

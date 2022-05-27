@@ -1,33 +1,86 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import {getCommissions, getSubjects2} from '../../services/SubjectService';
-
+import {getCommisionsBySubject, getSubjects2, postCreateRequest} from '../../services/SubjectService';
+import Form from 'react-bootstrap/Form';
+import CommisionRequestShort from './CommisionRequestShort';
+import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
     console.log(props);
+    const [dni,setDni]  = useState(props.studentId);
     const [subjects, setSubjects] = useState([]);
+    const [subjectsFilter, setSubjectsFilter] = useState([]);
+    const [showComision, setShowComision] = useState(false);
+    const [code, setCode] = useState('');
+    const [commissions, setCommissions] = useState([]);
 
     useEffect(()=>{
         getSubjects2(setSubjects);
+        setSubjectsFilter(subjects);
     },[])
+
+    const click_ok = ()=>{
+        getCommisionsBySubject(code, setCommissions);
+        setCode('');
+    };
+    useEffect(()=>{
+        click_ok();
+    },[showComision,commissions]);
+
+    const createRequest = (dni,idCom)=>{
+        postCreateRequest(dni,[idCom]);
+    }
+
 return(<>
-        <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
+        <Modal {...props}  size="lg" aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
+                <Form.Control
+                    type="text"
+                    id="search"
+                    aria-describedby="passwordHelpBlock"
+                    onChange={(e) => {
+                        setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
+                    }
+            }
+                />
             </Modal.Header>
             <Modal.Body className="show-grid">
+                { (showComision)?
+                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button onClick={(e) => {
+                        setShowComision(false)
+                        //setCommissions([])
+                        }}>ok</Button></>:
+                     <>{commissions.map((com)=>{
+                         console.log(com)
+                         return <CommisionRequestShort commission={com} createRequest={createRequest} dni={dni}/>}
+                    )}
+                         <Button onClick={(e) => {
+                             setCommissions([])
+                             setShowComision(false)
+                             }}>ok</Button>
+                </>
+                    :
+                    <></>
+                }
+                <hr></hr>
                 <Container>
-                    {subjects.map(subject=>{
-                        console.log(subject);
+                    {subjectsFilter.map(subject=>{
                         return(
                         <Row>
                             <Col xs={4} md={8}>
                                 {subject.nombre}
                             </Col>
                             <Col xs={4} md={4}>
+                                <Button variant='secondary' onClick={e=>{
+                                        setCommissions([])
+                                        setCode(subject.codigo)
+                                        setShowComision(true)
+                                    }
+                                }><FiEye></FiEye></Button>
                             </Col>                            
                         </Row>) 
 
