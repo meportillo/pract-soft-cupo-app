@@ -20,8 +20,7 @@ export default function CreateRequest(props){
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        const user = JSON.parse(getUser());
-        getSubjectsOfStudent(user.dni)
+        getSubjectsOfStudent(getUser())
         .then(data => {
             setSubjects(data);
         })

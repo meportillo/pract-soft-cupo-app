@@ -8,13 +8,14 @@ import Alert from 'react-bootstrap/Alert';
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/AlumnService"
+
 export function Login() {
-    const [email,setEmail] = useState("");
+    const [dni,setDni] = useState("");
     const [password,setPassword] = useState("");
     const [error,setError] = useState(false);
     const navigate = useNavigate();
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+    const handleChangeDNI = (event) => {
+        setDni(event.target.value);
     }
 
     const handleChangePassword = (event) => {
@@ -22,8 +23,7 @@ export function Login() {
     }
 
     const handleSubmit = () => {
-        console.log(email)
-        login(email.trim(),password.trim())
+        login(dni.trim(),password.trim())
         .then(res => {
             localStorage.setItem("jwt",JSON.stringify(res))
             navigate("/");
@@ -32,12 +32,6 @@ export function Login() {
         .catch(err => {
             setError(err.message);
         })
-        // if (email.trim() === "miguel@gmail.com" && password.trim() === "1234") {
-        //     navigate("/");
-        // }
-        // else {
-        //     setError(true);
-        // }
     }
 
     return (
@@ -57,8 +51,8 @@ export function Login() {
             <h3 className="d-flex justify-content-center mb-3">Login</h3>
             <Form>
                 <Form.Group className="mb-3">
-                    <Form.Label>Direccion de Correo Electronico</Form.Label>
-                    <Form.Control type="email" placeholder="Introduzca un mail" onChange={(e) => handleChangeEmail(e)} />
+                    <Form.Label>DNI</Form.Label>
+                    <Form.Control type="email" placeholder="Introduzca un mail" onChange={(e) => handleChangeDNI(e)} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Contraseña</Form.Label>

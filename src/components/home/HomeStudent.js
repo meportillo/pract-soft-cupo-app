@@ -8,8 +8,8 @@ export function HomeStudent() {
     const [solicitudes, setSolicitudes] = useState([]);
 
     useEffect(()=>{
-        const user = JSON.parse(getUser());
-        getRequestsOfStudent(user.dni)
+        const user = getUser();
+        getRequestsOfStudent(user)
         .then(data => {
             setSolicitudes(data.formulario.solicitudes)
         })

@@ -1,4 +1,6 @@
 import axios from 'axios'; 
+import { getToken } from '../utils/auth';
+var path = process.env.REACT_APP_BACK_URL_API
 const getStudents = new Promise(function(resolve, error ){
 
     let students = {
@@ -21,27 +23,32 @@ const getStudents = new Promise(function(resolve, error ){
 
 })
 // const users = {gabi: {isAdmin:true}, miguel: {username:"miguel",dni:"12345678",isAdmin:false}}
-const login = (username,password) => new Promise((resolve,error) => {
-    if (username === "miguel") {
-        return resolve({username:username,dni:"12345678",isAdmin:false})
-    }else{
-        return resolve({username:username,dni:"12345678",isAdmin:true})
-    }
-    // return error({message:"no existe el usuario"})
-})
+const login = (dni,contrasenia) => {
+    const body = {contrasenia,dni};
+    return axios.post(`${path}/api/auth/alumno/login`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res.headers.authorization)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+}
 
 const createUser = (data) => new Promise((resolve,error) => {
     return resolve({token:"asdasdda"})
 }) 
 
 const getSubjectsOfStudent = (dni) => {
-    return axios.get(`http://localhost:8081/api/alumnos/materias/${dni}`)
+    const header = {
+        Authorization: getToken()
+    }
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}/materias`,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const getRequestsOfStudent = (dni) => {
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`)
+    const header = {
+        Authorization: getToken()
+    }
+    console.log(header)
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
