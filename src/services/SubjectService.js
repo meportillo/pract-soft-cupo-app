@@ -2,6 +2,10 @@ import axios from 'axios';
 
 var path = process.env.REACT_APP_BACK_URL_API
 
+var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0NjU1MDk2LCJleHAiOjE2NTQ3NDE0OTZ9.bZXb2tEgd-wPwZ-e9gMK6uHXi2V7BciBsrA3lTUw65okUFARaHOlFl5TrSxWkv5o20s7kebmy46-jv-j-XYhZg"
+const config = {
+    headers: { Authorization: `Bearer ${token}` }
+};
 const getSubjects = new Promise(function(resolve, error ){
     
     let subjects = [{'nombre':'Estructura de Datos', 'short_name':'ED' ,'codigo':123456, 'comisiones': [{ 'codComision': 'C1', 'horaInicio': '14:00', 'horaFin': '18:00'},{ 'codComision': 'C2', 'horaInicio': '10:00', 'horaFin': '12:00'},{ 'codComision': 'C3', 'horaInicio': '10:00', 'horaFin': '12:00'}]},
@@ -19,7 +23,7 @@ const getSubjects = new Promise(function(resolve, error ){
 });
 
 const getSubjects2 = (setter)=>{
-    axios.get(path+'/api/materia')
+    axios.get(path+'/api/materias',config)
     .then(response => {
         console.log(response);
         setter(response.data);
@@ -30,7 +34,7 @@ const getSubjects2 = (setter)=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
-    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
+    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre,config)
     .then(response => {
         console.log(response.data);
         setter(response.data);
@@ -40,7 +44,7 @@ const getCommissions = (anio,semestre,setter)=>{
     });
 }
 const getCommisionsBySubject = (code,setter) => {
-    axios.get(path+'/api/comision/materia/'+code)
+    axios.get(path+'/api/materias/'+code+'/comision',config)
     .then(response => {
         console.log('getCommisionsBySubject',response);
         setter(response.data);
@@ -48,7 +52,7 @@ const getCommisionsBySubject = (code,setter) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comision/solicitantes?comisionId='+comisionId)
+    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
     .then(response => {
         console.log(response.data);
         setter(response.data);
@@ -60,7 +64,7 @@ const getRequestsByCommision = (comisionId, setter) => {
 
 const postCreateRequest= (dni,listComm) =>{
 
-        axios.post(path+'/api/alumnos/solicitudes/'+dni,[JSON.parse(listComm)])
+        axios.post(path+'/api/alumnos/solicitudes/'+dni,[JSON.parse(listComm)],config)
         .then(response => {
             console.log(response);
         })

@@ -8,9 +8,11 @@ import {getRequests, getSubjects2, getCommissions} from '../../services/SubjectS
 
 export function HomeAdmin() {
     const [requestsTable, setRequestsTable] = useState([]);
+    const [subjectTable, setSubjectTable] = useState([]);
 
     useEffect(()=>{
-     getCommissions('2022','S1', setRequestsTable);
+     //getCommissions('2022','S1', setRequestsTable);
+     getSubjects2(setSubjectTable);
     },[])
 
     const clickFilters = (condition)=>{
@@ -30,7 +32,7 @@ export function HomeAdmin() {
                         </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <TableRequests requests={requestsTable}>
+            <TableRequests requests={subjectTable}>
             </TableRequests>
         </div>    
     </>);
