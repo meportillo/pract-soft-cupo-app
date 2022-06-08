@@ -8,29 +8,32 @@ export default function CommissionRequest(props){
     const [requests, setRequests] = useState([]);
     const [commissionId, setCommissionId] = useState(props.commission);
     const navigate = useNavigate();
-    let { idcomision } = useParams();
+    let { id } = useParams();
 
     useEffect(()=>{
-        console.log("idcomision "+ idcomision);
-        getRequestsByCommision(idcomision, setRequests);
+        console.log("Materia con id "+ id);
+        getRequestsByCommision(id, setRequests);
     },[])
-    return (<>
-        <Table className="container">
+    
+    return (
+    <div  className="container">
+        <br></br>
+        <h3>Lista de alumnos con solicitud</h3>
+        <Table>
             <thead>
                 <tr key={Math.random()}>
                     <th>Dni</th>
-                    <th>Nombre Y Apellido</th>
                     <th>Materias Aprobadas</th>
-                    <th>Cupos Disponibles</th>
+                    <th>Id Formulario</th>
+                    <th>Ver en detalle</th>
                 </tr>
             </thead>                
             <tbody>
                 {requests.map(request => 
                     <tr key={Math.random()}>
                         <td>{request.dni}</td>
-                        <td>{request.nyAp}</td>
                         <td>{request.cantidadDeAprobadas}</td>
-                        <td>{request.sobrecuposDisponibles}</td>
+                        <td>{request.idFormulario}</td>
                         <td>
                             <ButtonGroup>
                                 <Button key={Math.random()} onClick={ e => navigate('/student/'+request.dni)}>
@@ -41,5 +44,5 @@ export default function CommissionRequest(props){
                     </tr>)}
                     </tbody>                
         </Table>
-    </>);
+    </div >);
 }

@@ -9,31 +9,31 @@ export default function TableRequests(props){
     const navigate = useNavigate();
      return(<>
        <br></br>
-       <br></br>       
+       <br></br>
+       <h3>Materias Socilicitadas</h3>       
         <Table>
             <thead>
                 <tr key={Math.random()}>
-                    <th>Comision</th>
                     <th>Materia</th>
-                    <th>Cupos Totales</th>
-                    <th>Cupos Disponibles</th>
+                    {/* <th>Cupos Totales</th> */}
+                    <th>Cantidad Solicitudes</th>
                 </tr>
             </thead>                
             <tbody>
-                {props.requests.map(commission => 
+                {props.requests.map(({nombre,cantidadSolicitudes,codigo}) => 
                     <tr key={Math.random()}>
-                        <td>{commission.comision}</td>
-                        <td>{commission.materia}</td>
-                        <td>{commission.sobrecuposTotales}</td>
-                        <td>{commission.sobrecuposDisponibles}</td>
+                        <td>{nombre}</td>
+                        {/* <td>{commission.sobrecuposTotales}</td> */}
+                        <td>{cantidadSolicitudes}</td>
                         <td>
                             <ButtonGroup>
-                                <Button key={Math.random()} onClick={ e => navigate('commissionRequest/'+commission.id)}>
+                                <Button key={Math.random()} onClick={ e => navigate('materiaRequest/'+codigo)}>
                                     Ver Detalle
                                 </Button>
                             </ButtonGroup>  
                             </td>
-                    </tr>)}
+                    </tr>)
+                }
             </tbody>                
         </Table>
     </>)

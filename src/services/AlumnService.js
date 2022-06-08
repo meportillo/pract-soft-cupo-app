@@ -30,6 +30,13 @@ const login = (dni,contrasenia) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
 
+const loginAdmin = (correo,contrasenia) => {
+    const body = {contrasenia,correo};
+    return axios.post(`${path}/api/auth/directivo/login`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res.headers.authorization)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+}
+
 const createUser = (data) => new Promise((resolve,error) => {
     return resolve({token:"asdasdda"})
 }) 
@@ -43,12 +50,26 @@ const getSubjectsOfStudent = (dni) => {
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
-const getRequestsOfStudent = (dni) => {
-    const header = {
-        Authorization: getToken()
+const getComissions = (materia,setter) => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
     }
-    console.log(header)
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,{headers:header})
+    axios.get(`${path}/api/materias/${materia}/comision`,config)
+    .then(res=>{
+        setter(res.data)
+    })
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+}
+
+const getRequestsOfStudent = (dni) => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
@@ -68,4 +89,4 @@ const sendRequest = (subjects,dni) => {
     // .catch(err=>new Promise((resolve,error)=>error(err.response)))
 }
 
-export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest};
+export {getStudents, login,loginAdmin, createUser, getComissions, getSubjectsOfStudent, getRequestsOfStudent, sendRequest};
