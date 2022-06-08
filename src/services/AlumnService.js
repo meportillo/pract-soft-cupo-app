@@ -2,9 +2,6 @@ import axios from 'axios';
 import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
-const header = {
-    Authorization: getToken()
-}
 const getStudents = new Promise(function(resolve, error ){
 
     let students = {
@@ -33,34 +30,48 @@ const login = (dni,contrasenia) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
 
+const loginAdmin = (email,contrasenia) => {
+    const body = {contrasenia,correo:email};
+    return axios.post(`${path}/api/auth/directivo/login`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res.headers.authorization)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+}
+
 const createUser = (data) => new Promise((resolve,error) => {
     return resolve({token:"asdasdda"})
 }) 
 
 const getSubjectsOfStudent = (dni) => {
+    const header = {
+        Authorization: getToken()
+    }
     return axios.get(`${path}/api/alumnos/${dni}/materias`,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const getRequestsOfStudent = (dni) => {
-
+    const header = {
+        Authorization: getToken()
+    }
     return axios.get(`${path}/api/alumnos/${dni}/materias`,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
  
 const sendRequest = (subjects,dni) => {
-
+    const header = {
+        Authorization: getToken()
+    }
     const comisiones = subjects.map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
         comisiones: comisiones,
         comisionesInscripto: [1]
       }
     const url = `http://localhost:8081/api/alumnos/${dni}/solicitudes`
-    return axios.patch(url,body,{headers:header})
+    return axios.post(url,body,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response)))
 }
 
-export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest};
+export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin};

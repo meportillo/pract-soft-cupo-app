@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';  
 import { Login } from './Login';
 import { CreateAccount } from './CreateAccount';
+import { LoginAdmin } from './LoginAdmin';
 export function SignIn() {
     useEffect(() => {
         document.body.style = 'background: #a42339;';
@@ -21,6 +22,9 @@ export function SignIn() {
             <Tabs defaultActiveKey="login" id="uncontrolled-tab-example" className="mb-3">
             <Tab eventKey="login" title="Login">
                 <Login/>
+            </Tab>
+            <Tab eventKey="admin" title="Login Admin">
+                <LoginAdmin/>
             </Tab>
             <Tab eventKey="createAccount" title="Crear Cuenta">
                 <CreateAccount/>

@@ -7,15 +7,15 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/AlumnService"
+import { loginAdmin } from "../../services/AlumnService"
 import { setToken } from '../../utils/auth';
-export function Login() {
-    const [dni,setDni] = useState("");
+export function LoginAdmin() {
+    const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [error,setError] = useState(false);
     const navigate = useNavigate();
-    const handleChangeDNI = (event) => {
-        setDni(event.target.value);
+    const handleChangeEmail = (event) => {
+        setEmail(event.target.value);
     }
 
     const handleChangePassword = (event) => {
@@ -23,7 +23,7 @@ export function Login() {
     }
 
     const handleSubmit = () => {
-        login(dni.trim(),password.trim())
+        loginAdmin(email.trim(),password.trim())
         .then(res => {
             setToken(res)
             navigate("/");
@@ -41,7 +41,7 @@ export function Login() {
             <Col className="col-md-6" >
             {
                 error ? <Alert variant="danger" onClose={() => setError(false)} dismissible>
-                           DNI o contraseña incorrectos
+                            Correo Electronico o contraseña incorrectos
                         </Alert>
                 : <></>
             }
@@ -51,8 +51,8 @@ export function Login() {
             <h3 className="d-flex justify-content-center mb-3">Login</h3>
             <Form>
                 <Form.Group className="mb-3">
-                    <Form.Label>DNI</Form.Label>
-                    <Form.Control type="email" placeholder="Introduzca un DNI" onChange={(e) => handleChangeDNI(e)} />
+                    <Form.Label>Correo Electronico</Form.Label>
+                    <Form.Control type="email" placeholder="Introduzca un Correo" onChange={(e) => handleChangeEmail(e)} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Contraseña</Form.Label>

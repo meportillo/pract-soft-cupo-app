@@ -90,7 +90,6 @@ export default function CreateRequest(props){
             navigate('/')
         })
         .catch(err => {
-            console.log(err)
             setError(`ya se envio una solicitud de cupo`); 
         })
     }
