@@ -8,7 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/AlumnService"
-
+import { setToken } from '../../utils/auth';
 export function Login() {
     const [dni,setDni] = useState("");
     const [password,setPassword] = useState("");
@@ -25,7 +25,7 @@ export function Login() {
     const handleSubmit = () => {
         login(dni.trim(),password.trim())
         .then(res => {
-            localStorage.setItem("jwt",JSON.stringify(res))
+            setToken(res)
             navigate("/");
             document.body.style = 'background: white;'
         })

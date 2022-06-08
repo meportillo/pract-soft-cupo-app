@@ -1,5 +1,6 @@
 import jwt_decode from "jwt-decode";
 
+const setToken = (token) => localStorage.setItem("jwt",JSON.stringify(token))
 
 const isLogged = () => getToken() != null; 
 
@@ -19,8 +20,9 @@ const getUser = () => {
     return token.alumno;
 } 
 const getToken = () => JSON.parse(localStorage.getItem("jwt"));
+
 const isAdmin = () => {
     return getRol() != "ROLE_ALUMNO";
 } 
 
-export {isLogged,getUser,getRol,isAdmin,getToken};
+export {isLogged,getUser,getRol,isAdmin,getToken,setToken};

@@ -84,8 +84,7 @@ export default function CreateRequest(props){
     useEffect(getAllSubjects,[]);
     
     const sendForm = () => {
-        const user = JSON.parse(getUser());
-        sendRequest(subjectsSelected,user.dni)
+        sendRequest(subjectsSelected,getUser())
         .then(res => {
             console.table(res)
             navigate('/')

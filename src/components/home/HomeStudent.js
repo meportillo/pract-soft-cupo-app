@@ -11,7 +11,8 @@ export function HomeStudent() {
         const user = getUser();
         getRequestsOfStudent(user)
         .then(data => {
-            setSolicitudes(data.formulario.solicitudes)
+            const mapSolicitudes = data.map(sol => {return sol.comisiones.map(com => {return {materia:sol.nombre,comision:com.comision,modalidad:com.modalidad,horarios:com.horarios.map(hor => `${hor.dia} ${hor.inicio}-${hor.fin}`).join()}})}).flat()
+            setSolicitudes(mapSolicitudes)
         })
         .catch(err => {
             console.log(err)
@@ -21,7 +22,7 @@ export function HomeStudent() {
     return(
         <div>
         <div className="container">
-            <h1 className="d-flex justify-content-center mb-3">Solicitudes</h1>
+            <h1 className="d-flex justify-content-center mb-3">Formulario Cargado</h1>
             {
                 solicitudes.length === 0
                     ? <div>No hay Solicitudes cargadas</div>
@@ -37,22 +38,21 @@ const TableRequestsStudent = (props) => {
         <Table striped bordered hover>
         <thead>
             <tr>
-            <th>Comision</th>
-            <th>Modalidad</th>
             <th>Materia</th>
+            <th>Modalidad</th>
+            <th>Comision</th>
             <th>Horarios</th>
             </tr>
         </thead>
         <tbody>
             {
-                props.solicitudes.map((sol,index) => {
-                    const horarios = sol.comision.horarios.map(c => `${c.dia} ${c.inicio}-${c.fin}`).join() 
+                props.solicitudes.map((mat,index) => {
                     return (
                             <tr key={index}>
-                            <td>{sol.comision.numero}</td>
-                            <td>{sol.comision.modalidad}</td>
-                            <td>{sol.comision.materia}</td>
-                            <td>{horarios}</td>
+                            <td>{mat.materia}</td>
+                            <td>{mat.modalidad}</td>
+                            <td>{`C${mat.comision}`}</td>
+                            <td>{mat.horarios}</td>
                             </tr>
                         )
                 })
