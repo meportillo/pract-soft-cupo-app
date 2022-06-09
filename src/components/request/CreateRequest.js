@@ -84,14 +84,19 @@ export default function CreateRequest(props){
     useEffect(getAllSubjects,[]);
     
     const sendForm = () => {
-        sendRequest(subjectsSelected,getUser())
-        .then(res => {
-            console.table(res)
-            navigate('/')
-        })
-        .catch(err => {
-            setError(err); 
-        })
+        if(subjectsSelected.length > 0){
+            sendRequest(subjectsSelected,getUser())
+            .then(res => {
+                console.table(res)
+                navigate('/')
+            })
+            .catch(err => {
+                setError(err); 
+            })
+        }
+        else{
+            setError("Seleccione al menos 1 comision"); 
+        }
     }
     return( 
         <Form className="container">

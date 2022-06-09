@@ -11,11 +11,10 @@ export function HomeStudent() {
         const user = getUser();
         getRequestsOfStudent(user)
         .then(data => {
-            const mapSolicitudes = data.map(sol => {return sol.comisiones.map(com => {return {materia:sol.nombre,comision:com.comision,modalidad:com.modalidad,horarios:com.horarios.map(hor => `${hor.dia} ${hor.inicio}-${hor.fin}`).join()}})}).flat()
+            const mapSolicitudes = data.solicitudes.map(sol => {return {comision:sol.comision.id,estado:sol.estado,materia:sol.comision.materia,modalidad:sol.comision.modalidad,horarios:sol.comision.horarios.map(hor => `${hor.dia} ${hor.inicio}-${hor.fin}`).join()}})
             setSolicitudes(mapSolicitudes)
         })
         .catch(err => {
-            console.log(err)
         })
     },[])
 
@@ -38,21 +37,23 @@ const TableRequestsStudent = (props) => {
         <Table striped bordered hover>
         <thead>
             <tr>
+            <th>Estado</th>
             <th>Materia</th>
             <th>Modalidad</th>
-            <th>Comision</th>
             <th>Horarios</th>
+            <th>Comision</th>
             </tr>
         </thead>
         <tbody>
             {
-                props.solicitudes.map((mat,index) => {
+                props.solicitudes.map((sol,index) => {
                     return (
                             <tr key={index}>
-                            <td>{mat.materia}</td>
-                            <td>{mat.modalidad}</td>
-                            <td>{`C${mat.comision}`}</td>
-                            <td>{mat.horarios}</td>
+                            <td>{sol.estado}</td>
+                            <td>{sol.materia}</td>
+                            <td>{sol.modalidad}</td>
+                            <td>{sol.horarios}</td>
+                            <td>{`C${sol.comision}`}</td>
                             </tr>
                         )
                 })
