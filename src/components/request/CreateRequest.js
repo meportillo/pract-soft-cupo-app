@@ -90,7 +90,7 @@ export default function CreateRequest(props){
             navigate('/')
         })
         .catch(err => {
-            setError(`ya se envio una solicitud de cupo`); 
+            setError(err); 
         })
     }
     return( 

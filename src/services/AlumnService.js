@@ -37,9 +37,16 @@ const loginAdmin = (email,contrasenia) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
 
-const createUser = (data) => new Promise((resolve,error) => {
-    return resolve({token:"asdasdda"})
-}) 
+const createUser = (dni,password,passwordConfirm) => {
+    const body = {
+        dni:dni,
+        confirmacionContrasenia:passwordConfirm,
+        contrasenia:password
+    } 
+    return axios.post(`${path}/api/auth/alumno/registrar`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+}
 
 const getSubjectsOfStudent = (dni) => {
     const header = {
@@ -71,7 +78,17 @@ const sendRequest = (subjects,dni) => {
     const url = `http://localhost:8081/api/alumnos/${dni}/solicitudes`
     return axios.post(url,body,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
-    .catch(err=>new Promise((resolve,error)=>error(err.response)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
-export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin};
+const sendCode = (codigo,dni) => {
+    const body = {
+        codigo: codigo,
+        dni: dni
+    }
+    return axios.post(`${path}/api/auth/alumno/confirmar`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
+}
+
+export {getStudents, login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode};
