@@ -6,6 +6,7 @@ import TableCupos from './TableCupos';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
+import { getRequestsOfStudent } from '../../services/AlumnService';
 
 export  default function ViewStudent(props){
 
@@ -17,18 +18,9 @@ export  default function ViewStudent(props){
 
 
     useEffect(() => {
-
-        let materias = [{ //Temporal hasta que el endpoind del back
-            "cantidadDeVecesCursada": 2,
-            "codigoMateria": "01307",
-            "estado": "DESAPROBADO",
-            "fechaDeCarga": "2020/10/15",
-            "nombreMateria": "Introduccion a la Programacion"
-        }]
-
-        getInfoStudent(dni)
+        getRequestsOfStudent(dni)
         .then(({dni,nombre,formulario : {estado,solicitudes},resumenCursadas}) => {
-            setMateriasAprobadas(materias);
+            setMateriasAprobadas(resumenCursadas);
             setAlumno({"nombre" : nombre, "dni": dni});
             setCuposPedidos(solicitudes);
         })
@@ -37,6 +29,7 @@ export  default function ViewStudent(props){
 
     return (
           <>
+          <br></br>
               <div className='container'>
                   <div>
                       <h4>Formulario de {alumno.nombre}</h4>

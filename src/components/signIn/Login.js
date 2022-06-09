@@ -7,8 +7,9 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/AlumnService"
 import { setToken } from '../../utils/auth';
+import { login,loginAdmin } from "../../services/AlumnService"
+
 export function Login() {
     const [dni,setDni] = useState("");
     const [password,setPassword] = useState("");
@@ -23,15 +24,28 @@ export function Login() {
     }
 
     const handleSubmit = () => {
-        login(dni.trim(),password.trim())
-        .then(res => {
-            setToken(res)
-            navigate("/");
-            document.body.style = 'background: white;'
-        })
-        .catch(err => {
-            setError(err.message);
-        })
+        let numbers = /^[0-9]+$/;
+        if(dni.match(numbers)){
+            login(dni.trim(),password.trim())
+            .then(res => {
+                setToken(res)
+                navigate("/");
+                document.body.style = 'background: white;'
+            })
+            .catch(err => {
+                setError(err.message);
+            })
+        }else{
+            loginAdmin(dni.trim(),password.trim())
+            .then(res => {
+                localStorage.setItem("jwt",JSON.stringify(res))
+                navigate("/");
+                document.body.style = 'background: white;'
+            })
+            .catch(err => {
+                setError(err.message);
+            })
+        }
     }
 
     return (

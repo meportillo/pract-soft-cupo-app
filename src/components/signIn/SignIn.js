@@ -9,7 +9,7 @@ import { CreateAccount } from './CreateAccount';
 import { LoginAdmin } from './LoginAdmin';
 export function SignIn() {
     useEffect(() => {
-        document.body.style = 'background: #a42339;';
+        document.body.style = 'background: #F8F8FF;';
     })
     return (
         <Container>

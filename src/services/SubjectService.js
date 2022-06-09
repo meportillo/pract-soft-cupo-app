@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../utils/auth';
 
 var path = process.env.REACT_APP_BACK_URL_API
 
@@ -30,7 +31,12 @@ const getSubjects2 = (setter)=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
-    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    return axios.get(path+'/api/materias/solicitudes?anio='+anio+'&semestre='+semestre ,config)
     .then(response => {
         console.log(response.data);
         setter(response.data);
@@ -48,9 +54,13 @@ const getCommisionsBySubject = (code,setter) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comision/solicitantes?comisionId='+comisionId)
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    axios.get(path+`/api/comisiones/${comisionId}/solicitantes`,config)
     .then(response => {
-        console.log(response.data);
         setter(response.data);
     })
     .catch(error=> {
