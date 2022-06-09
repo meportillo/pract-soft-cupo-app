@@ -8,7 +8,7 @@ import { Login } from './Login';
 import { CreateAccount } from './CreateAccount';
 export function SignIn() {
     useEffect(() => {
-        document.body.style = 'background: #a42339;';
+        document.body.style = 'background: #F8F8FF;';
     })
     return (
         <Container>

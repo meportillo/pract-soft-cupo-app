@@ -29,6 +29,7 @@ export  default function ViewStudent(props){
 
     return (
           <>
+          <br></br>
               <div className='container'>
                   <div>
                       <h4>Formulario de {alumno.nombre}</h4>
