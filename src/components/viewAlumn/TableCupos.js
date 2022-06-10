@@ -29,7 +29,7 @@ export default function TableCupos({cupos, form}){
         <h4>Cupos Pedidos</h4>
         <Table striped bordered hover className='Cupos'>
             <tbody>
-                <tr>
+                <tr key={Math.random()}>
                     <td>Materia</td>
                     <td>Comision</td>
                     <td>Modalidad</td>
@@ -39,7 +39,7 @@ export default function TableCupos({cupos, form}){
                 </tr>{form &&
                    form.formulario.solicitudes.map((sol) => {
                         return(
-                        <tr key={sol.id}>
+                        <tr key={Math.random()}>
                             <td>{sol.comision.materia}</td>
                             <td>{sol.comision.id}</td>
                             <td>{sol.comision.modalidad}</td>
@@ -49,7 +49,7 @@ export default function TableCupos({cupos, form}){
                             <Row className="mx-0">
                                 <ButtonGroup>
                                 <OverlayTrigger
-                                    key="accept-id"
+                                    key={Math.random()}
                                     placement="top"
                                     overlay={
                                         <Tooltip id={`tooltip-accept`}>

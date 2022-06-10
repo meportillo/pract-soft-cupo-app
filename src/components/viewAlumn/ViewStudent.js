@@ -35,7 +35,7 @@ export  default function ViewStudent(props){
                   </div>
                   <TableMateria materias={materiasAprobadas}> </TableMateria>
                   <TableCupos cupos={cuposPedidos} form={formulario}></TableCupos>
-                  <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                  <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                   <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
                       Agregar Solicitudes
                   </Button>              

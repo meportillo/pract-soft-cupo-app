@@ -8,7 +8,7 @@ import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
     console.log('CreateRequestShort---->', props);
-    const [dni,setDni]  = useState(props.studentId);
+    const [dni,setDni]  = useState(props.studentid);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
     const [showComision, setShowComision] = useState(false);
@@ -23,11 +23,14 @@ export default function CreateRequestShort(props){
     },[])
 
     const click_ok = ()=>{
-        getCommisionsBySubject(code)
-        .then((data)=>{
-            setCommissions(data);
-        });
-        setCode('');
+
+        if(code != ''){
+            getCommisionsBySubject(code)
+            .then((data)=>{
+                setCommissions(data);
+            });
+            setCode('');
+        }
     };
     useEffect(()=>{
         click_ok();
@@ -57,15 +60,15 @@ return(<>
             </Modal.Header>
             <Modal.Body className="show-grid">
                 { (showComision)?
-                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button onClick={(e) => {
+                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button key={Math.random()} onClick={(e) => {
                         setShowComision(false)
                         //setCommissions([])
                         }}>ok</Button></>:
                      <>{commissions.map((com)=>{
                          console.log(com)
-                         return <CommisionRequestShort commission={com} createRequest={createRequest} dni={dni}/>}
+                         return <CommisionRequestShort key={Math.random()} commission={com} createRequest={createRequest} dni={dni}/>}
                     )}
-                         <Button onClick={(e) => {
+                         <Button  key={Math.random()} onClick={(e) => {
                              setCommissions([])
                              setShowComision(false)
                              }}>ok</Button>
@@ -77,7 +80,7 @@ return(<>
                 <Container>
                     {subjectsFilter.map(subject=>{
                         return(
-                        <Row>
+                        <Row key={Math.random()}>
                             <Col xs={4} md={8}>
                                 {subject.nombre}
                             </Col>
