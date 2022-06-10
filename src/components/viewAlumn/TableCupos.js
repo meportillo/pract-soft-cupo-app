@@ -12,7 +12,7 @@ export default function TableCupos({cupos, form}){
     
     function horarioToString(horarios){
         return horarios && horarios.map(({dia,inicio,fin}) => {
-            return `${dia} ${inicio}-${fin}||`
+            return <div> {dia} {inicio}-{fin}</div>
         })
     }
 

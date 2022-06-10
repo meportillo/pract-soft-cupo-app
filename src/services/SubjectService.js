@@ -1,10 +1,10 @@
 import axios from 'axios';
-
+import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
-var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0ODAyNjk1LCJleHAiOjE2NTQ4ODkwOTV9.9bwWCk4mwdJlNKtBCsX2zqNAAtZXqXGp0Uq2Z2NZJ8_2EO4PUYFXg9Hh5sH6PfCDvZY55AzlbB3qCTdHIfqfpQ"
+//var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0ODAyNjk1LCJleHAiOjE2NTQ4ODkwOTV9.9bwWCk4mwdJlNKtBCsX2zqNAAtZXqXGp0Uq2Z2NZJ8_2EO4PUYFXg9Hh5sH6PfCDvZY55AzlbB3qCTdHIfqfpQ"
 const config = {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: getToken() }
 };
 const getSubjects = new Promise(function(resolve, error ){
     
@@ -53,7 +53,7 @@ const getCommissions = (anio,semestre,setter)=>{
     });
 }
 const getCommisionsBySubject = (code) => {
-    return axios.get(path+'/api/materias/'+code+'/comision',config)
+    return axios.get(path+`/api/materias/${code}/comision`,config)
     .then(response => {
         //console.log('getCommisionsBySubject',response);
         //setter(response.data);
@@ -62,7 +62,7 @@ const getCommisionsBySubject = (code) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',{headers: { Authorization: `Bearer ${token}`}})
+    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
     .then(response => {
         console.log(response.data);
         setter(response.data);

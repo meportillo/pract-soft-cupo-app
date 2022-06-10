@@ -37,10 +37,12 @@ const getSubjectsOfStudent = (dni) => {
 }
 
 const getRequestsOfStudent = (dni) => {
-    const header = {
-        Authorization: getToken()
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
     }
-    return axios.get(`${path}/api/alumnos/formulario`,{headers:header})
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }

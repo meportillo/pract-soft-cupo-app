@@ -17,18 +17,8 @@ export  default function ViewStudent(props){
     const [formulario,setFormulario] = useState()
 
     useEffect(() => {
-
-        let materias = [{ //Temporal hasta que el endpoind del back
-            "cantidadDeVecesCursada": 2,
-            "codigoMateria": "01307",
-            "estado": "DESAPROBADO",
-            "fechaDeCarga": "2020/10/15",
-            "nombreMateria": "Introduccion a la Programacion"
-        }]
-
         getRequestsOfStudent(dni)
         .then((data) => {
-            console.log(data);
             setMateriasAprobadas(data.resumenCursadas);
             setAlumno({"nombre" : data.nombre, "dni": data.dni});
             setCuposPedidos(data.formulario.solicitudes);
