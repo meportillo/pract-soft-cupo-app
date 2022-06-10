@@ -15,10 +15,6 @@ export function ConfirmCode(props){
     const [success,setSuccess] = useState(false);
     const handleChangeStateDNI = (event) => setDni(event.target.value)  
     const handleChangeStateCode = (event) => setCode(event.target.value)  
-    
-    useEffect(() => {
-        document.body.style = 'background: #a42339;';
-    })
 
     const fieldCenter = (title,handleInput) => 
                             <div className="d-flex justify-content-center">

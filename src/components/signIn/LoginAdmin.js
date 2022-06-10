@@ -27,7 +27,6 @@ export function LoginAdmin() {
         .then(res => {
             setToken(res)
             navigate("/");
-            document.body.style = 'background: white;'
         })
         .catch(err => {
             setError(err.message);
