@@ -11,7 +11,6 @@ export default function CommissionRequest(props){
     let { idcomision } = useParams();
 
     useEffect(()=>{
-        console.log("idcomision "+ idcomision);
         getRequestsByCommision(idcomision, setRequests);
     },[])
     return (<>

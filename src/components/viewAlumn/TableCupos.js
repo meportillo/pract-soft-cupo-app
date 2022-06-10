@@ -9,7 +9,6 @@ import {patchRequest, patchCerrarFormulario} from '../../services/SubjectService
 import { AlertRequest } from '../request/AlertRequest';
 
 export default function TableCupos({cupos, form}){
-    console.log('for',form);
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
@@ -113,7 +112,6 @@ export default function TableCupos({cupos, form}){
             </tbody>
         </Table>
         <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
-            console.log(response)
             if(response.status == 200){
                 //alert("Fomulario cerrado Ok")
                 setMessage('Fomulario cerrado Ok');

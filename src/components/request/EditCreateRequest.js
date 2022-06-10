@@ -39,11 +39,9 @@ export default function EditCreateRequest(props){
                 setSubjects(data);
             })
         })
-        .catch(err =>console.log(err))
-        // getSubjects
-        // .then(data => {
-        //     setSubjects(data);
-        // })
+        .catch(err =>
+            alert(err)
+            )
     };
     const getComisiones = () => { 
         if (selected === ""){

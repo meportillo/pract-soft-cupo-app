@@ -12,11 +12,8 @@ const getSubjects2 = ()=>{
     const config = {
         headers: { Authorization: getToken() }
     };
-    console.log(config)
     return axios.get(path+'/api/materias',config)
     .then(response => {
-        console.log(response);
- //       setter(response.data);
         return new Promise((resolve, error )=>{
             try 
             {
@@ -38,7 +35,6 @@ const getCommissions = (anio,semestre,setter)=>{
     };
     axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre,config)
     .then(response => {
-        console.log(response.data);
         setter(response.data);
     })
     .catch(error=> {
@@ -51,8 +47,6 @@ const getCommisionsBySubject = (code) => {
     };
     return axios.get(path+`/api/materias/${code}/comision`,config)
     .then(response => {
-        //console.log('getCommisionsBySubject',response);
-        //setter(response.data);
         return response.data
     })
     .catch();
@@ -63,7 +57,6 @@ const getRequestsByCommision = (comisionId, setter) => {
     };
     axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
     .then(response => {
-        console.log(response.data);
         setter(response.data);
     })
     .catch(error=> {
@@ -77,11 +70,9 @@ const postCreateRequest= (dni,listComm) =>{
     };
         return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
         .then(response => {
-            console.log(response);
             return response
         })
         .catch(error=>{
-            console.log(error);
             alert(error.response.data.error+ ": " + error.response.data.message );
         })
 
@@ -94,13 +85,9 @@ const patchRequest= (dni,id, state, formId) =>{
 
    return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
     .then((response) => {
-//        console.log(response);
-//        setter(response.data);
         return response;
     })
     .catch((error)=>{
-        console.log(error);
-       // alert(error.response.data.error+ ": " + error.response.data.message );
         return error;
     })
 
@@ -112,11 +99,9 @@ const patchCerrarFormulario = (id,dni) =>{
     };
     return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
     .then((response) => {
-        console.log(response);
         return response
     })
     .catch((error)=>{
-        console.log(error);
         alert(error.response.data.error+ ": " + error.response.data.message );
         return error
     }) 

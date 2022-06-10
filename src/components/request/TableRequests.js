@@ -19,7 +19,6 @@ export default function TableRequests({itemsPerPage}) {
         useEffect(()=>{
          
             getSubjects2().then(subjectTable => {
-                console.log('subjectTable', subjectTable);
                 let materias = [];     
                     subjectTable.forEach(mat => {
                         const data = getCommisionsBySubject(mat.codigo)
@@ -38,7 +37,6 @@ export default function TableRequests({itemsPerPage}) {
         useEffect(() => {
         // Fetch items from another resources.
             const endOffset = itemOffset + itemsPerPage;
-            console.log(`Loading items from ${itemOffset} to ${endOffset}`);
             setCurrentItems(items.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(items.length / itemsPerPage));
             setFirst(false);
@@ -46,16 +44,10 @@ export default function TableRequests({itemsPerPage}) {
 
         const handlePageClick = (event) => {
             const newOffset = (event.selected * itemsPerPage) % items.length;
-            console.log(
-                `User requested page number ${event.selected}, which is offset ${newOffset}`
-            );
             setItemOffset(newOffset);
         };
         const handlePageClickInit = (nro) => {
             const newOffset = (nro * itemsPerPage) % items.length;
-            console.log(
-                `User requested page number ${nro}, which is offset ${newOffset}`
-            );
             setItemOffset(newOffset);
         };
         return (<>

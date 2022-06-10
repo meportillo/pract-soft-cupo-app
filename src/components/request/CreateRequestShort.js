@@ -7,7 +7,6 @@ import CommisionRequestShort from './CommisionRequestShort';
 import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
-    console.log('CreateRequestShort---->', props);
     const [dni,setDni]  = useState(props.studentid);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
@@ -65,7 +64,6 @@ return(<>
                         //setCommissions([])
                         }}>ok</Button></>:
                      <>{commissions.map((com)=>{
-                         console.log(com)
                          return <CommisionRequestShort key={Math.random()} commission={com} createRequest={createRequest} dni={dni}/>}
                     )}
                          <Button  key={Math.random()} onClick={(e) => {
