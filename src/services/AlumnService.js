@@ -61,6 +61,22 @@ const sendRequest = (subjects,dni) => {
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
+const updateRequest = (subjects,dni) => {
+    const header = {
+        Authorization: getToken()
+    }
+    const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
+    const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
+    const body = {
+        comisiones: comisiones,
+        comisionesInscripto: comisionesInscripto
+    }
+    const url = `${path}/api/alumnos/${dni}/solicitudes`
+    return axios.patch(url,body,{headers:header})
+    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
+}
+
 const sendCode = (codigo,dni) => {
     const body = {
         codigo: codigo,
@@ -71,4 +87,4 @@ const sendCode = (codigo,dni) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
-export { login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode};
+export { login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest};
