@@ -9,6 +9,10 @@ const config = {
 
 
 const getSubjects2 = ()=>{
+    const config = {
+        headers: { Authorization: getToken() }
+    };
+    console.log(config)
     return axios.get(path+'/api/materias',config)
     .then(response => {
         console.log(response);
@@ -29,6 +33,9 @@ const getSubjects2 = ()=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
+    const config = {
+        headers: { Authorization: getToken() }
+    };
     axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre,config)
     .then(response => {
         console.log(response.data);
@@ -39,6 +46,9 @@ const getCommissions = (anio,semestre,setter)=>{
     });
 }
 const getCommisionsBySubject = (code) => {
+    const config = {
+        headers: { Authorization: getToken() }
+    };
     return axios.get(path+`/api/materias/${code}/comision`,config)
     .then(response => {
         //console.log('getCommisionsBySubject',response);
@@ -48,6 +58,9 @@ const getCommisionsBySubject = (code) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
+    const config = {
+        headers: { Authorization: getToken() }
+    };
     axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
     .then(response => {
         console.log(response.data);
@@ -59,7 +72,9 @@ const getRequestsByCommision = (comisionId, setter) => {
 }
 
 const postCreateRequest= (dni,listComm) =>{
-
+    const config = {
+        headers: { Authorization: getToken() }
+    };
         return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
         .then(response => {
             console.log(response);
@@ -73,6 +88,9 @@ const postCreateRequest= (dni,listComm) =>{
 };
 
 const patchRequest= (dni,id, state, formId) =>{
+    const config = {
+        headers: { Authorization: getToken() }
+    };
 
    return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
     .then((response) => {
@@ -89,6 +107,9 @@ const patchRequest= (dni,id, state, formId) =>{
 };
 
 const patchCerrarFormulario = (id,dni) =>{
+        const config = {
+        headers: { Authorization: getToken() }
+    };
     return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
     .then((response) => {
         console.log(response);
