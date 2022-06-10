@@ -19,18 +19,15 @@ export default function CommissionRequest(props){
             <thead>
                 <tr key={Math.random()}>
                     <th>Dni</th>
-                    <th>Nombre Y Apellido</th>
                     <th>Materias Aprobadas</th>
-                    <th>Cupos Disponibles</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>                
             <tbody>
                 {requests.map(request => 
                     <tr key={Math.random()}>
                         <td>{request.dni}</td>
-                        <td>{request.nyAp}</td>
                         <td>{request.cantidadDeAprobadas}</td>
-                        <td>{request.sobrecuposDisponibles}</td>
                         <td>
                             <ButtonGroup>
                                 <Button key={Math.random()} onClick={ e => navigate('/student/'+request.dni)}>

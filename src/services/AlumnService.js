@@ -1,4 +1,7 @@
 import axios from 'axios'; 
+
+var path = process.env.REACT_APP_BACK_URL_API
+
 const getStudents = new Promise(function(resolve, error ){
 
     let students = {
@@ -20,6 +23,12 @@ const getStudents = new Promise(function(resolve, error ){
     }
 
 })
+
+var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0ODAyNjk1LCJleHAiOjE2NTQ4ODkwOTV9.9bwWCk4mwdJlNKtBCsX2zqNAAtZXqXGp0Uq2Z2NZJ8_2EO4PUYFXg9Hh5sH6PfCDvZY55AzlbB3qCTdHIfqfpQ"
+const config = {
+    headers: { Authorization: `Bearer ${token}` }
+};
+
 // const users = {gabi: {isAdmin:true}, miguel: {username:"miguel",dni:"12345678",isAdmin:false}}
 const login = (username,password) => new Promise((resolve,error) => {
     if (username === "miguel") {
@@ -35,28 +44,23 @@ const createUser = (data) => new Promise((resolve,error) => {
 }) 
 
 const getSubjectsOfStudent = (dni) => {
-    return axios.get(`http://localhost:8081/api/alumnos/materias/${dni}`)
+    return axios.get(`${path}/api/alumnos/materias/${dni}`, config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const getRequestsOfStudent = (dni) => {
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`)
+    return axios.get(`${path}/api/alumnos/${dni}`,config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
  
 const sendRequest = (subjects,dni) => {
     const comisiones = subjects.map(s => s.comisiones.map(com => com.id)).flat()
-    const url = `http://localhost:8081/api/alumnos/solicitudes/${dni}`
-    // const options = {
-    //     method: 'POST',
-    //     headers: { 'content-type':'application/json' },
-    //     data: {"comisiones":comisiones},
-    //     url,
-    //   };
+    const url = `${path}/api/alumnos/solicitudes/${dni}`
+
     console.log(comisiones,dni)
-    return axios.post(url,{"comisiones":comisiones})
+    return axios.post(url,{"comisiones":comisiones},config)
     // .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     // .catch(err=>new Promise((resolve,error)=>error(err.response)))
 }

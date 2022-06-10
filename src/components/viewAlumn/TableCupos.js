@@ -5,18 +5,18 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { FiCheck } from "react-icons/fi";
 import { FiX } from "react-icons/fi";
+import {patchRequest} from '../../services/SubjectService';
 
-
-export default function TableCupos({cupos}){
-
+export default function TableCupos({cupos, form}){
+    console.log(form);
+    
     function horarioToString(horarios){
         return horarios.map(({dia,inicio,fin}) => {
             return `${dia} ${inicio}-${fin}||`
         })
     }
 
-    return (
-        <>
+    return (<>
         <h4>Cupos Pedidos</h4>
         <Table striped bordered hover className='Cupos'>
             <tbody>
@@ -27,8 +27,7 @@ export default function TableCupos({cupos}){
                     <td>Horario</td>
                     <td>Estado</td>
                     <td>Acciones</td>
-                </tr>
-                {
+                </tr>{
                     cupos.map(({id,estado,comision:{materia,modalidad,horarios,id:idComision}}) => {
                         return(
                         <tr key={id}>
@@ -46,10 +45,9 @@ export default function TableCupos({cupos}){
                                     overlay={
                                         <Tooltip id={`tooltip-accept`}>
                                             Aprobar solicitud
-                                        </Tooltip>
-                                    }
+                                        </Tooltip>}
                                     >
-                                    <Button variant="primary">
+                                    <Button onClick={e =>{patchRequest() }} variant="primary">
                                         <FiCheck></FiCheck>
                                     </Button>
                                     </OverlayTrigger>
@@ -60,9 +58,8 @@ export default function TableCupos({cupos}){
                                         <Tooltip id={`tooltip-accept`}>
                                             Rechazar solicitud
                                         </Tooltip>
-                                    }
-                                    >
-                                    <Button variant="danger">
+                                    }>
+                                    <Button onClick={e =>{ console.log('aproba')}} variant="danger">
                                         <FiX></FiX>
                                     </Button>
                                     </OverlayTrigger>
@@ -74,6 +71,5 @@ export default function TableCupos({cupos}){
                 }
             </tbody>
         </Table>
-        </>
-    )
+        </>)
 }
