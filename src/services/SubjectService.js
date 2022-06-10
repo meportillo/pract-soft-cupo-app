@@ -74,9 +74,10 @@ const getRequestsByCommision = (comisionId, setter) => {
 
 const postCreateRequest= (dni,listComm) =>{
 
-        axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
+        return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
         .then(response => {
             console.log(response);
+            return response
         })
         .catch(error=>{
             console.log(error);
@@ -99,6 +100,18 @@ const patchRequest= (dni,id, state, formId,setter) =>{
 
 };
 
+const patchCerrarFormulario = (id,dni) =>{
+    return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
+    .then(response => {
+        console.log(response);
+        return response
+    })
+    .catch(error=>{
+        console.log(error);
+        alert(error.response.data.error+ ": " + error.response.data.message );
+    }) 
+}
+
 const getRequests = new Promise(function(resolve,error){
     let listRequests= [{ 'id':1, 'dni': 40555666, 'legajo': 1256, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente'},
     { 'id':2, 'dni': 40555666, 'legajo': 123456, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente' },
@@ -115,4 +128,4 @@ const getRequests = new Promise(function(resolve,error){
 
 });
 
-export {getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {patchCerrarFormulario, getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

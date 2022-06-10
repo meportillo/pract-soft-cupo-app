@@ -7,7 +7,7 @@ import CommisionRequestShort from './CommisionRequestShort';
 import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
-    console.log(props);
+    console.log('CreateRequestShort---->', props);
     const [dni,setDni]  = useState(props.studentId);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
@@ -16,12 +16,17 @@ export default function CreateRequestShort(props){
     const [commissions, setCommissions] = useState([]);
 
     useEffect(()=>{
-        getSubjects2(setSubjects);
-        setSubjectsFilter(subjects);
+        getSubjects2().then((data)=>{
+            setSubjects(data)
+            setSubjectsFilter(subjects);
+            });
     },[])
 
     const click_ok = ()=>{
-        getCommisionsBySubject(code, setCommissions);
+        getCommisionsBySubject(code)
+        .then((data)=>{
+            setCommissions(data);
+        });
         setCode('');
     };
     useEffect(()=>{
@@ -29,13 +34,15 @@ export default function CreateRequestShort(props){
     },[showComision,commissions]);
 
     const createRequest = (dni,idCom)=>{
-        postCreateRequest(dni,[idCom]);
+        postCreateRequest(dni,[idCom]).then(data =>{
+
+        });
     }
 
 return(<>
         <Modal {...props}  size="lg" aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title id="contained-modal-title-getSubjects2vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
                 <Form.Control
