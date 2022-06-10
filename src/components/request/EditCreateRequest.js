@@ -28,11 +28,11 @@ export default function EditCreateRequest(props){
             .then(data => {
                 const solicitudes = res.solicitudes.map(sol => {
                     const codMateria = data.filter(m => m.nombre == sol.comision.materia) 
-                    return {nombre:sol.comision.materia, comisiones:[{"comision":sol.comision.numero,"id":sol.comision.numero}], accion:"cupo", codigo:codMateria[0].codigo}
+                    return {nombre:sol.comision.materia, comisiones:[{"comision":sol.comision.numero,"id":sol.comision.id}], accion:"cupo", codigo:codMateria[0].codigo}
                  })
                 const inscripciones = res.comisionesInscripto.map(com => {
                     const codMateria = data.filter(m => m.nombre == com.materia) 
-                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.numero}], accion:"guarani", codigo:codMateria[0].codigo}
+                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.id}], accion:"guarani", codigo:codMateria[0].codigo}
                  })
                 setSubjectsSelected(solicitudes.concat(inscripciones))   
                 setSolicitud(true)
