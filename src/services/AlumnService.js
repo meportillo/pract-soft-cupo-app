@@ -49,12 +49,13 @@ const sendRequest = (subjects,dni) => {
     const header = {
         Authorization: getToken()
     }
-    const comisiones = subjects.map(s => s.comisiones.map(com => com.id)).flat()
+    const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
+    const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
         comisiones: comisiones,
-        comisionesInscripto: [1]
-      }
-    const url = `http://localhost:8081/api/alumnos/${dni}/solicitudes`
+        comisionesInscripto: comisionesInscripto
+    }
+    const url = `${path}/api/alumnos/${dni}/solicitudes`
     return axios.post(url,body,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))

@@ -17,6 +17,7 @@ export default function CreateRequest(props){
     const [subjectsSelected,setSubjectsSelected] = useState([]);
     const [comisiones,setComisiones] = useState([]);
     const [error,setError] = useState("");
+    const [action,setAction] = useState("");
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
@@ -39,23 +40,28 @@ export default function CreateRequest(props){
         }
     }
     const addSubject = () => {
-        if(selected === "" || comisiones.length === 0) {
-            setError("Falta seleccionar una materia o una comision"); 
+        if(action == "" ){
+            setError("Debe seleccionar una accion");
         }
         else{
-            // if (subjectsSelected.filter(sub => sub.codigo == selected ).length == 0) {
-                const subj = subjects.find(sub => sub.codigo == selected);
-                const coms = getComisiones(); 
-                const comsSelected = coms.filter((com,index) => comisiones.includes(`${index}`))
-                const obj = { "codigo":subj.codigo, "nombre": subj.nombre, "comisiones":comsSelected };
-                let clone = subjectsSelected.map((sub) =>{ return {...sub}}) 
-                clone.push(obj);
-                setSubjectsSelected(clone);
-            // }
-            // else{
-                // setError(`La materia ya se agrego`); 
-            // }
-        } 
+            if(selected === "" || comisiones.length === 0) {
+                setError("Falta seleccionar una materia o una comision"); 
+            }
+            else{
+                // if (subjectsSelected.filter(sub => sub.codigo == selected ).length == 0) {
+                    const subj = subjects.find(sub => sub.codigo == selected);
+                    const coms = getComisiones(); 
+                    const comsSelected = coms.filter((com,index) => comisiones.includes(`${index}`))
+                    const obj = { "codigo":subj.codigo, "nombre": subj.nombre, "comisiones":comsSelected, "accion":action};
+                    let clone = subjectsSelected.map((sub) =>{ return {...sub}}) 
+                    clone.push(obj);
+                    setSubjectsSelected(clone);
+                // }
+                // else{
+                    // setError(`La materia ya se agrego`); 
+                // }
+            } 
+        }
     }
     const deleteSubjectSelected = (codSubject,e) =>{
         e.preventDefault();
@@ -85,14 +91,16 @@ export default function CreateRequest(props){
     
     const sendForm = () => {
         if(subjectsSelected.length > 0){
-            sendRequest(subjectsSelected,getUser())
-            .then(res => {
-                console.table(res)
-                navigate('/')
-            })
-            .catch(err => {
-                setError(err); 
-            })
+            if (window.confirm("Estas seguro que quieres enviar el formulario")) {
+                sendRequest(subjectsSelected,getUser())
+                .then(res => {
+                    console.table(res)
+                    navigate('/')
+                })
+                .catch(err => {
+                    setError(err); 
+                })
+            }
         }
         else{
             setError("Seleccione al menos 1 comision"); 
@@ -113,6 +121,14 @@ export default function CreateRequest(props){
                     <Card.Header>
                         <Form.Label>Seleccionar Materias</Form.Label>
                     </Card.Header>
+                    <Card.Body>
+                        <Card.Title><Form.Label>Seleccionar accion</Form.Label></Card.Title>
+                        <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => setAction(e.target.value)}>
+                            <option key={0} value={""} >Seleccionar opcion</option>
+                            <option key={1} value={"guarani"} >Agregar Materia Guarani</option>
+                            <option key={2} value={"cupo"} >Agregar Solicitud Cupo</option>
+                        </Form.Select>
+                    </Card.Body>
                     <Card.Body>
                         <Card.Title><Form.Label>Seleccionar Materia</Form.Label></Card.Title>
                         <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => {selectSubject(e.target.value)}}>
@@ -152,6 +168,7 @@ export default function CreateRequest(props){
                             <th>Materia</th>
                             <th>Codigo</th>
                             <th>comisiones</th>
+                            <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,6 +180,7 @@ export default function CreateRequest(props){
                                             <td>{matSelect.nombre}</td>
                                             <td>{matSelect.codigo}</td>
                                             <td>{comsMat}</td>
+                                            <td>{matSelect.accion}</td>
                                             </tr>)    
                                 } 
                                 )
