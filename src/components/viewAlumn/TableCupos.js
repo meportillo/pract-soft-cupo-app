@@ -6,10 +6,13 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { FiCheck } from "react-icons/fi";
 import { FiX } from "react-icons/fi";
 import {patchRequest, patchCerrarFormulario} from '../../services/SubjectService';
+import { AlertRequest } from '../request/AlertRequest';
 
 export default function TableCupos({cupos, form}){
     console.log('for',form);
-    
+    const [message,setMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [callError, setCallError] = useState(false);
     function horarioToString(horarios){
         return horarios && horarios.map(({dia,inicio,fin}) => {
             return <div> {dia} {inicio}-{fin}</div>
@@ -17,6 +20,12 @@ export default function TableCupos({cupos, form}){
     }
 
     return (<>
+        {
+            showMessage?
+                <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+            :
+                <></>
+        }
         <h4>Cupos Pedidos</h4>
         <Table striped bordered hover className='Cupos'>
             <tbody>
@@ -47,7 +56,23 @@ export default function TableCupos({cupos, form}){
                                             Aprobar solicitud
                                         </Tooltip>}
                                     >
-                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'APROBADO',form.formulario.id, (data)=>{console.log(data)}) }} variant="primary">
+                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'APROBADO',form.formulario.id)
+                                    .then((response)=>{
+                                        if(response.status == 200){
+                                            //alert("Fomulario cerrado Ok")
+                                            setMessage('Solicitud APROBADA Ok');
+                                            setShowMessage(true);
+                                            setCallError(false);
+                                        }else{
+                                            setMessage(response.response.data.error+ ": " + response.response.data.message );
+                                            setShowMessage(true);
+                                            setCallError(true);
+                                        }
+                                    })
+                                    .catch((error)=> {
+                                      
+                                    })}
+                                    } variant="primary">
                                         <FiCheck></FiCheck>
                                     </Button>
                                     </OverlayTrigger>
@@ -59,7 +84,23 @@ export default function TableCupos({cupos, form}){
                                             Rechazar solicitud
                                         </Tooltip>
                                     }>
-                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'RECHAZADO',form.formulario.id, (data)=>{console.log(data)}) }}  variant="danger">
+                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'RECHAZADO',form.formulario.id)
+                                    .then((response)=>{
+                                        if(response.status == 200){
+                                            //alert("Fomulario cerrado Ok")
+                                            setMessage('Solicitud RECHAZADA Ok');
+                                            setShowMessage(true);
+                                            setCallError(false);
+                                        }else{
+                                            setMessage(response.response.data.error+ ": " + response.response.data.message );
+                                            setShowMessage(true);
+                                            setCallError(true);
+                                        }
+                                    })
+                                    .catch((error)=> {
+                                      
+                                    })}
+                                    }  variant="danger">
                                         <FiX></FiX>
                                     </Button>
                                     </OverlayTrigger>
@@ -74,7 +115,10 @@ export default function TableCupos({cupos, form}){
         <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
             console.log(response)
             if(response.status == 200){
-                alert("Fomulario cerrado Ok")
+                //alert("Fomulario cerrado Ok")
+                setMessage('Fomulario cerrado Ok');
+                setShowMessage(true);
+                setCallError(false);
             }
         }
         )}}>Cerrar Formulario</Button>

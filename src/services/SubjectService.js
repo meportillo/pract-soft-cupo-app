@@ -86,29 +86,32 @@ const postCreateRequest= (dni,listComm) =>{
 
 };
 
-const patchRequest= (dni,id, state, formId,setter) =>{
+const patchRequest= (dni,id, state, formId) =>{
 
-    axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
-    .then(response => {
-        console.log(response);
-        setter(response.data);
+   return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
+    .then((response) => {
+//        console.log(response);
+//        setter(response.data);
+        return response;
     })
-    .catch(error=>{
+    .catch((error)=>{
         console.log(error);
-        alert(error.response.data.error+ ": " + error.response.data.message );
+       // alert(error.response.data.error+ ": " + error.response.data.message );
+        return error;
     })
 
 };
 
 const patchCerrarFormulario = (id,dni) =>{
     return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
-    .then(response => {
+    .then((response) => {
         console.log(response);
         return response
     })
-    .catch(error=>{
+    .catch((error)=>{
         console.log(error);
         alert(error.response.data.error+ ": " + error.response.data.message );
+        return error
     }) 
 }
 
