@@ -46,6 +46,15 @@ const getRequestsOfStudent = (dni) => {
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
+
+const alumnGetRequestsOfStudent = (dni) => {
+    const header = {
+        Authorization: getToken()
+    }
+    return axios.get(`${path}/api/alumnos/formulario`,{headers:header})
+    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+}
  
 const sendRequest = (subjects,dni) => {
     const header = {
@@ -89,4 +98,4 @@ const sendCode = (codigo,dni) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
-export { login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest};
+export { login,alumnGetRequestsOfStudent, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest};
