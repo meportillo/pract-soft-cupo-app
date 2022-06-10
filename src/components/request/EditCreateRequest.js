@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
-import { getRequestsOfStudent, getSubjectsOfStudent, updateRequest } from '../../services/AlumnService';
+import { alumnGetRequestsOfStudent, getRequestsOfStudent, getSubjectsOfStudent, updateRequest } from '../../services/AlumnService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -22,17 +22,17 @@ export default function EditCreateRequest(props){
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        getRequestsOfStudent("")
+        alumnGetRequestsOfStudent("")
         .then(res => {
             getSubjectsOfStudent(getUser())
             .then(data => {
                 const solicitudes = res.solicitudes.map(sol => {
                     const codMateria = data.filter(m => m.nombre == sol.comision.materia) 
-                    return {nombre:sol.comision.materia, comisiones:[{"comision":sol.comision.numero,"id":sol.comision.numero}], accion:"cupo", codigo:codMateria[0].codigo}
+                    return {nombre:sol.comision.materia, comisiones:[{"comision":sol.comision.numero,"id":sol.comision.id}], accion:"cupo", codigo:codMateria[0].codigo}
                  })
                 const inscripciones = res.comisionesInscripto.map(com => {
                     const codMateria = data.filter(m => m.nombre == com.materia) 
-                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.numero}], accion:"guarani", codigo:codMateria[0].codigo}
+                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.id}], accion:"guarani", codigo:codMateria[0].codigo}
                  })
                 setSubjectsSelected(solicitudes.concat(inscripciones))   
                 setSolicitud(true)
@@ -206,7 +206,7 @@ export default function EditCreateRequest(props){
                         </tbody>
                     </Table>
                 </Form.Label>
-                    <Button onClick={updateForm} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
+                    <Button onClick={updateForm} className="col align-self-end btn btn-primary">Actualizar Solicitud</Button>                  
             </Form.Group>
         </Form>}
         </div>
