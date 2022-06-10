@@ -19,6 +19,9 @@ export const Navbar = () => {
                 </NavLink>
                 <NavLink to='/cupo'>
                     Formulario Alta de Cupo
+                </NavLink>
+                <NavLink to='/cupo/edit'>
+                    Editar Formulario Alta de Cupo
                 </NavLink>             
             </NavMenu>
             <NavBtn>

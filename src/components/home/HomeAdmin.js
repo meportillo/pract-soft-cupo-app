@@ -3,19 +3,21 @@ import FilterRequests from "../request/FilterRequests";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Accordion from 'react-bootstrap/Accordion';
 import TableRequests from "../request/TableRequests";
-import {getRequests, getSubjects2, getCommissions} from '../../services/SubjectService';
+import {getRequests, getSubjects2, getCommissions, getCommisionsBySubject} from '../../services/SubjectService';
 
 
 export function HomeAdmin() {
-    const [requestsTable, setRequestsTable] = useState([]);
+    const [temp, setTemp] = useState([]);
 
-    useEffect(()=>{
-     getCommissions('2022','S1', setRequestsTable);
-    },[])
+    useEffect( ()=>{
 
+        
+    },[]);
+    
     const clickFilters = (condition)=>{
         console.log(condition);
     };
+
     return(<>
         <div className="container">
             <div>
@@ -30,7 +32,7 @@ export function HomeAdmin() {
                         </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <TableRequests requests={requestsTable}>
+            <TableRequests itemsPerPage={7}>
             </TableRequests>
         </div>    
     </>);

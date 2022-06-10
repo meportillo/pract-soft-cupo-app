@@ -1,7 +1,11 @@
 import axios from 'axios';
-
+import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
+//var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0ODAyNjk1LCJleHAiOjE2NTQ4ODkwOTV9.9bwWCk4mwdJlNKtBCsX2zqNAAtZXqXGp0Uq2Z2NZJ8_2EO4PUYFXg9Hh5sH6PfCDvZY55AzlbB3qCTdHIfqfpQ"
+const config = {
+    headers: { Authorization: getToken() }
+};
 const getSubjects = new Promise(function(resolve, error ){
     
     let subjects = [{'nombre':'Estructura de Datos', 'short_name':'ED' ,'codigo':123456, 'comisiones': [{ 'codComision': 'C1', 'horaInicio': '14:00', 'horaFin': '18:00'},{ 'codComision': 'C2', 'horaInicio': '10:00', 'horaFin': '12:00'},{ 'codComision': 'C3', 'horaInicio': '10:00', 'horaFin': '12:00'}]},
@@ -18,11 +22,20 @@ const getSubjects = new Promise(function(resolve, error ){
 
 });
 
-const getSubjects2 = (setter)=>{
-    axios.get(path+'/api/materia')
+const getSubjects2 = ()=>{
+    return axios.get(path+'/api/materias',config)
     .then(response => {
         console.log(response);
-        setter(response.data);
+ //       setter(response.data);
+        return new Promise((resolve, error )=>{
+            try 
+            {
+                resolve(response.data);
+            }catch(e){
+                error(e);
+            }
+
+        })
     })
     .catch(error=> {
         console.log(error);
@@ -30,7 +43,7 @@ const getSubjects2 = (setter)=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
-    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
+    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre,config)
     .then(response => {
         console.log(response.data);
         setter(response.data);
@@ -39,16 +52,17 @@ const getCommissions = (anio,semestre,setter)=>{
         console.log(error);
     });
 }
-const getCommisionsBySubject = (code,setter) => {
-    axios.get(path+'/api/comision/materia/'+code)
+const getCommisionsBySubject = (code) => {
+    return axios.get(path+`/api/materias/${code}/comision`,config)
     .then(response => {
-        console.log('getCommisionsBySubject',response);
-        setter(response.data);
+        //console.log('getCommisionsBySubject',response);
+        //setter(response.data);
+        return response.data
     })
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comision/solicitantes?comisionId='+comisionId)
+    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
     .then(response => {
         console.log(response.data);
         setter(response.data);
@@ -60,9 +74,10 @@ const getRequestsByCommision = (comisionId, setter) => {
 
 const postCreateRequest= (dni,listComm) =>{
 
-        axios.post(path+'/api/alumnos/solicitudes/'+dni,[JSON.parse(listComm)])
+        return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
         .then(response => {
             console.log(response);
+            return response
         })
         .catch(error=>{
             console.log(error);
@@ -71,6 +86,35 @@ const postCreateRequest= (dni,listComm) =>{
 
 };
 
+const patchRequest= (dni,id, state, formId) =>{
+
+   return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
+    .then((response) => {
+//        console.log(response);
+//        setter(response.data);
+        return response;
+    })
+    .catch((error)=>{
+        console.log(error);
+       // alert(error.response.data.error+ ": " + error.response.data.message );
+        return error;
+    })
+
+};
+
+const patchCerrarFormulario = (id,dni) =>{
+    return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
+    .then((response) => {
+        console.log(response);
+        return response
+    })
+    .catch((error)=>{
+        console.log(error);
+        alert(error.response.data.error+ ": " + error.response.data.message );
+        return error
+    }) 
+}
+
 const getRequests = new Promise(function(resolve,error){
     let listRequests= [{ 'id':1, 'dni': 40555666, 'legajo': 1256, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente'},
     { 'id':2, 'dni': 40555666, 'legajo': 123456, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente' },
@@ -78,8 +122,7 @@ const getRequests = new Promise(function(resolve,error){
     { 'id':4, 'dni': 40555159, 'legajo': 12346, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente' },
     { 'id':5, 'dni': 40555357, 'legajo': 12345, 'materia': 'Base de Datos', 'quarter': 'Segundo', 'year': 2022 , 'state': 'Pendiente' }]
 
-    try 
-    {
+    try{
         resolve(listRequests);
     }catch(e){
         error(e);
@@ -88,4 +131,4 @@ const getRequests = new Promise(function(resolve,error){
 
 });
 
-export {getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest};
+export {patchCerrarFormulario, getSubjects,getRequests,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

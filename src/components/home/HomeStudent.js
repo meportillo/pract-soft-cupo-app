@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRequestsOfStudent } from '../../services/AlumnService';
+import { alumnGetRequestsOfStudent, getRequestsOfStudent } from '../../services/AlumnService';
 import { Navbar } from "../navigation/NavBar";
 import Table from 'react-bootstrap/Table';
 import { getUser } from "../../utils/auth";
@@ -8,20 +8,20 @@ export function HomeStudent() {
     const [solicitudes, setSolicitudes] = useState([]);
 
     useEffect(()=>{
-        const user = JSON.parse(getUser());
-        getRequestsOfStudent(user.dni)
+        const user = getUser();
+        alumnGetRequestsOfStudent(user)
         .then(data => {
-            setSolicitudes(data.formulario.solicitudes)
+            const mapSolicitudes = data.solicitudes.map(sol => {return {comision:sol.comision.id,estado:sol.estado,materia:sol.comision.materia,modalidad:sol.comision.modalidad,horarios:sol.comision.horarios.map(hor => `${hor.dia} ${hor.inicio}-${hor.fin}`).join()}})
+            setSolicitudes(mapSolicitudes)
         })
         .catch(err => {
-            console.log(err)
         })
     },[])
 
     return(
         <div>
         <div className="container">
-            <h1 className="d-flex justify-content-center mb-3">Solicitudes</h1>
+            <h1 className="d-flex justify-content-center mb-3">Formulario Cargado</h1>
             {
                 solicitudes.length === 0
                     ? <div>No hay Solicitudes cargadas</div>
@@ -37,22 +37,23 @@ const TableRequestsStudent = (props) => {
         <Table striped bordered hover>
         <thead>
             <tr>
-            <th>Comision</th>
-            <th>Modalidad</th>
+            <th>Estado</th>
             <th>Materia</th>
+            <th>Modalidad</th>
             <th>Horarios</th>
+            <th>Comision</th>
             </tr>
         </thead>
         <tbody>
             {
                 props.solicitudes.map((sol,index) => {
-                    const horarios = sol.comision.horarios.map(c => `${c.dia} ${c.inicio}-${c.fin}`).join() 
                     return (
                             <tr key={index}>
-                            <td>{sol.comision.numero}</td>
-                            <td>{sol.comision.modalidad}</td>
-                            <td>{sol.comision.materia}</td>
-                            <td>{horarios}</td>
+                            <td>{sol.estado}</td>
+                            <td>{sol.materia}</td>
+                            <td>{sol.modalidad}</td>
+                            <td>{sol.horarios}</td>
+                            <td>{`C${sol.comision}`}</td>
                             </tr>
                         )
                 })

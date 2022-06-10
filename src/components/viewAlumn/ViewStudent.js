@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getInfoStudent } from '../../helpers/getInfoStudent';
+//import { getInfoStudent } from '../../helpers/getInfoStudent';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
-//import { getStudents } from '../../services/AlumnService';
+import { getRequestsOfStudent } from '../../services/AlumnService';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
@@ -14,27 +14,18 @@ export  default function ViewStudent(props){
     const [cuposPedidos, setCuposPedidos]= useState([])
     const [alumno,setAlumno] = useState({'dni':dni})
     const [createRequestShow, setCreateRequestShow] = useState(false);
-
+    const [formulario,setFormulario] = useState()
 
     useEffect(() => {
-
-        let materias = [{ //Temporal hasta que el endpoind del back
-            "cantidadDeVecesCursada": 2,
-            "codigoMateria": "01307",
-            "estado": "DESAPROBADO",
-            "fechaDeCarga": "2020/10/15",
-            "nombreMateria": "Introduccion a la Programacion"
-        }]
-
-        getInfoStudent(dni)
-        .then(({dni,nombre,formulario : {estado,solicitudes},resumenCursadas}) => {
-            setMateriasAprobadas(materias);
-            setAlumno({"nombre" : nombre, "dni": dni});
-            setCuposPedidos(solicitudes);
-        })
+        getRequestsOfStudent(dni)
+        .then((data) => {
+            setMateriasAprobadas(data.resumenCursadas);
+            setAlumno({"nombre" : data.nombre, "dni": data.dni});
+            setCuposPedidos(data.formulario.solicitudes);
+            setFormulario(data);          
+        });
     },[])
-
-
+        
     return (
           <>
               <div className='container'>
@@ -43,8 +34,8 @@ export  default function ViewStudent(props){
                       <h4>Dni : {alumno.dni}</h4>
                   </div>
                   <TableMateria materias={materiasAprobadas}> </TableMateria>
-                  <TableCupos cupos={cuposPedidos}></TableCupos>
-                  <CreateRequestShort studentId={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                  <TableCupos cupos={cuposPedidos} form={formulario}></TableCupos>
+                  <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                   <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
                       Agregar Solicitudes
                   </Button>              

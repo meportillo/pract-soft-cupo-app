@@ -7,8 +7,8 @@ import CommisionRequestShort from './CommisionRequestShort';
 import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
-    console.log(props);
-    const [dni,setDni]  = useState(props.studentId);
+    console.log('CreateRequestShort---->', props);
+    const [dni,setDni]  = useState(props.studentid);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
     const [showComision, setShowComision] = useState(false);
@@ -16,26 +16,36 @@ export default function CreateRequestShort(props){
     const [commissions, setCommissions] = useState([]);
 
     useEffect(()=>{
-        getSubjects2(setSubjects);
-        setSubjectsFilter(subjects);
+        getSubjects2().then((data)=>{
+            setSubjects(data)
+            setSubjectsFilter(subjects);
+            });
     },[])
 
     const click_ok = ()=>{
-        getCommisionsBySubject(code, setCommissions);
-        setCode('');
+
+        if(code != ''){
+            getCommisionsBySubject(code)
+            .then((data)=>{
+                setCommissions(data);
+            });
+            setCode('');
+        }
     };
     useEffect(()=>{
         click_ok();
     },[showComision,commissions]);
 
     const createRequest = (dni,idCom)=>{
-        postCreateRequest(dni,[idCom]);
+        postCreateRequest(dni,[idCom]).then(data =>{
+
+        });
     }
 
 return(<>
         <Modal {...props}  size="lg" aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title id="contained-modal-title-getSubjects2vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
                 <Form.Control
@@ -50,15 +60,15 @@ return(<>
             </Modal.Header>
             <Modal.Body className="show-grid">
                 { (showComision)?
-                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button onClick={(e) => {
+                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button key={Math.random()} onClick={(e) => {
                         setShowComision(false)
                         //setCommissions([])
                         }}>ok</Button></>:
                      <>{commissions.map((com)=>{
                          console.log(com)
-                         return <CommisionRequestShort commission={com} createRequest={createRequest} dni={dni}/>}
+                         return <CommisionRequestShort key={Math.random()} commission={com} createRequest={createRequest} dni={dni}/>}
                     )}
-                         <Button onClick={(e) => {
+                         <Button  key={Math.random()} onClick={(e) => {
                              setCommissions([])
                              setShowComision(false)
                              }}>ok</Button>
@@ -70,7 +80,7 @@ return(<>
                 <Container>
                     {subjectsFilter.map(subject=>{
                         return(
-                        <Row>
+                        <Row key={Math.random()}>
                             <Col xs={4} md={8}>
                                 {subject.nombre}
                             </Col>
