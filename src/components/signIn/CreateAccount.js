@@ -9,48 +9,44 @@ import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { createUser } from '../../services/AlumnService';
 export function CreateAccount() {
-    const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const [username,setUsername] = useState("");
+    const [passwordConfirm,setPasswordConfirm] = useState("");
     const [dni,setDni] = useState("");
     const [error,setError] = useState(false);
     const navigate = useNavigate();
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+
+
+    const handleSubmitCreateUser = () => {
+        if ( dni == "" || password.trim() == "" || passwordConfirm.trim() == "" ) {
+            setError("Faltan datos por completar")
+        }else{
+            if(password.trim() != passwordConfirm.trim()){
+                setError("La contraseña no coincide")
+            }
+            else{
+                createUser(dni,password,passwordConfirm)
+                .then(res => {
+                    navigate(`/cuenta/codigo/${res}`);
+                })
+                .catch(err => {
+                    setError(err.message);
+                })
+            }
+        }
     }
 
     const handleChangePassword = (event) => {
         setPassword(event.target.value);
     }
 
-    const handleSubmit = () => {
-        const data = {
-            email:email,
-            dni:dni,
-            username:username,
-            password:password
-        }
-        createUser(data)
-        .then(res => {
-            localStorage.setItem("jwt",res.token)
-            navigate("/")
-            document.body.style = 'background: white;'
-        })
-        .catch(err => {
-            setError(err.message);
-        })
-        // if ( dni == "" || email.trim() == "" || username.trim() == "" || password.trim() == "" ) {
-        //     setError("Faltan datos por completar")
-        // }
-    }
-
-    const handleChangeUsername = (event) => {
-        setUsername(event.target.value);
+    const handleChangePasswordConfirm = (event) => {
+        setPasswordConfirm(event.target.value);
     }
 
     const handleChangeDNI = (event) => {
         setDni(event.target.value)
     }
+
     return (
         <Container>
             <div className="mb-5"></div>
@@ -68,23 +64,19 @@ export function CreateAccount() {
             <h3 className="d-flex justify-content-center mb-3">Crear Cuenta</h3>
             <Form>
                 <Form.Group className="mb-3">
-                    <Form.Label>Direccion de Correo Electronico</Form.Label>
-                    <Form.Control type="email" placeholder="Introduzca un mail" onChange={(e) => handleChangeEmail(e)} />
+                    <Form.Label>DNI</Form.Label>
+                    <Form.Control placeholder="Introduzca un DNI" onChange={(e) => handleChangeDNI(e)} />
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Nombre de Usuario</Form.Label>
-                    <Form.Control type="text" placeholder="Introduzca un nombre" onChange={(e) => handleChangeUsername(e)} />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>DNI de Alumno</Form.Label>
-                    <Form.Control type="number" placeholder="Introduzca su DNI" onChange={(e) => handleChangeDNI(e)} />
-                </Form.Group>                
                 <Form.Group className="mb-3">
                     <Form.Label>Contraseña</Form.Label>
                     <Form.Control type="password" placeholder="Contraseña" onChange={(e) => handleChangePassword(e)} />
                 </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Confirmar Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="Contraseña" onChange={(e) => handleChangePasswordConfirm(e)} />
+                </Form.Group>
                 <div className="d-flex justify-content-center">
-                    <Button variant="primary" onClick={handleSubmit} style={{width: '50%'}}>
+                    <Button variant="primary" onClick={handleSubmitCreateUser} style={{width: '50%'}}>
                         Crear 
                     </Button>
                 </div>

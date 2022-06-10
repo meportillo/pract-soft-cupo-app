@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
-import { getSubjectsOfStudent, sendRequest } from '../../services/AlumnService';
+import { getRequestsOfStudent, getSubjectsOfStudent, updateRequest } from '../../services/AlumnService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -11,20 +11,35 @@ import { useNavigate } from "react-router-dom";
 import { getUser } from "../../utils/auth";
 
 
-export default function CreateRequest(props){
+export default function EditCreateRequest(props){
     const [subjects,setSubjects] = useState([]);
     const [selected,setSelected] = useState("");
     const [subjectsSelected,setSubjectsSelected] = useState([]);
     const [comisiones,setComisiones] = useState([]);
     const [error,setError] = useState("");
     const [action,setAction] = useState("");
+    const [solicitud,setSolicitud] = useState(false);
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        getSubjectsOfStudent(getUser())
-        .then(data => {
-            setSubjects(data);
+        getRequestsOfStudent("")
+        .then(res => {
+            getSubjectsOfStudent(getUser())
+            .then(data => {
+                const solicitudes = res.solicitudes.map(sol => {
+                    const codMateria = data.filter(m => m.nombre == sol.comision.materia) 
+                    return {nombre:sol.comision.materia, comisiones:[{"comision":sol.comision.numero,"id":sol.comision.numero}], accion:"cupo", codigo:codMateria[0].codigo}
+                 })
+                const inscripciones = res.comisionesInscripto.map(com => {
+                    const codMateria = data.filter(m => m.nombre == com.materia) 
+                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.numero}], accion:"guarani", codigo:codMateria[0].codigo}
+                 })
+                setSubjectsSelected(solicitudes.concat(inscripciones))   
+                setSolicitud(true)
+                setSubjects(data);
+            })
         })
+        .catch(err =>console.log(err))
         // getSubjects
         // .then(data => {
         //     setSubjects(data);
@@ -89,12 +104,11 @@ export default function CreateRequest(props){
 
     useEffect(getAllSubjects,[]);
     
-    const sendForm = () => {
+    const updateForm = () => {
         if(subjectsSelected.length > 0){
-            if (window.confirm("Estas seguro que quieres enviar el formulario")) {
-                sendRequest(subjectsSelected,getUser())
+            if (window.confirm("Estas seguro que quieres actualizar el formulario")) {
+                updateRequest(subjectsSelected,getUser())
                 .then(res => {
-                    console.table(res)
                     navigate('/')
                 })
                 .catch(err => {
@@ -107,6 +121,10 @@ export default function CreateRequest(props){
         }
     }
     return( 
+        <div>
+        { !solicitud 
+            ? <Form.Label className="d-flex justify-content-center"><h3>No hay un formulario cargado</h3></Form.Label>
+            :  
         <Form className="container">
             <h1></h1>
             {
@@ -188,9 +206,10 @@ export default function CreateRequest(props){
                         </tbody>
                     </Table>
                 </Form.Label>
-                    <Button onClick={sendForm} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
+                    <Button onClick={updateForm} className="col align-self-end btn btn-primary">Generar Solicitud</Button>                  
             </Form.Group>
-        </Form>
+        </Form>}
+        </div>
     )
 
 }
