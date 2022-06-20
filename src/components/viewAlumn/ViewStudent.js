@@ -29,16 +29,23 @@ export  default function ViewStudent(props){
     return (
           <>
               <div className='container'>
-                  <div>
-                      <h4>Formulario de {alumno.nombre}</h4>
-                      <h4>Dni : {alumno.dni}</h4>
-                  </div>
-                  <TableMateria materias={materiasAprobadas}> </TableMateria>
-                  <TableCupos cupos={cuposPedidos} form={formulario}></TableCupos>
-                  <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
-                  <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
-                      Agregar Solicitudes
-                  </Button>              
+                  <div className='row'>
+                    <div>
+                        <h4>Formulario de {alumno.nombre}</h4>
+                        <h4>Dni : {alumno.dni}</h4>
+                        <TableMateria materias={materiasAprobadas}> </TableMateria>
+                        <TableCupos cupos={cuposPedidos} form={formulario}></TableCupos>
+                        <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                    </div>
+
+                    <div className='row'>
+                        <div className='col-3'>
+                            <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
+                                Agregar Solicitudes
+                            </Button>
+                        </div>
+                    </div>
+                  </div>              
               </div>  
           </>
       );

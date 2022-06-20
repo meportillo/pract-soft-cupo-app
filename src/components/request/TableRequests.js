@@ -51,7 +51,7 @@ export default function TableRequests({itemsPerPage}) {
             setItemOffset(newOffset);
         };
         return (<>
-            <Table bordered>
+            <Table size='sm' striped bordered hover responsive='sm' >
                         <thead>
                             <tr key={Math.random()}>
                                 <th>Nombre</th>
@@ -63,7 +63,7 @@ export default function TableRequests({itemsPerPage}) {
                                <> <tr key={Math.random()}>
                                     <td>{subject.nombre}</td>
                                     <td>
-                                    <Table bordered>
+                                    <Table size='sm' striped bordered hover responsive='sm'>
                                     <thead>
                                         <tr key={Math.random()}>
                                             <th>Nro</th>
