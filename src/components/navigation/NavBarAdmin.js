@@ -20,7 +20,7 @@ export const NavbarAdmin = () => {
                   <NavBtnLink to='/signIn' onClick={() => localStorage.removeItem("jwt")}>Sign Out</NavBtnLink>
                 </NavBtn>
             </Nav>
-            <Nav style={{background:"white", display: "inline", "padding-top": "20%"}}>
+            <Nav style={{background:"white", display: "inline"}}>
                 
                 <NavMenu style={{background:"white",  float: "left", display: "inline", "padding-top": "7%"}}>
                     <NavLink to='/'>
@@ -32,7 +32,7 @@ export const NavbarAdmin = () => {
                     <NavLink to='/students'>
                        <FcButtingIn/> Alumnos
                     </NavLink> 
-                    <NavLink  to='/config'>
+                    <NavLink style={{background:"white","padding-top": "245%"}} to='/config'>
                        <FcSupport/> Configuracion
                     </NavLink> 
 
