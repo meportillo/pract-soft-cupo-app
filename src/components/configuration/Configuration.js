@@ -13,12 +13,16 @@ export default function Configuration(){
                     <div className="col-12">
                         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
                             <Tab eventKey="abm-student" title="ABM Alumnos">
+
                             </Tab>
                             <Tab eventKey="abm-materias" title="Materias">
+
                             </Tab>
                             <Tab eventKey="abm-cuatrimestre" title="Cuatrimestre">
+
                             </Tab>
                             <Tab eventKey="masivas" title="Cargas Masivas">
+                                
                             </Tab>
                         </Tabs>
                     </div>

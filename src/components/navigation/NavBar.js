@@ -4,11 +4,21 @@ Nav,
 NavLink,
 Bars,
 NavMenu,
-NavBtn,
-NavBtnLink,
 } from './NavbarElements';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { BsFillPersonFill } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
+
 
 export const Navbar = () => {
+
+    const navigate = useNavigate();
+    
+    const closeSession = () => {
+        localStorage.removeItem("jwt");
+        navigate("/signIn");
+    }
+
     return(
         <Nav style={{background:"white"}}>
             <Bars />
@@ -24,9 +34,14 @@ export const Navbar = () => {
                     Editar Formulario Alta de Cupo
                 </NavLink>             
             </NavMenu>
-            <NavBtn>
-             <NavBtnLink to='/signIn' onClick={() => localStorage.removeItem("jwt")}>Sign Out</NavBtnLink>
-            </NavBtn>
+            <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <BsFillPersonFill style={{"marginRight":5}}/>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={closeSession}>Log out</Dropdown.Item>
+                    </Dropdown.Menu>
+            </Dropdown>
 	    </Nav>
     );
 }
