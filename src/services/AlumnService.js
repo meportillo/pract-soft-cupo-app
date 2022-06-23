@@ -30,7 +30,7 @@ const createUser = (dni,password,passwordConfirm) => {
 const getSubjectsOfStudent = (dni) => {
     const config = {
         headers:{
-            Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImFsdW1ubyI6IjEyMzQ1Njc3IiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BTFVNTk8iXSwiaWF0IjoxNjU1OTQyMzM1LCJleHAiOjE2NTYyMDE1MzV9.jAxncmCA6TXTI-HG1j1QkHEzb1TT9WQJKbv9sB6rgLa7MctyTTmD4qSGVWXSy3wq5QHmlyg0jKOHK3sNRM_ABg",
+            Authorization: getToken(),
         }
     }
     return axios.get(path+'/api/alumnos/materias',config)
