@@ -21,7 +21,6 @@ import { ConfirmCode } from "./components/signIn/ConfirmCode";
 import Students from "./components/students/Students";
 import Configuration from "./components/configuration/Configuration";
 import Dashoard from "./components/request/Dashboard";
-import { Configurations } from "./components/configuration/Configurations";
 
 
 class App extends Component {

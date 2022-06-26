@@ -1,8 +1,7 @@
 import { Form } from "react-bootstrap";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { Configurations } from "./Configurations";
-import { Configurations2 } from "./Configurations2";
+import { ConfigurationDate } from "./ConfigurationDate";
 
 export default function Configuration(){
     return(<>
@@ -21,7 +20,7 @@ export default function Configuration(){
 
                             </Tab>
                             <Tab eventKey="abm-cuatrimestre" title="Cuatrimestre">
-                                <Configurations2></Configurations2>
+                                <ConfigurationDate></ConfigurationDate>
                             </Tab>
                             <Tab eventKey="masivas" title="Cargas Masivas">
                                 

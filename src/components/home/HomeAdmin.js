@@ -36,8 +36,7 @@ export function HomeAdmin(props) {
                                 </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
-                    <TableRequests itemsPerPage={7}>
-                    </TableRequests>
+                    <TableRequests itemsPerPage={7}></TableRequests>
                 </div>
             </div>
         </div>    

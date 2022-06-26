@@ -3,6 +3,7 @@ import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
 
+
 const getSubjects2 = ()=>{
     const config = {
         headers: { Authorization: getToken() }
@@ -125,5 +126,20 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     }) 
 }
 
+const getAlumnos = () =>{
+    const config = {
+        headers: { Authorization: getToken() }
+    };
+    return axios.get(path+"/api/alumnos/formulario",config)
+    .then((response) => {
+        console.log(response);
+        return response.data
+    })
+    .catch((error)=>{
+        console.log(error);
+        return error
+    }) 
+}
 
-export {updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+
+export {getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

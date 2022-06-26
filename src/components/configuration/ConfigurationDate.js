@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import Form from "react-bootstrap/Form";
 import { updateTimeFormulario } from '../../services/SubjectService';
 
-export const Configurations2 = () => {
+export const ConfigurationDate = () => {
     const [dateStart, setDateStart] = useState(new Date());
     const [dateEnd, setDateEnd] = useState(new Date());
     const [time, setTime] = useState("00:00");
