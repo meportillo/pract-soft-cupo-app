@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getRequestsOfStudent } from '../../services/StudentService';
-import { Navbar } from "../navigation/NavBar";
 import Table from 'react-bootstrap/Table';
 import { getUser } from "../../utils/auth";
+import Form from 'react-bootstrap/Form';
 
 export function HomeStudent() {
     const [solicitudes, setSolicitudes] = useState([]);
@@ -19,22 +19,20 @@ export function HomeStudent() {
     },[])
 
     return(
-        <div>
-        <div className="container">
+        <Form className="container">
             <h1 className="d-flex justify-content-center mb-3">Formulario Cargado</h1>
             {
                 solicitudes.length === 0
                     ? <div>No hay Solicitudes cargadas</div>
-                    : <TableRequestsStudent solicitudes={solicitudes}/>
+                    : <Form.Group className="row"><TableRequestsStudent solicitudes={solicitudes}/></Form.Group>
             }
-        </div>    
-        </div>
+        </Form>
     )
 };
 
 const TableRequestsStudent = (props) => {
     return (
-        <Table striped bordered hover>
+        <Table size="sm">
         <thead>
             <tr>
             <th>Estado</th>
