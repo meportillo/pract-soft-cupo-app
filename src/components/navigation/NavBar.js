@@ -35,7 +35,7 @@ export const Navbar = () => {
             </Dropdown>
         </Nav>
         <Nav style={{background:"white", display: "inline"}}>
-            <NavMenu style={{background:"white",  float: "left", display: "inline", "paddingTop": "7%", height:"80vh"}}>
+            <NavMenu style={{background:"white",  float: "left", display: "inline", "paddingTop": "5%", height:"80vh"}}>
                 <NavLink to='/'>
                     <FcHome/>Home
                 </NavLink>

@@ -95,4 +95,15 @@ const sendCode = (codigo,dni) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
-export { login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest};
+const deleteRequest = () => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    return axios.delete(`${path}/api/alumno/formulario`,config)
+    .then(res=>new Promise((resolve,error)=>resolve(res)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+
+}
+export { login, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, deleteRequest};
