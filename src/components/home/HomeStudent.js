@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { alumnGetRequestsOfStudent, getRequestsOfStudent } from '../../services/AlumnService';
+import { getRequestsOfStudent } from '../../services/StudentService';
 import { Navbar } from "../navigation/NavBar";
 import Table from 'react-bootstrap/Table';
 import { getUser } from "../../utils/auth";
@@ -9,7 +9,7 @@ export function HomeStudent() {
 
     useEffect(()=>{
         const user = getUser();
-        alumnGetRequestsOfStudent(user)
+        getRequestsOfStudent(user)
         .then(data => {
             const mapSolicitudes = data.solicitudes.map(sol => {return {comision:sol.comision.id,estado:sol.estado,materia:sol.comision.materia,modalidad:sol.comision.modalidad,horarios:sol.comision.horarios.map(hor => `${hor.dia} ${hor.inicio}-${hor.fin}`).join()}})
             setSolicitudes(mapSolicitudes)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
-import { alumnGetRequestsOfStudent, getRequestsOfStudent, getSubjectsOfStudent, updateRequest } from '../../services/AlumnService';
+import { getRequestsOfStudent, getSubjectsOfStudent, updateRequest } from '../../services/StudentService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -22,7 +22,7 @@ export default function EditCreateRequest(props){
     const navigate = useNavigate();
 
     const getAllSubjects = () => {
-        alumnGetRequestsOfStudent("")
+        getRequestsOfStudent("")
         .then(res => {
             getSubjectsOfStudent(getUser())
             .then(data => {

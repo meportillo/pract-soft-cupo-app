@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/AlumnService"
+import { login } from "../../services/StudentService"
 import { setToken } from '../../utils/auth';
 export function Login() {
     const [dni,setDni] = useState("");

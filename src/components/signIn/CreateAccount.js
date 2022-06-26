@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';    
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { createUser } from '../../services/AlumnService';
+import { createUser } from '../../services/StudentService';
 export function CreateAccount() {
     const [password,setPassword] = useState("");
     const [passwordConfirm,setPasswordConfirm] = useState("");
