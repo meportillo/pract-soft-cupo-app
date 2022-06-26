@@ -2,11 +2,6 @@ import axios from 'axios';
 import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
-//var token ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb3N0aW5zY3JpcGNpb25lcyBKV1RUb2tlbiIsImRpcmVjdGl2byI6ImdhYmlAdW5xdWUuZWR1LmFyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9ESVJFQ1RJVk8iXSwiaWF0IjoxNjU0ODAyNjk1LCJleHAiOjE2NTQ4ODkwOTV9.9bwWCk4mwdJlNKtBCsX2zqNAAtZXqXGp0Uq2Z2NZJ8_2EO4PUYFXg9Hh5sH6PfCDvZY55AzlbB3qCTdHIfqfpQ"
-const config = {
-    headers: { Authorization: getToken() }
-};
-
 
 const getSubjects2 = ()=>{
     const config = {
@@ -107,7 +102,7 @@ const patchRequest= (dni,id, state, formId) =>{
 };
 
 const patchCerrarFormulario = (id,dni) =>{
-        const config = {
+    const config = {
         headers: { Authorization: getToken() }
     };
     return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
@@ -122,5 +117,28 @@ const patchCerrarFormulario = (id,dni) =>{
     }) 
 }
 
+const updateTimeFormulario = (date,date2,time) =>{
+    const config = {
+        headers: { Authorization: getToken() }
+    };
+    const oferta = {
+        "comisionesACargar": [],
+        "finInscripciones": `${date}T${time}`,
+        "inicioInscripciones": `${date2}T${time}`
+    }
+    const body = {
+        oferta : oferta
+    }
+    return axios.post(path+"/api/comisiones",oferta,config)
+    .then((response) => {
+        console.log(response);
+        return response
+    })
+    .catch((error)=>{
+        console.log(error);
+        return error
+    }) 
+}
 
-export {patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+
+export {updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

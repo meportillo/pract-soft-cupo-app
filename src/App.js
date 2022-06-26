@@ -18,6 +18,7 @@ import {
 import { ThemeProvider } from "react-bootstrap";
 import CommissionRequest from "./components/request/CommissionRequest";
 import { ConfirmCode } from "./components/signIn/ConfirmCode";
+import { Configurations } from "./components/configuration/Configurations";
 
 
 class App extends Component {
@@ -36,9 +37,8 @@ class App extends Component {
                         <Route path='/commissionRequest/:idcomision' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<CommissionRequest></CommissionRequest>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/student/:dni' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent admin={<ViewStudent></ViewStudent>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/signIn' element={<SignIn/>}/>
-                        {/* <Route path='/consulta' element={<Consult></Consult>} /> */}
-                        {/* <Route path='/student' element={<ViewStudent></ViewStudent>}/> */}
                         <Route path='/cuenta/codigo/:codigo' element={<ConfirmCode/>}/>
+                        <Route path='/configuration' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configurations></Configurations>} navAdmin={<NavbarAdmin/>}/>} />}/>
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>
