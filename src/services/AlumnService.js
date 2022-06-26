@@ -33,9 +33,8 @@ const getSubjectsOfStudent = (dni) => {
             Authorization: getToken(),
         }
     }
-    return axios.get(path+'/api/alumnos/materias',config)
+    return axios.get(path+'/api/alumno/materias',config)
     .then(res=>{  
-        console.log(res)
         return new Promise((resolve,error)=>
              resolve(res.data))
              
@@ -49,16 +48,18 @@ const getRequestsOfStudent = (dni) => {
             Authorization: getToken(),
         }
     }
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,config)
+    return axios.get(`http://localhost:8081/api/alumno`,config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const alumnGetRequestsOfStudent = (dni) => {
-    const header = {
-        Authorization: getToken()
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
     }
-    return axios.get(`${path}/api/alumnos/formulario`,{headers:header})
+    return axios.get(`${path}/api/alumno/formulario`,config)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
@@ -73,7 +74,7 @@ const sendRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumnos/${dni}/solicitudes`
+    const url = `${path}/api/alumno/solicitudes`
     return axios.post(url,body,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
@@ -89,7 +90,7 @@ const updateRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumnos/${dni}/solicitudes`
+    const url = `${path}/api/alumno/solicitudes`
     return axios.patch(url,body,{headers:header})
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
