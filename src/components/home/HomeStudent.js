@@ -31,7 +31,7 @@ export function HomeStudent() {
 
     return(
         <Form className="container">
-            <h1 className="d-flex justify-content-center mb-3">Formulario Cargado</h1>
+            <h2 className="d-flex justify-content-center mb-3">Formulario Cargado</h2>
             {
                 solicitudes.length === 0
                     ? <div>No hay Solicitudes cargadas</div>

@@ -39,9 +39,7 @@ export default function EditCreateRequest(props){
                 setSubjects(data);
             })
         })
-        .catch(err =>
-            alert(err)
-            )
+        .catch(err =>{})
     };
     const getComisiones = () => { 
         if (selected === ""){

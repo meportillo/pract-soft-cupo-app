@@ -94,7 +94,6 @@ export default function CreateRequest(props){
             if (window.confirm("Estas seguro que quieres enviar el formulario")) {
                 sendRequest(subjectsSelected,getUser())
                 .then(res => {
-                    console.table(res)
                     navigate('/')
                 })
                 .catch(err => {
