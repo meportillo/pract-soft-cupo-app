@@ -2,6 +2,23 @@ import axios from 'axios';
 import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
+axios.interceptors.request.use(
+    (config) => {
+        const token = getToken();
+
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+
 const login = (dni,contrasenia) => {
     const body = {contrasenia,dni};
     return axios.post(`${path}/api/auth/alumno/login`,body)
@@ -28,12 +45,7 @@ const createUser = (dni,password,passwordConfirm) => {
 }
 
 const getSubjectsOfStudent = (dni) => {
-    const config = {
-        headers:{
-            Authorization: getToken(),
-        }
-    }
-    return axios.get(path+'/api/alumnos/materias',config)
+    return axios.get(path+'/api/alumnos/materias')
     .then(res=>{  
         console.log(res)
         return new Promise((resolve,error)=>
@@ -44,29 +56,18 @@ const getSubjectsOfStudent = (dni) => {
 }
 
 const getRequestsOfStudent = (dni) => {
-    const config = {
-        headers:{
-            Authorization: getToken(),
-        }
-    }
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`,config)
+    return axios.get(`http://localhost:8081/api/alumnos/${dni}`)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const alumnGetRequestsOfStudent = (dni) => {
-    const header = {
-        Authorization: getToken()
-    }
-    return axios.get(`${path}/api/alumnos/formulario`,{headers:header})
+    return axios.get(`${path}/api/alumnos/formulario`)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
  
 const sendRequest = (subjects,dni) => {
-    const header = {
-        Authorization: getToken()
-    }
     const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
     const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
@@ -74,15 +75,12 @@ const sendRequest = (subjects,dni) => {
         comisionesInscripto: comisionesInscripto
     }
     const url = `${path}/api/alumnos/${dni}/solicitudes`
-    return axios.post(url,body,{headers:header})
+    return axios.post(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
 const updateRequest = (subjects,dni) => {
-    const header = {
-        Authorization: getToken()
-    }
     const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
     const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
@@ -90,7 +88,7 @@ const updateRequest = (subjects,dni) => {
         comisionesInscripto: comisionesInscripto
     }
     const url = `${path}/api/alumnos/${dni}/solicitudes`
-    return axios.patch(url,body,{headers:header})
+    return axios.patch(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
 }

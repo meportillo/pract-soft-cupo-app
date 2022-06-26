@@ -2,13 +2,24 @@ import axios from 'axios';
 import { getToken } from '../utils/auth';
 var path = process.env.REACT_APP_BACK_URL_API
 
+axios.interceptors.request.use(
+    (config) => {
+        const token = getToken();
 
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 const getSubjects2 = ()=>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    return axios.get(path+'/api/materias',config)
+    return axios.get(path+'/api/materias')
     .then(response => {
         return new Promise((resolve, error )=>{
             try 
@@ -26,10 +37,7 @@ const getSubjects2 = ()=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre,config)
+    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
     .then(response => {
         setter(response.data);
     })
@@ -38,20 +46,14 @@ const getCommissions = (anio,semestre,setter)=>{
     });
 }
 const getCommisionsBySubject = (code) => {
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    return axios.get(path+`/api/materias/${code}/comision`,config)
+    return axios.get(path+`/api/materias/${code}/comision`)
     .then(response => {
         return response.data
     })
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes',config)
+    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
     .then(response => {
         setter(response.data);
     })
@@ -61,10 +63,7 @@ const getRequestsByCommision = (comisionId, setter) => {
 }
 
 const postCreateRequest= (dni,listComm) =>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-        return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{},config)
+        return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{})
         .then(response => {
             return response
         })
@@ -75,11 +74,7 @@ const postCreateRequest= (dni,listComm) =>{
 };
 
 const patchRequest= (dni,id, state, formId) =>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-
-   return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{},config)
+   return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{})
     .then((response) => {
         return response;
     })
@@ -90,10 +85,7 @@ const patchRequest= (dni,id, state, formId) =>{
 };
 
 const patchCerrarFormulario = (id,dni) =>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{},config)
+    return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{})
     .then((response) => {
         return response
     })
@@ -104,9 +96,6 @@ const patchCerrarFormulario = (id,dni) =>{
 }
 
 const updateTimeFormulario = (dateStart,dateEnd,time) =>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
     const oferta = {
         "comisionesACargar": [],
         "finInscripciones": `${dateEnd}T${time}`,
@@ -115,7 +104,7 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const body = {
         oferta : oferta
     }
-    return axios.post(path+"/api/comisiones/oferta",oferta,config)
+    return axios.post(path+"/api/comisiones/oferta",oferta)
     .then((response) => {
         console.log(response);
         return response
@@ -127,10 +116,7 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
 }
 
 const getAlumnos = () =>{
-    const config = {
-        headers: { Authorization: getToken() }
-    };
-    return axios.get(path+"/api/alumnos/formulario",config)
+    return axios.get(path+"/api/alumnos/formulario")
     .then((response) => {
         console.log(response);
         return response.data
