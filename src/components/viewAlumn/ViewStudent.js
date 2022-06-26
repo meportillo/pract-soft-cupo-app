@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 //import { getInfoStudent } from '../../helpers/getInfoStudent';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
-import { getRequestsOfStudent } from '../../services/StudentService';
+import {getRequestsOfStudentAdmin } from '../../services/StudentService';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,7 @@ export  default function ViewStudent(props){
     const [formulario,setFormulario] = useState()
 
     useEffect(() => {
-        getRequestsOfStudent(dni)
+        getRequestsOfStudentAdmin(dni)
         .then((data) => {
             setMateriasAprobadas(data.resumenCursadas);
             setAlumno({"nombre" : data.nombre, "dni": data.dni});

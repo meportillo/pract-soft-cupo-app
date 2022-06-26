@@ -59,6 +59,12 @@ const getRequestsOfStudent = (dni) => {
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
+
+const getRequestsOfStudentAdmin = (dni) => {
+    return axios.get(`${path}/api/alumnos/${dni}`)
+    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
+}
  
 const sendRequest = (subjects,dni) => {
     const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
@@ -97,13 +103,8 @@ const sendCode = (codigo,dni) => {
 }
 
 const createAlum = (alum) => {
-    const config = {
-        headers:{
-            Authorization: getToken(),
-        }
-    }
     let body = [alum];
-    return axios.post(`${path}/api/alumnos`,body, config)
+    return axios.post(`${path}/api/alumnos`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 
@@ -111,26 +112,16 @@ const createAlum = (alum) => {
 }
 
 const deleteAlum = (dni) => {
-    const config = {
-        headers:{
-            Authorization: getToken(),
-        }
-    }
-    return axios.delete(`${path}/api/alumnos?dni=${dni}`, config)
+    return axios.delete(`${path}/api/alumnos?dni=${dni}`)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
 const deleteRequest = () => {
-    const config = {
-        headers:{
-            Authorization: getToken(),
-        }
-    }
-    return axios.delete(`${path}/api/alumno/formulario`,config)
+    return axios.delete(`${path}/api/alumno/formulario`)
     .then(res=>new Promise((resolve,error)=>resolve(res)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 
 }
 
-export { login,deleteRequest, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};
+export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};
