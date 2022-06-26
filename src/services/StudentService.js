@@ -45,9 +45,8 @@ const createUser = (dni,password,passwordConfirm) => {
 }
 
 const getSubjectsOfStudent = (dni) => {
-    return axios.get(path+'/api/alumnos/materias')
+    return axios.get(path+'/api/alumno/materias')
     .then(res=>{  
-        console.log(res)
         return new Promise((resolve,error)=>
              resolve(res.data))
              
@@ -56,13 +55,7 @@ const getSubjectsOfStudent = (dni) => {
 }
 
 const getRequestsOfStudent = (dni) => {
-    return axios.get(`http://localhost:8081/api/alumnos/${dni}`)
-    .then(res=>new Promise((resolve,error)=>resolve(res.data)))
-    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
-}
-
-const alumnGetRequestsOfStudent = (dni) => {
-    return axios.get(`${path}/api/alumnos/formulario`)
+    return axios.get(`${path}/api/alumno/formulario`)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
@@ -74,7 +67,7 @@ const sendRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumnos/${dni}/solicitudes`
+    const url = `${path}/api/alumno/solicitudes`
     return axios.post(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
@@ -87,7 +80,7 @@ const updateRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumnos/${dni}/solicitudes`
+    const url = `${path}/api/alumno/solicitudes`
     return axios.patch(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
@@ -126,8 +119,18 @@ const deleteAlum = (dni) => {
     return axios.delete(`${path}/api/alumnos?dni=${dni}`, config)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
+}
 
+const deleteRequest = () => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    return axios.delete(`${path}/api/alumno/formulario`,config)
+    .then(res=>new Promise((resolve,error)=>resolve(res)))
+    .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 
 }
 
-export { login,alumnGetRequestsOfStudent, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};
+export { login,deleteRequest, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};

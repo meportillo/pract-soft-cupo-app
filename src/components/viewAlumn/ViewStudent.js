@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 //import { getInfoStudent } from '../../helpers/getInfoStudent';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
-import { getRequestsOfStudent } from '../../services/AlumnService';
+import { getRequestsOfStudent } from '../../services/StudentService';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
