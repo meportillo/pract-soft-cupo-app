@@ -48,7 +48,7 @@ export const NavbarAdmin = () => {
                     <NavLink to='/students'>
                        <FcButtingIn/> Alumnos
                     </NavLink> 
-                    <NavLink style={{background:"white","padding-top": "245%"}} to='/config'>
+                    <NavLink to='/config'>
                        <FcSupport/> Configuracion
                     </NavLink> 
                 </NavMenu>

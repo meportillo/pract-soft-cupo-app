@@ -102,19 +102,19 @@ const patchCerrarFormulario = (id,dni) =>{
     }) 
 }
 
-const updateTimeFormulario = (date,date2,time) =>{
+const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const config = {
         headers: { Authorization: getToken() }
     };
     const oferta = {
         "comisionesACargar": [],
-        "finInscripciones": `${date}T${time}`,
-        "inicioInscripciones": `${date2}T${time}`
+        "finInscripciones": `${dateEnd}T${time}`,
+        "inicioInscripciones": `${dateStart}T${time}`
     }
     const body = {
         oferta : oferta
     }
-    return axios.post(path+"/api/comisiones",oferta,config)
+    return axios.post(path+"/api/comisiones/oferta",oferta,config)
     .then((response) => {
         console.log(response);
         return response

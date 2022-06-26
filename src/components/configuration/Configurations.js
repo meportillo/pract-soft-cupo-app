@@ -17,11 +17,8 @@ export const Configurations = () => {
     return (
         <>
             <Container >
-                <h1> Menu de administracion del sitio</h1>
+                <h1>Administrar fecha de inicio y cierre de solicitudes</h1>
                 <Row>
-                    <Col>
-                        Administrar fecha de inicio y cierre de solicitudes
-                    </Col>
                     <Col xs={7}>  
                         <Form.Control
                         type="date"
