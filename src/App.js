@@ -21,6 +21,7 @@ import { ConfirmCode } from "./components/signIn/ConfirmCode";
 import Students from "./components/students/Students";
 import Configuration from "./components/configuration/Configuration";
 import Dashoard from "./components/request/Dashboard";
+import { ImportFile } from "./components/importFile/ImportFile";
 
 
 class App extends Component {
@@ -45,6 +46,7 @@ class App extends Component {
                         <Route path='/cuenta/codigo/:codigo' element={<ConfirmCode/>}/>
                         <Route path='/students' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Students/>} encabezado="Alumnos" navAdmin={<NavbarAdmin/>} />} />} />
                         <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
+                        <Route path='/csv' element={<ImportFile/>}/>
                     </Routes>
                   </BrowserRouter>
               </ThemeProvider>
