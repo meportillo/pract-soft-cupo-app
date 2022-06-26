@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createAlum, deleteAlum } from "../../services/AlumnService";
 import { createCourse, deleteCourse } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
 

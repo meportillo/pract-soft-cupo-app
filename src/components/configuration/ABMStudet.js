@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createAlum, deleteAlum } from "../../services/AlumnService";
+import { createAlum, deleteAlum } from "../../services/StudentService";
 import { AlertRequest } from "../request/AlertRequest";
 
 export default function ABMStudent(){
@@ -119,7 +119,7 @@ export default function ABMStudent(){
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email </Form.Label>
-                        <Form.Control type="email" placeholder="Email del alumono"  onChange={(e)=>{setCorreo(e.target.value)}} />
+                        <Form.Control type="email" placeholder="Email del alumno"  onChange={(e)=>{setCorreo(e.target.value)}} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
