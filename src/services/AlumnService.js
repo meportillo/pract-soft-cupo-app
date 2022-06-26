@@ -103,4 +103,31 @@ const sendCode = (codigo,dni) => {
     .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
-export { login,alumnGetRequestsOfStudent, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest};
+const createAlum = (alum) => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    let body = [alum];
+    return axios.post(`${path}/api/alumnos`,body, config)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err)))
+
+
+}
+
+const deleteAlum = (dni) => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    return axios.delete(`${path}/api/alumnos?dni=${dni}`, config)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err)))
+
+
+}
+
+export { login,alumnGetRequestsOfStudent, createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};

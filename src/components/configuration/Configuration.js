@@ -2,6 +2,8 @@ import { Form } from "react-bootstrap";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { ConfigurationDate } from "./ConfigurationDate";
+import ABMStudent from "./ABMStudet";
+import Course from "./Course";
 
 export default function Configuration(){
     return(<>
@@ -13,11 +15,11 @@ export default function Configuration(){
                     </div>
                     <div className="col-12">
                         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
-                            <Tab eventKey="abm-student" title="ABM Alumnos">
-
+                            <Tab eventKey="abm-student" title="Alumnos">
+                                <ABMStudent></ABMStudent>
                             </Tab>
                             <Tab eventKey="abm-materias" title="Materias">
-
+                                <Course></Course>
                             </Tab>
                             <Tab eventKey="abm-cuatrimestre" title="Cuatrimestre">
                                 <ConfigurationDate></ConfigurationDate>
