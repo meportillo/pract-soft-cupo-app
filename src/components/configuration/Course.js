@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createCourse, deleteCourse, importCSVCourses } from "../../services/CourseService";
+import { createCourse, deleteCourse, importCSVCourses, importCSVCorrelatives } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
 import { ImportFile } from "../importFile/ImportFile";
 export default function Course(){
@@ -75,7 +75,7 @@ export default function Course(){
         }
 
         <Container>
-        <Accordion defaultActiveKey="1">
+        <Accordion>
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Crear Materia</Accordion.Header>
                 <Accordion.Body>
@@ -124,7 +124,13 @@ export default function Course(){
             <Accordion.Item eventKey="2">
                 <Accordion.Header>Carga Masiva de Materias</Accordion.Header>
                 <Accordion.Body>
-                <ImportFile importar={importCSVCourses} formatHeader={["carrera","codigo","nombre"]} filename="materias"></ImportFile>
+                <ImportFile importar={importCSVCourses} formatHeader={["carrera","codigo","nombre"]} filename="materias" idCSV="csvFileInputMaterias" ></ImportFile>
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="3">
+                <Accordion.Header>Carga Masiva de Correlatividades de materias</Accordion.Header>
+                <Accordion.Body>
+                <ImportFile importar={importCSVCorrelatives} formatHeader={["codigoMateria","codigoCorrelativa"]} filename="correlatividades" idCSV="csvFileInputCorrelativas"></ImportFile>
                 </Accordion.Body>
             </Accordion.Item>
             </Accordion>

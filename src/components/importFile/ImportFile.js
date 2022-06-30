@@ -39,21 +39,20 @@ export const ImportFile=  (props) => {
             fileReader.onload = function (event) {
                 const text = event.target.result;
                 if (csvFormatoValido(text)) {
-                    const res = csvFileToArray(text);
+                    let res = csvFileToArray(text);
                     props.importar(res)
                     .then(res => {
-                        console.log(res);
                         setSuccessImport(true);
                     })
                     .catch(err => {
-                        document.getElementById('csvFileInput').value= null;
+                        document.getElementById(props.idCSV).value= null;
                         setFile(null);
                         setError(null)
                         setDataError(err);
                         setErrorCSV(true);
                     }) 
                 } else {
-                    document.getElementById('csvFileInput').value= null;
+                    document.getElementById(props.idCSV).value= null;
                     setFile(null);
                     setError("el csv no respeta el formato: " + props.formatHeader.join(","));
                 }
@@ -66,7 +65,6 @@ export const ImportFile=  (props) => {
     };
     
     const dowloadResult = () => {
-        console.log(dataError)
         let csvFileData = [];  
         dataError.forEach(d => csvFileData.push(Object.values(d)))
              
@@ -102,7 +100,7 @@ export const ImportFile=  (props) => {
             {
                 errorCSV 
                     ? <Alert variant="danger" onClose={() => setErrorCSV(false)} dismissible>
-                          <p>Hubo un error al importar el archivo, para saber cual fue descargar el csv con el detalle de los errores.</p>
+                          <p>Hubo algunos datos que no se pudieron importar, para saber cuales son, descargar el csv con el detalle de los errores.</p>
                           <Button variant="danger" onClick={dowloadResult} >
                               Descargar CSV
                           </Button>
@@ -117,7 +115,7 @@ export const ImportFile=  (props) => {
                    : <></> 
             }
             <Form.Group className="mb-3" >
-                <Form.Control type="file" id={"csvFileInput"} accept={".csv"} onChange={handleOnChange}/>
+                <Form.Control type="file" id={props.idCSV} accept={".csv"} onChange={handleOnChange}/>
             </Form.Group>
             <Button variant="primary" onClick={handleOnSubmit} >
                 Importar CSV
