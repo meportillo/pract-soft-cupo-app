@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createCourse, deleteCourse } from "../../services/CourseService";
+import { createCourse, deleteCourse, importCSVCourses } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
-
+import { ImportFile } from "../importFile/ImportFile";
 export default function Course(){
     
     const [carrera,setCarrera] = useState('');
@@ -119,6 +119,12 @@ export default function Course(){
                     </Form.Group>
                       <Button variant="outline-danger" onClick={_deleteCourse}>Borrar</Button>
 
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+                <Accordion.Header>Carga Masiva de Materias</Accordion.Header>
+                <Accordion.Body>
+                <ImportFile importar={importCSVCourses} formatHeader={["carrera","codigo","nombre"]} filename="materias"></ImportFile>
                 </Accordion.Body>
             </Accordion.Item>
             </Accordion>

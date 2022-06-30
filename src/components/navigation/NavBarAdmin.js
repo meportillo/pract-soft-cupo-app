@@ -37,7 +37,7 @@ export const NavbarAdmin = () => {
         </Nav>
             <Nav style={{background:"white", display: "inline"}}>
                 
-                <NavMenu style={{background:"white",  float: "left", display: "inline", "padding-top": "7%"}}>
+                <NavMenu style={{background:"white",  float: "left", display: "inline", "paddingTop": "7%"}}>
                     <NavLink to='/'>
                        <FcHome/> Dashboard
                     </NavLink>                

@@ -17,6 +17,18 @@ const createCourse = (course) => {
 
 }
 
+const importCSVCourses = (courses) => {
+    const config = {
+        headers:{
+            Authorization: getToken(),
+        }
+    }
+    let body = courses;
+    return axios.post(`${path}/api/materias`,body, config)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+}
+
 const deleteCourse = (code) => {
     const config = {
         headers:{
@@ -30,4 +42,4 @@ const deleteCourse = (code) => {
 
 }
 
-export {createCourse, deleteCourse}
+export {createCourse, deleteCourse, importCSVCourses}
