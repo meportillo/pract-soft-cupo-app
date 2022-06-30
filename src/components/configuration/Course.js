@@ -20,7 +20,6 @@ export default function Course(){
         }
 
         createCourse(course).then((response)=>{
-            console.log(response);
             if(response.status == 201 || response.status == 200 || response.status == 204 ){
                 setMessage('Materia creada exitosamente');
                 setShowMessage(true);
@@ -31,20 +30,17 @@ export default function Course(){
                 setCallError(true);
             }
         }).catch((error)=>{
-            console.log(error);
             
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);
         })
 
-        console.log('body alumno', course);
     }
 
     const _deleteCourse = ()=>{
      
         deleteCourse(codigo).then((response)=>{
-            console.log(response);
             if(response.status == 204 || response.status == 200 || response.status == 201){
                 setMessage('Materia eliminada exitosamente');
                 setShowMessage(true);
@@ -55,7 +51,6 @@ export default function Course(){
                 setCallError(true);
             }
         }).catch((error)=>{
-            console.log(error);
             
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
