@@ -7,16 +7,13 @@ import { FiCheck } from "react-icons/fi";
 import { FiX } from "react-icons/fi";
 import {patchRequest, patchCerrarFormulario} from '../../services/SubjectService';
 import { AlertRequest } from '../request/AlertRequest';
+import {horarioToString} from '../../utils/time';
 
 export default function TableCupos({cupos, form}){
+    console.log(form);
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
-    function horarioToString(horarios){
-        return horarios && horarios.map(({dia,inicio,fin}) => {
-            return <div> {dia} {inicio}-{fin}</div>
-        })
-    }
 
     return (<>
         {
@@ -25,8 +22,8 @@ export default function TableCupos({cupos, form}){
             :
                 <></>
         }
-        <h4>Cupos Pedidos</h4>
-        <Table striped bordered hover className='Cupos'>
+        <h5 class="d-flex justify-content-center">Cupos Pedidos</h5>
+        <Table striped bordered hover className='Cupos table-responsive'>
             <tbody>
                 <tr key={Math.random()}>
                     <td>Materia</td>
@@ -111,14 +108,16 @@ export default function TableCupos({cupos, form}){
                 }
             </tbody>
         </Table>
-        <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
-            if(response.status == 200){
-                //alert("Fomulario cerrado Ok")
-                setMessage('Fomulario cerrado Ok');
-                setShowMessage(true);
-                setCallError(false);
+        <div className='col-3'>
+            <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
+                if(response.status == 200){
+                    //alert("Fomulario cerrado Ok")
+                    setMessage('Fomulario cerrado Ok');
+                    setShowMessage(true);
+                    setCallError(false);
+                }
             }
-        }
-        )}}>Cerrar Formulario</Button>
+            )}}>Cerrar Formulario</Button>
+        </div>
         </>)
 }

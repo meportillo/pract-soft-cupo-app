@@ -9,3 +9,8 @@
 .accepted {
     background-color: rgb(148, 255, 163);
 }
+
+.scroll {
+    height:150px;
+    overflow-y: scroll;
+  }
