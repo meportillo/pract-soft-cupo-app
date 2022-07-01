@@ -112,7 +112,7 @@ export default function TableRequests({itemsPerPage}) {
                                                             <td>{com.cuposTotales}</td>
                                                             <td>
                                                             <ButtonGroup>
-                                                                <Button key={Math.random()} onClick={ e => navigate('commissionRequest/'+com.id)}>
+                                                                <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${com.id}`,{state:{nombreMateria:subject.nombre,comisionId:com.numero}})}>
                                                                     Ver
                                                                 </Button>
                                                             </ButtonGroup>  
