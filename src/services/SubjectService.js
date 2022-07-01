@@ -150,5 +150,26 @@ const getSubjectsComplete = () => {
     }) 
 }
 
+const getCuatrimestreByanio = (anio, semestre) => {
+    return axios.get(path+'/api/cuatrimestres?anio='+anio+'&semestre='+semestre)// ?anio='+anio+'&semestre='+semestre)
+    .then(response => {
+        return response;
+    })
+    .catch(error=> {
+        return error;
+    });
+}
+//http://localhost:8081/api/alumnos/formulario?procesamiento=FALTA_PROCESAR
 
-export {getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+const getAlumnosSolicFiltro = (filtro) => {
+    return axios.get(path+'/api/alumnos/formulario?procesamiento='+filtro)
+    .then(response => {
+        return response;
+    })
+    .catch(error=> {
+        return error;
+    });
+}
+
+
+export {getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Form from "react-bootstrap/Form";
 import { updateTimeFormulario } from '../../services/SubjectService';
@@ -13,14 +13,23 @@ export const ConfigurationDate = () => {
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
+    const formRef = useRef(null);
 
     console.log("DATE Start", dateStart);
     console.log("DATE End", dateEnd);
     console.log("TIME", time);
 
+    const clear = ()=>{
+        setDateStart(new Date());
+        setDateEnd(new Date());
+        setTime('00:00');
+
+    }
     const updateTime = () => {
         updateTimeFormulario(dateStart,dateEnd,time)
         .then(response=>{
+            formRef.current.reset();
+            clear();
             if(response.status == 200 || response.status == 201 || response.status == 204){
                 //alert("Fomulario cerrado Ok")
                 setMessage('Modificacion Exitosa!');
@@ -55,7 +64,7 @@ export const ConfigurationDate = () => {
                     <Accordion.Item eventKey="0">        
                         <Accordion.Header>Inscripciones Inicio - Cierre</Accordion.Header>
                         <Accordion.Body>                    
-                        <Form>
+                        <Form ref={formRef}>
                             <Form.Group className="mb-3" controlId="formInicio">
                             <Form.Label>Fecha inicio</Form.Label>
                             <Form.Control

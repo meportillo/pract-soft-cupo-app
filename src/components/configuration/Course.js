@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
 import { createCourse, deleteCourse, importCSVCourses, importCSVCorrelatives } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
@@ -11,6 +11,13 @@ export default function Course(){
     const [showMessage,setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
     const [message,setMessage] = useState('');
+    const formRef = useRef({});
+
+    const clear = ()=>{
+        setCarrera('');
+        setNombre('');
+        setCodigo('');
+    }
 
     const create = ()=>{
         let course = {
@@ -20,6 +27,9 @@ export default function Course(){
         }
 
         createCourse(course).then((response)=>{
+            clear();
+            formRef.current.reset();
+            console.log(response);
             if(response.status == 201 || response.status == 200 || response.status == 204 ){
                 setMessage('Materia creada exitosamente');
                 setShowMessage(true);
@@ -68,13 +78,8 @@ export default function Course(){
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Crear Materia</Accordion.Header>
                 <Accordion.Body>
-                <Form>
-                    {
-                    showMessage?
-                        <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
-                        :
-                        <></>
-                    }
+                <Form ref={formRef}>
+
                     <Form.Group className="mb-3" controlId="nombControl">
                         <Form.Label>Nombre: </Form.Label>
                         <Form.Control type="text" placeholder="Nombre de la Materia" onChange={(e)=>{setNombre(e.target.value)}} />
