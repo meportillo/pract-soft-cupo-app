@@ -140,5 +140,15 @@ const getAlumnosByDni = (dni) =>{
     }) 
 }
 
+const getSubjectsComplete = () => {
+    return axios.get(path + "/api/materias")
+    .then(response => {
+        return response.data
+    })
+    .catch(error=>{
+        return error
+    }) 
+}
 
-export {getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+
+export {getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

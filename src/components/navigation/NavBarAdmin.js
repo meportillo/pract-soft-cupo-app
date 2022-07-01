@@ -42,11 +42,14 @@ export const NavbarAdmin = () => {
                        <FcHome/> Dashboard
                     </NavLink>                
                     <NavLink to='/requests'>
-                        <FcDataSheet/>Solicitudes
+                        <FcDataSheet/> Solicitudes
                     </NavLink>                
                     <NavLink to='/students'>
                        <FcButtingIn/> Alumnos
-                    </NavLink> 
+                    </NavLink>
+                    <NavLink to='/subjects'>
+                       <FcButtingIn/> Materias
+                    </NavLink>  
                     <NavLink to='/config'>
                        <FcSupport/> Configuracion
                     </NavLink> 
