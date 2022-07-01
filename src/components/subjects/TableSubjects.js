@@ -59,7 +59,7 @@ export default function TableSubjects({itemsPerPage}) {
                         <Table size='sm' striped bordered hover responsive='sm'>
                             <thead>
                             <tr key={Math.random()}>
-                                <th>Nombre</th>
+                                <th>Materias correlativas</th>
                             </tr>
                             </thead>
                             <tbody>
