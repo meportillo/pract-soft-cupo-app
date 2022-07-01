@@ -24,9 +24,6 @@ export default function Configuration(){
                             <Tab eventKey="abm-cuatrimestre" title="Cuatrimestre">
                                 <ConfigurationDate></ConfigurationDate>
                             </Tab>
-                            <Tab eventKey="masivas" title="Cargas Masivas">
-                                
-                            </Tab>
                         </Tabs>
                     </div>
                 </div>
