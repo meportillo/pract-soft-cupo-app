@@ -107,16 +107,15 @@ export default function CreateRequest(props){
     }
     return( 
         <Form className="container">
-            <h1></h1>
-            {
-                error != "" ? <Alert variant="danger" onClose={() => setError("")} dismissible>
-                            {error}
-                        </Alert>
-                : <></>
-            }
             <Form.Label className="d-flex justify-content-center"><h3>{props.encabezado}</h3></Form.Label>
             <Form.Group >
                 <Card>
+                    {
+                        error != "" ? <Alert  variant="danger" onClose={() => setError("")} dismissible>
+                                    {error}
+                                </Alert>
+                        : <></>
+                    }
                     <Card.Header>
                         <Form.Label>Seleccionar Materias</Form.Label>
                     </Card.Header>

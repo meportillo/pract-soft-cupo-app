@@ -10,11 +10,14 @@ export function HomeStudent() {
     const [inscripciones, setInscripciones] = useState([]);
 
     const deleteForm = () => {
-        deleteRequest()
-        .then(res => {
-            setSolicitudes([])
-        })
-        .catch(err => console.log(err))
+        if (window.confirm("Estas seguro que deseas borrar este formulario")) {
+            deleteRequest()
+            .then(res => {
+                setSolicitudes([])
+                setInscripciones([])
+            })
+            .catch()
+        }
     }
     useEffect(()=>{
         const user = getUser();
@@ -33,7 +36,7 @@ export function HomeStudent() {
         <Form className="container">
             <h2 className="d-flex justify-content-center mb-3">Formulario Cargado</h2>
             {
-                solicitudes.length === 0
+                solicitudes.length + inscripciones.length === 0
                     ? <div>No hay Solicitudes cargadas</div>
                     : <>
                       <Form.Group className="row"><TableRequestsStudent solicitudes={solicitudes} inscripciones={inscripciones}/></Form.Group>
@@ -47,7 +50,7 @@ export function HomeStudent() {
 const TableRequestsStudent = (props) => {
     return (
         <>
-        <h3>Cupos solicitados</h3>
+        <h4 style={{textAlign:"center"}}>Cupos solicitados</h4>
         <Table size="sm">
         <thead>
             <tr>
@@ -74,7 +77,7 @@ const TableRequestsStudent = (props) => {
             }
         </tbody>
         </Table>
-        <h3>Materias inscriptas</h3>
+        <h4 style={{textAlign:"center"}}>Materias inscriptas</h4>
         <Table size="sm">
         <thead>
             <tr>
