@@ -18,8 +18,9 @@ axios.interceptors.request.use(
     }
 );
 
-const getSubjects2 = ()=>{
-    return axios.get(path+'/api/materias')
+const getSubjects2 = (nombre)=>{
+    const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
+    return axios.get(path + url)
     .then(response => {
         return new Promise((resolve, error )=>{
             try 

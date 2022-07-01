@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import {getRequests, getSubjects2, getCommissions, getCommisionsBySubject} from '../../services/SubjectService';
+import Form from 'react-bootstrap/Form';
 
 
 
@@ -15,24 +16,25 @@ export default function TableRequests({itemsPerPage}) {
         const [pageCount, setPageCount] = useState(0);
         const [first, setFirst] = useState(true);
         const [itemOffset, setItemOffset] = useState(0);
-
-        useEffect(()=>{
-         
-            getSubjects2().then(subjectTable => {
-                let materias = [];     
-                    subjectTable.forEach(mat => {
-                        const data = getCommisionsBySubject(mat.codigo)
-                        .then((response) =>{
-                            let obj = mat;
-                            obj.comisiones= response;
-                            return obj
-                        });
-                        materias.push(data)
+        const [search, setSearch] = useState("");
+        const getMaterias = (nombre) => {
+            getSubjects2(nombre).then(subjectTable => {
+            let materias = [];     
+                subjectTable.forEach(mat => {
+                    const data = getCommisionsBySubject(mat.codigo)
+                    .then((response) =>{
+                        let obj = mat;
+                        obj.comisiones= response;
+                        return obj
                     });
-                    Promise.all(materias)
-                    .then(promises => setItems(promises));
-                   
-        })},[]);
+                    materias.push(data)
+                });
+                Promise.all(materias)
+                .then(promises => setItems(promises));
+            })
+        };
+
+        useEffect(getMaterias,[]);
 
         useEffect(() => {
         // Fetch items from another resources.
@@ -50,7 +52,23 @@ export default function TableRequests({itemsPerPage}) {
             const newOffset = (nro * itemsPerPage) % items.length;
             setItemOffset(newOffset);
         };
+
+        const sendSearch = () => {
+           getMaterias(search)
+        }
         return (<>
+        <div className='container'>
+            <div style={{display:"inline-flex"}}>
+            <Form.Label>Buscar por nombre</Form.Label>
+            <br></br>
+            <br></br>
+            <Form.Control placeholder="Introduzca una materia" onChange={(e) => setSearch(e.target.value)} />
+            <br></br>
+            <br></br>
+            <Button variant="primary" onClick={sendSearch} style={{width: '50%'}}>
+                        Buscar
+            </Button>
+            </div>
             <Table size='sm' striped bordered hover responsive='sm' >
                         <thead>
                             <tr key={Math.random()}>
@@ -130,6 +148,7 @@ export default function TableRequests({itemsPerPage}) {
             nextLinkClassName={'page-link'}
             activeClassName={'active'}          
             />
+        </div>
         </>);
 
   }
