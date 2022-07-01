@@ -10,7 +10,7 @@ export default function Dashoard(){
 
 
     useEffect(()=>{
-        getCuatrimestreByanio('2022','S2')
+        getCuatrimestreByanio('2022','S1')
         .then(response=>{
             setCuatrimestre(response.data);
             console.log(response.data);
