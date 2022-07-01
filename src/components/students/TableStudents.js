@@ -28,6 +28,7 @@ export default function TableStudents() {
       <>
       <Form as={Row} >
         <Form.Control 
+                    placeholder="Introduzca un dni"
                     type="text"
                     id="search"
                     aria-describedby="passwordHelpBlock"
@@ -36,7 +37,7 @@ export default function TableStudents() {
                       }
                     } 
         />
-        <Button as={Col} onClick={updateTime}  variant="primary">Enviar</Button>
+        <Button as={Col} onClick={updateTime}  variant="primary">Filtrar</Button>
         </Form>
         <Table striped bordered hover className="Alumnos">
           <thead>
