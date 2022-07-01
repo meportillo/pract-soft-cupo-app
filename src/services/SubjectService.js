@@ -128,5 +128,17 @@ const getAlumnos = () =>{
     }) 
 }
 
+const getAlumnosByDni = (dni) =>{
+    return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
+    .then((response) => {
+        console.log(response);
+        return response.data
+    })
+    .catch((error)=>{
+        console.log(error);
+        return error
+    }) 
+}
 
-export {getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+
+export {getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
