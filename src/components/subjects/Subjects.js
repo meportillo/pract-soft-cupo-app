@@ -11,7 +11,7 @@ export default function Subjects(){
                 <div className="col">
                 </div>
                 <div className="col-12">
-                    <TableSubjects></TableSubjects>  
+                    <TableSubjects itemsPerPage={7}></TableSubjects>  
                 </div>
             </div>
         </div>  
