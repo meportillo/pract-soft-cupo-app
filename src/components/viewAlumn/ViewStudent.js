@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import { getInfoStudent } from '../../helpers/getInfoStudent';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
 import {getRequestsOfStudentAdmin } from '../../services/StudentService';
