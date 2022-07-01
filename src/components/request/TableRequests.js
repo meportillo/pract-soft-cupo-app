@@ -1,6 +1,6 @@
 import React, { useState, navigate , useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
@@ -57,18 +57,17 @@ export default function TableRequests({itemsPerPage}) {
            getMaterias(search)
         }
         return (<>
-        <div className='container'>
-            <div style={{display:"inline-flex"}}>
-            <Form.Label>Buscar por nombre</Form.Label>
-            <br></br>
-            <br></br>
-            <Form.Control placeholder="Introduzca una materia" onChange={(e) => setSearch(e.target.value)} />
-            <br></br>
-            <br></br>
-            <Button variant="primary" onClick={sendSearch} style={{width: '50%'}}>
-                        Buscar
-            </Button>
-            </div>
+        <Form>
+        <Row className="mb-3">
+            <Col md="auto" style={{"margin-block-start": "auto"}}>
+                <Form.Label>Buscar por nombre</Form.Label>
+            </Col>
+            <Col>
+                <Form.Control placeholder="Introduzca una materia" onChange={(e) => setSearch(e.target.value)} />
+            </Col>
+            <Button as={Col} md="auto" variant="primary" onClick={sendSearch}>Buscar</Button>
+        </Row>
+        </Form>
             <Table size='sm' striped bordered hover responsive='sm' >
                         <thead>
                             <tr key={Math.random()}>
@@ -148,7 +147,6 @@ export default function TableRequests({itemsPerPage}) {
             nextLinkClassName={'page-link'}
             activeClassName={'active'}          
             />
-        </div>
         </>);
 
   }
