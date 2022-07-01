@@ -28,14 +28,6 @@ export function HomeAdmin(props) {
                 <div className="col">
                 </div>
                 <div className="col-12">
-                    <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Filtrar Comisiones</Accordion.Header>
-                            <Accordion.Body>
-                            <FilterRequests onClickFilter={clickFilters}></FilterRequests>
-                                </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
                     <TableRequests itemsPerPage={7}></TableRequests>
                 </div>
             </div>

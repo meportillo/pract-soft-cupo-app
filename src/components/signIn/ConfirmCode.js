@@ -43,7 +43,7 @@ export function ConfirmCode(props){
         <div className="container">
             <br></br>
             <br></br>
-            <h1 className="d-flex justify-content-center mb-6">Ingrese Código de Confirmación de creación de cuenta</h1>
+            <h1 className="d-flex justify-content-center mb-6">Ingrese Código de Confirmación </h1>
             {
                 success ? <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
                             {success}

@@ -14,6 +14,7 @@ export default function CommissionRequest(props){
         getRequestsByCommision(idcomision, setRequests);
     },[])
     return (<>
+        <h3 style={{textAlign:"center"}}>Alumno solicitantes para la comision</h3>
         <Table className="container">
             <thead>
                 <tr key={Math.random()}>

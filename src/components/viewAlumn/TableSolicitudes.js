@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 export default function TableSolicitudes({materias}){
     return(
         <>
-        <h2>solicitudes</h2>
+        <h3>solicitudes</h3>
         <Table striped bordered hover className='Aprobadas'>
             <tbody>
                 <tr>
