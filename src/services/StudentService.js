@@ -68,7 +68,7 @@ const getRequestsOfStudentAdmin = (dni) => {
  
 const sendRequest = (subjects,dni) => {
     const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
-    const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
+    const comisionesInscripto = subjects.filter(s => s.accion == "inscripto").map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
@@ -81,7 +81,7 @@ const sendRequest = (subjects,dni) => {
 
 const updateRequest = (subjects,dni) => {
     const comisiones = subjects.filter(s => s.accion == "cupo").map(s => s.comisiones.map(com => com.id)).flat()
-    const comisionesInscripto = subjects.filter(s => s.accion == "guarani").map(s => s.comisiones.map(com => com.id)).flat()
+    const comisionesInscripto = subjects.filter(s => s.accion == "inscripto").map(s => s.comisiones.map(com => com.id)).flat()
     const body = {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto

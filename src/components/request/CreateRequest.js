@@ -123,7 +123,7 @@ export default function CreateRequest(props){
                         <Card.Title><Form.Label>Seleccionar accion</Form.Label></Card.Title>
                         <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => setAction(e.target.value)}>
                             <option key={0} value={""} >Seleccionar opcion</option>
-                            <option key={1} value={"guarani"} >Agregar Materia Guarani</option>
+                            <option key={1} value={"inscripto"} >Agregar Materia inscripto</option>
                             <option key={2} value={"cupo"} >Agregar Solicitud Cupo</option>
                         </Form.Select>
                     </Card.Body>
