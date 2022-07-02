@@ -22,6 +22,7 @@ import Students from "./components/students/Students";
 import Configuration from "./components/configuration/Configuration";
 import Dashoard from "./components/request/Dashboard";
 import { ImportFile } from "./components/importFile/ImportFile";
+import Subjects from "./components/subjects/Subjects";
 
 
 class App extends Component {
@@ -43,6 +44,7 @@ class App extends Component {
                         <Route path='/signIn' element={<SignIn/>}/>
                         <Route path='/cuenta/codigo/' element={<ConfirmCode/>}/>
                         <Route path='/students' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Students/>} encabezado="Alumnos" navAdmin={<NavbarAdmin/>} />} />} />
+                        <Route path='/subjects' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Subjects/>} encabezado="Materias" navAdmin={<NavbarAdmin/>} />} />} />
                         <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
                         <Route path='/csv' element={<ImportFile/>}/>
                     </Routes>

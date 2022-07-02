@@ -32,7 +32,7 @@ export default function EditCreateRequest(props){
                  })
                 const inscripciones = res.comisionesInscripto.map(com => {
                     const codMateria = data.filter(m => m.nombre == com.materia) 
-                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.id}], accion:"guarani", codigo:codMateria[0].codigo}
+                    return {nombre:com.materia, comisiones:[{"comision":com.numero,"id":com.id}], accion:"inscripto", codigo:codMateria[0].codigo}
                  })
                 setSubjectsSelected(solicitudes.concat(inscripciones))   
                 setSolicitud(true)
@@ -122,16 +122,15 @@ export default function EditCreateRequest(props){
             ? <Form.Label className="d-flex justify-content-center"><h3>No hay un formulario cargado</h3></Form.Label>
             :  
         <Form className="container">
-            <h1></h1>
-            {
-                error != "" ? <Alert variant="danger" onClose={() => setError("")} dismissible>
-                            {error}
-                        </Alert>
-                : <></>
-            }
             <Form.Label className="d-flex justify-content-center"><h3>{props.encabezado}</h3></Form.Label>
             <Form.Group >
                 <Card>
+                    {
+                        error != "" ? <Alert variant="danger" onClose={() => setError("")} dismissible>
+                                    {error}
+                                </Alert>
+                        : <></>
+                    }
                     <Card.Header>
                         <Form.Label>Seleccionar Materias</Form.Label>
                     </Card.Header>
@@ -139,7 +138,7 @@ export default function EditCreateRequest(props){
                         <Card.Title><Form.Label>Seleccionar accion</Form.Label></Card.Title>
                         <Form.Select id="selectMateria1" key="selectMateria" className="form-control" onChange={e => setAction(e.target.value)}>
                             <option key={0} value={""} >Seleccionar opcion</option>
-                            <option key={1} value={"guarani"} >Agregar Materia Guarani</option>
+                            <option key={1} value={"inscripto"} >Agregar Materia inscripto</option>
                             <option key={2} value={"cupo"} >Agregar Solicitud Cupo</option>
                         </Form.Select>
                     </Card.Body>

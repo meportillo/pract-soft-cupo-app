@@ -4,9 +4,10 @@ import Table from 'react-bootstrap/Table'
 export default function TableMateria({materias}){
     return(
         <>
-        <h4>Materias Cursadas</h4>
-        <Table striped bordered hover className='Aprobadas'>
-            <tbody>
+        
+        <h5 class="d-flex justify-content-center">Materias Cursadas</h5>
+        <Table striped bordered hover className='Aprobadas table-responsive'>
+            <tbody className='overflow-auto'>
                 <tr>
                     <td>Nombre</td>
                     <td>Nota</td>

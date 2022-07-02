@@ -1,11 +1,12 @@
 import React, { Component, useEffect, useState } from 'react'
-import { Button, ButtonGroup, Table } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Form, Row, Table } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { getAlumnos } from '../../services/SubjectService';
+import { getAlumnos, getAlumnosByDni } from '../../services/SubjectService';
 
 export default function TableStudents() {
 
-    const [alumnos, setAlumnos]= useState([])
+    const [alumnos, setAlumnos]= useState([]);
+    const [search,setSearch] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,9 +16,33 @@ export default function TableStudents() {
         });
     },[])
 
+    const updateTime = () => {
+      getAlumnosByDni(search)
+      .then((data) => {
+        setAlumnos(data)
+      })
+    }
+
 
     return (
       <>
+      <Form>
+      <Row className="mb-3">
+        <Col>
+        <Form.Control
+                    placeholder="Introduzca un dni"
+                    type="text"
+                    id="search"
+                    aria-describedby="passwordHelpBlock"
+                    onChange={(e) => {
+                          setSearch(e.target.value)
+                      }
+                    } 
+        />
+        </Col>
+        <Button as={Col} md="auto" onClick={updateTime}  variant="primary">Filtrar</Button>
+        </Row>
+        </Form>
         <Table striped bordered hover className="Alumnos">
           <thead>
             <tr key={Math.random()}>
