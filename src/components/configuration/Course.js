@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createCourse, deleteCourse } from "../../services/CourseService";
+import { createCourse, deleteCourse, importCSVCourses, importCSVCorrelatives } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
-
+import { ImportFile } from "../importFile/ImportFile";
 export default function Course(){
     
     const [carrera,setCarrera] = useState('');
@@ -11,6 +11,13 @@ export default function Course(){
     const [showMessage,setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
     const [message,setMessage] = useState('');
+    const formRef = useRef({});
+
+    const clear = ()=>{
+        setCarrera('');
+        setNombre('');
+        setCodigo('');
+    }
 
     const create = ()=>{
         let course = {
@@ -20,6 +27,8 @@ export default function Course(){
         }
 
         createCourse(course).then((response)=>{
+            clear();
+            formRef.current.reset();
             console.log(response);
             if(response.status == 201 || response.status == 200 || response.status == 204 ){
                 setMessage('Materia creada exitosamente');
@@ -31,55 +40,45 @@ export default function Course(){
                 setCallError(true);
             }
         }).catch((error)=>{
-            console.log(error);
             
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);
         })
 
-        console.log('body alumno', course);
     }
 
     const _deleteCourse = ()=>{
-     
-        deleteCourse(codigo).then((response)=>{
-            console.log(response);
-            if(response.status == 204 || response.status == 200 || response.status == 201){
-                setMessage('Materia eliminada exitosamente');
-                setShowMessage(true);
-                setCallError(false);
-            }else{
-                setMessage(response.data.error+ ": " + response.data.message);
+        if (window.confirm("Estas seguro que deseas borrar la materia")) {
+            deleteCourse(codigo).then((response)=>{
+                if(response.status == 204 || response.status == 200 || response.status == 201){
+                    setMessage('Materia eliminada exitosamente');
+                    setShowMessage(true);
+                    setCallError(false);
+                }else{
+                    setMessage(response.data.error+ ": " + response.data.message);
+                    setShowMessage(true);
+                    setCallError(true);
+                }
+            }).catch((error)=>{
+                
+                setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
                 setShowMessage(true);
                 setCallError(true);
-            }
-        }).catch((error)=>{
-            console.log(error);
-            
-            setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
-            setShowMessage(true);
-            setCallError(true);
-        })
-        
+            })
+        }
     }
 
     return(<>   
         <br></br>
         <br></br>
-        {
-          showMessage?
-            <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
-            :
-            <></>
-        }
 
         <Container>
-        <Accordion defaultActiveKey="1">
+        <Accordion>
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Crear Materia</Accordion.Header>
                 <Accordion.Body>
-                <Form>
+                <Form ref={formRef}>
 
                     <Form.Group className="mb-3" controlId="nombControl">
                         <Form.Label>Nombre: </Form.Label>
@@ -113,12 +112,29 @@ export default function Course(){
             <Accordion.Item eventKey="1">
                 <Accordion.Header>Borrar Materia</Accordion.Header>
                 <Accordion.Body>
+                {
+                    showMessage?
+                        <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+                        :
+                        <></>
+                }
                 <Form.Group className="mb-3" controlId="codControl">
-                        <Form.Label>Codigo de Materia: </Form.Label>
-                        <Form.Control type="text" placeholder="Codigo de la meteria a eliminar" onChange={(e)=>{setCodigo(e.target.value)}} />
-                    </Form.Group>
-                      <Button variant="outline-danger" onClick={_deleteCourse}>Borrar</Button>
-
+                    <Form.Label>Codigo de Materia: </Form.Label>
+                    <Form.Control type="text" placeholder="Codigo de la meteria a eliminar" onChange={(e)=>{setCodigo(e.target.value)}} />
+                </Form.Group>
+                    <Button variant="outline-danger" onClick={_deleteCourse}>Borrar</Button>
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+                <Accordion.Header>Carga Masiva de Materias</Accordion.Header>
+                <Accordion.Body>
+                <ImportFile importar={importCSVCourses} formatHeader={["carrera","codigo","nombre"]} filename="materias" idCSV="csvFileInputMaterias" ></ImportFile>
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="3">
+                <Accordion.Header>Carga Masiva de Correlatividades de materias</Accordion.Header>
+                <Accordion.Body>
+                <ImportFile importar={importCSVCorrelatives} formatHeader={["codigoMateria","codigoCorrelativa"]} filename="correlatividades" idCSV="csvFileInputCorrelativas"></ImportFile>
                 </Accordion.Body>
             </Accordion.Item>
             </Accordion>

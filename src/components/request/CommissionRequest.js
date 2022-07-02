@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import {getRequestsByCommision} from '../../services/SubjectService';
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function CommissionRequest(props){
+    const location = useLocation();
+    const {nombreMateria,comisionId} = location.state;
     const [requests, setRequests] = useState([]);
-    const [commissionId, setCommissionId] = useState(props.commission);
     const navigate = useNavigate();
     let { idcomision } = useParams();
 
     useEffect(()=>{
         getRequestsByCommision(idcomision, setRequests);
     },[])
+
     return (<>
+        <h3 style={{textAlign:"center"}}>{`Alumnos solicitantes para la Comision ${comisionId} de la materia ${nombreMateria}`}</h3>
         <Table className="container">
             <thead>
                 <tr key={Math.random()}>

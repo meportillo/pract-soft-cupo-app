@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
 import { createAlum, deleteAlum } from "../../services/StudentService";
 import { AlertRequest } from "../request/AlertRequest";
@@ -15,6 +15,18 @@ export default function ABMStudent(){
     const [showMessage,setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
     const [message,setMessage] = useState('');
+    const formRef = useRef(null);
+    const formDelRef = useRef(null);
+
+    const clear = ()=> {
+       setDni('');
+       setLegajo('');
+       setApellido('');
+       setNombre('');
+       setCoeficiente('');
+       setCorreo('');
+       setCarrera('');
+    }
 
     const create = ()=>{
         let alum = {
@@ -28,6 +40,8 @@ export default function ABMStudent(){
         }
 
         createAlum(alum).then((response)=>{
+            clear();
+            formRef.current.reset();
             console.log(response);
             if(response.status == 201 || response.status == 200){
                 setMessage('Alumno creado exitosamente');
@@ -52,6 +66,7 @@ export default function ABMStudent(){
     const _deleteAlum = ()=>{
      
         deleteAlum(dni).then((response)=>{
+            formDelRef.current.reset();
             console.log(response);
             if(response.status == 204 || response.status == 200 || response.status == 201){
                 setMessage('Alumno eliminado exitosamente');
@@ -87,7 +102,7 @@ export default function ABMStudent(){
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Crear Alumno</Accordion.Header>
                 <Accordion.Body>
-                <Form>
+                <Form ref={formRef}>
 
                     <Form.Group className="mb-3" controlId="dniControl">
                         <Form.Label>Nro. DNI: </Form.Label>
@@ -142,10 +157,12 @@ export default function ABMStudent(){
             <Accordion.Item eventKey="1">
                 <Accordion.Header>Borrar Alumno</Accordion.Header>
                 <Accordion.Body>
-                <Form.Group className="mb-3" controlId="dniControl">
+                <Form ref={formDelRef}>
+                    <Form.Group className="mb-3" controlId="dniControl">
                         <Form.Label>Nro. DNI: </Form.Label>
                         <Form.Control type="text" placeholder="Numero de Dni del alumno" onChange={(e)=>{setDni(e.target.value)}} />
                     </Form.Group>
+                </Form>
                       <Button variant="outline-danger" onClick={_deleteAlum}>Borrar</Button>
 
                 </Accordion.Body>

@@ -7,7 +7,7 @@ NavMenu,
 NavBtn,
 NavBtnLink,
 } from './NavbarElements';
-import {FcHome,FcDataSheet, FcButtingIn, FcSupport}  from 'react-icons/fc';
+import {FcHome,FcDataSheet, FcButtingIn, FcSupport, FcDiploma1}  from 'react-icons/fc';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
@@ -37,16 +37,19 @@ export const NavbarAdmin = () => {
         </Nav>
             <Nav style={{background:"white", display: "inline"}}>
                 
-                <NavMenu style={{background:"white",  float: "left", display: "inline", "padding-top": "7%"}}>
+                <NavMenu style={{background:"white",  float: "left", display: "inline", "paddingTop": "7%"}}>
                     <NavLink to='/'>
                        <FcHome/> Dashboard
                     </NavLink>                
                     <NavLink to='/requests'>
-                        <FcDataSheet/>Solicitudes
+                        <FcDataSheet/> Solicitudes
                     </NavLink>                
                     <NavLink to='/students'>
                        <FcButtingIn/> Alumnos
-                    </NavLink> 
+                    </NavLink>
+                    <NavLink to='/subjects'>
+                       <FcDiploma1/> Materias
+                    </NavLink>  
                     <NavLink to='/config'>
                        <FcSupport/> Configuracion
                     </NavLink> 

@@ -8,6 +8,8 @@ import Alert from 'react-bootstrap/Alert';
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { createUser } from '../../services/StudentService';
+import { NavLink } from '../navigation/NavbarElements';
+import { BsFillArrowRightSquareFill } from 'react-icons/bs'
 export function CreateAccount() {
     const [password,setPassword] = useState("");
     const [passwordConfirm,setPasswordConfirm] = useState("");
@@ -75,6 +77,12 @@ export function CreateAccount() {
                     <Form.Label>Confirmar Contraseña</Form.Label>
                     <Form.Control type="password" placeholder="Contraseña" onChange={(e) => handleChangePasswordConfirm(e)} />
                 </Form.Group>
+                <div>
+                <NavLink to='/cuenta/codigo'>
+                <BsFillArrowRightSquareFill style={{marginRight:10}}/>Ingresar código
+                </NavLink> 
+                </div> 
+                <br></br>
                 <div className="d-flex justify-content-center">
                     <Button variant="primary" onClick={handleSubmitCreateUser} style={{width: '50%'}}>
                         Crear 
