@@ -77,9 +77,6 @@ return(<>
 
                 </tbody>
                 </Table>
-
-
-
                          <Button  key={Math.random()} onClick={(e) => {
                              setCommissions([])
                              setShowComision(false)
