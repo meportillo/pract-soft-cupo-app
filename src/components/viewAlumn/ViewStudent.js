@@ -71,7 +71,7 @@ export  default function ViewStudent(props){
                         <TableMateria materias={materiasAprobadas}> </TableMateria>
                         <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
                         <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} form={formulario}></TableCupos>
-                        <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                        <CreateRequestShort studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                     </div>
 
                     <div className='row'>
