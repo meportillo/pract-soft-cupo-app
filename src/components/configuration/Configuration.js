@@ -14,7 +14,7 @@ export default function Configuration(){
 
                     </div>
                     <div className="col-12">
-                        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
+                        <Tabs defaultActiveKey="abm-cuatrimestre" id="uncontrolled-tab-example" className="mb-3">
                             <Tab eventKey="abm-student" title="Alumnos">
                                 <ABMStudent></ABMStudent>
                             </Tab>

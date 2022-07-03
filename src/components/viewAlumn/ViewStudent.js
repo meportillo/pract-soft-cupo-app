@@ -18,11 +18,15 @@ export  default function ViewStudent(props){
     const [createRequestShow, setCreateRequestShow] = useState(false);
     const [formulario,setFormulario] = useState();
     const [inscriptas, setInscriptas] = useState([]);
+    const [solUpdate, setSolUpdate] = useState(Math.random())
+
+    const updateSol = ()=>{
+        setSolUpdate(Math.random());
+    }
 
     useEffect(() => {
         getRequestsOfStudentAdmin(dni)
         .then((data) => {
-            console.log("DATA",data);
             setCarrera(data.carrera);
             setCoeficiente(data.coeficiente);
             setMateriasAprobadas(data.resumenCursadas);
@@ -32,7 +36,20 @@ export  default function ViewStudent(props){
             setInscriptas(data.formulario.comisionesInscripto);
         });
     },[])
-        
+
+    useEffect(()=>{
+        getRequestsOfStudentAdmin(dni)
+        .then((data) => {
+            setCarrera(data.carrera);
+            setCoeficiente(data.coeficiente);
+            setMateriasAprobadas(data.resumenCursadas);
+            setAlumno({"nombre" : data.nombre, "dni": data.dni});
+            setCuposPedidos(data.formulario.solicitudes);
+            setFormulario(data);
+            setInscriptas(data.formulario.comisionesInscripto);
+        });        
+    },[solUpdate])
+    
     return (
           <>
               <div className='container'>
@@ -53,7 +70,7 @@ export  default function ViewStudent(props){
                         <hr></hr>
                         <TableMateria materias={materiasAprobadas}> </TableMateria>
                         <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
-                        <TableCupos cupos={cuposPedidos} form={formulario}></TableCupos>
+                        <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} form={formulario}></TableCupos>
                         <CreateRequestShort studentid={alumno.dni} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                     </div>
 

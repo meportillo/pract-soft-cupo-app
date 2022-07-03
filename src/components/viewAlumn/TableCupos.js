@@ -9,8 +9,7 @@ import {patchRequest, patchCerrarFormulario} from '../../services/SubjectService
 import { AlertRequest } from '../request/AlertRequest';
 import {horarioToString} from '../../utils/time';
 
-export default function TableCupos({cupos, form}){
-    console.log(form);
+export default function TableCupos({cupos, alertUpdate ,form}){
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
@@ -35,7 +34,9 @@ export default function TableCupos({cupos, form}){
                 </tr>{form &&
                    form.formulario.solicitudes.map((sol) => {
                         return(
-                        <tr key={Math.random()}>
+                        <tr style={sol.estado === 'APROBADO'? {background: 'rgb(148, 255, 163)'} : (sol.estado === 'RECHAZADO'? {background: 'rgba(247, 148, 123, 0.788)'}: {
+                            background: 'rgba(250, 252, 157, 0.842)'
+                            }) } key={Math.random()}>
                             <td>{sol.comision.materia}</td>
                             <td>{sol.comision.id}</td>
                             <td>{sol.comision.modalidad}</td>
@@ -54,6 +55,7 @@ export default function TableCupos({cupos, form}){
                                     >
                                     <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'APROBADO',form.formulario.id)
                                     .then((response)=>{
+                                        alertUpdate(true);
                                         if(response.status == 200){
                                             //alert("Fomulario cerrado Ok")
                                             setMessage('Solicitud APROBADA Ok');
@@ -82,6 +84,7 @@ export default function TableCupos({cupos, form}){
                                     }>
                                     <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'RECHAZADO',form.formulario.id)
                                     .then((response)=>{
+                                        alertUpdate(true);
                                         if(response.status == 200){
                                             //alert("Fomulario cerrado Ok")
                                             setMessage('Solicitud RECHAZADA Ok');
@@ -111,6 +114,7 @@ export default function TableCupos({cupos, form}){
         <div className='col-3'>
             <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
                 if(response.status == 200){
+                    alertUpdate(true);
                     //alert("Fomulario cerrado Ok")
                     setMessage('Fomulario cerrado Ok');
                     setShowMessage(true);
