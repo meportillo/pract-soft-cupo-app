@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
 import {getRequestsOfStudentAdmin } from '../../services/StudentService';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Accordion, Button, ButtonGroup, Col } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
 import TableInscriptas from './TableInscriptas';
 
 export  default function ViewStudent(props){
-
     let { dni } = useParams();
     const [materiasAprobadas, setMateriasAprobadas]= useState([])
     const [cuposPedidos, setCuposPedidos]= useState([])
@@ -24,18 +23,18 @@ export  default function ViewStudent(props){
         setSolUpdate(Math.random());
     }
 
-    useEffect(() => {
-        getRequestsOfStudentAdmin(dni)
-        .then((data) => {
-            setCarrera(data.carrera);
-            setCoeficiente(data.coeficiente);
-            setMateriasAprobadas(data.resumenCursadas);
-            setAlumno({"nombre" : data.nombre, "dni": data.dni});
-            setCuposPedidos(data.formulario.solicitudes);
-            setFormulario(data);
-            setInscriptas(data.formulario.comisionesInscripto);
-        });
-    },[])
+    // useEffect(() => {
+    //     getRequestsOfStudentAdmin(dni)
+    //     .then((data) => {
+    //         setCarrera(data.carrera);
+    //         setCoeficiente(data.coeficiente);
+    //         setMateriasAprobadas(data.resumenCursadas);
+    //         setAlumno({"nombre" : data.nombre, "dni": data.dni});
+    //         setCuposPedidos(data.formulario.solicitudes);
+    //         setFormulario(data);
+    //         setInscriptas(data.formulario.comisionesInscripto);
+    //     });
+    // },[])
 
     useEffect(()=>{
         getRequestsOfStudentAdmin(dni)
@@ -65,16 +64,33 @@ export  default function ViewStudent(props){
                         </div>
                         <div class="col">
                             <h5>Carrera: {carrera}</h5>
-                            <h5> Coeficiente: {coeficiente}</h5>
+                            <h5>Coeficiente: {coeficiente}</h5>
                         </div>
                         <hr></hr>
-                        <TableMateria materias={materiasAprobadas}> </TableMateria>
-                        <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
-                        <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} form={formulario}></TableCupos>
-                        <CreateRequestShort studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                        <Accordion defaultActiveKey={['0']} alwaysOpen>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Materias Cursadas</Accordion.Header>
+                                <Accordion.Body>
+                                    <TableMateria materias={materiasAprobadas}> </TableMateria>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="1">
+                                <Accordion.Header>Inscriptas en Guarani</Accordion.Header>
+                                <Accordion.Body>
+                                    <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                            <Accordion.Item eventKey="2">
+                                <Accordion.Header>Cupos Pedidos</Accordion.Header>
+                                <Accordion.Body>
+                                    <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} form={formulario}></TableCupos>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                        <CreateRequestShort  studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                     </div>
 
-                    <div className='row'>
+                    <div className='row' style={{"margin-top": "20px"}}>
                         <div className='col-3'>
                             <Button variant="success" onClick={(e) => setCreateRequestShow(true)}>
                                 Agregar Solicitudes

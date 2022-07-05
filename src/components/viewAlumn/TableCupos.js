@@ -21,7 +21,6 @@ export default function TableCupos({cupos, alertUpdate ,form}){
             :
                 <></>
         }
-        <h5 class="d-flex justify-content-center">Cupos Pedidos</h5>
         <Table striped bordered hover className='Cupos table-responsive'>
             <tbody>
                 <tr key={Math.random()}>
