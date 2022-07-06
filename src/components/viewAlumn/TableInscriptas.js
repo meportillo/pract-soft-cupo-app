@@ -6,7 +6,7 @@ export default function TableInscriptas(props){
     console.log("TablaInscriptas ",props);
     return(<>
            <h5 class="d-flex justify-content-center">Inscriptas en Guarani</h5>
-            <Table striped bordered hover className='table-responsive'>
+            <Table striped  hover className='table-responsive'>
             <tbody>
                 <tr>
                     <td>Nombre</td>

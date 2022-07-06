@@ -74,7 +74,6 @@ return(<>
                 {commissions.map((com)=>{
                          return <CommisionRequestShort  key={Math.random()} commission={com} materia={subjectName} createRequest={createRequest} dni={dni}/>}
                     )}
-
                 </tbody>
                 </Table>
                          <Button  key={Math.random()} onClick={(e) => {

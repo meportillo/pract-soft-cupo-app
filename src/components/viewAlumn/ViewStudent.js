@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
 import {getRequestsOfStudentAdmin } from '../../services/StudentService';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Tab, Tabs } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
 import TableInscriptas from './TableInscriptas';
@@ -67,9 +67,19 @@ export  default function ViewStudent(props){
                             <h5>Carrera: {carrera}</h5>
                             <h5> Coeficiente: {coeficiente}</h5>
                         </div>
-                        <hr></hr>
-                        <TableMateria materias={materiasAprobadas}> </TableMateria>
-                        <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
+                        <hr></hr>                     
+                        <Tabs defaultActiveKey="cursadas" id="uncontrolled-tab-example" className="mb-3">
+   
+                            <Tab eventKey="cursadas" title="Materias Cursadas">
+                                <TableMateria materias={materiasAprobadas}> </TableMateria>
+                            </Tab>
+                            <Tab eventKey="inscriptas" title="Inscripcion Guarani">
+                                <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
+                            </Tab>
+                            <Tab eventKey="historial-solicitudes" title="Hisorial de Solicitudes">
+                                <div>LLENAR CON EL HISTORIAL</div>
+                            </Tab>
+                        </Tabs>
                         <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} form={formulario}></TableCupos>
                         <CreateRequestShort studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                     </div>

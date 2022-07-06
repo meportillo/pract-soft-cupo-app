@@ -6,7 +6,7 @@ export default function TableMateria({materias}){
         <>
         
         <h5 class="d-flex justify-content-center">Materias Cursadas</h5>
-        <Table striped bordered hover className='Aprobadas table-responsive'>
+        <Table striped hover className='Aprobadas table-responsive'>
             <tbody className='overflow-auto'>
                 <tr>
                     <td>Nombre</td>
