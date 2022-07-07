@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Card, Carousel, Container, Form, Row } from "react-bootstrap";
-import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
+import { Button, Card, Carousel, Col, Container, Form, Row } from "react-bootstrap";
+import { closeAllRequests, getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
@@ -37,6 +37,12 @@ export default function Dashoard(){
             console.log(error);
         });
     },[])
+
+    const closeAll = () => {
+        if(window.confirm("Desea cerrar todos los formularios?")){
+            closeAllRequests()
+        }
+     }
         
     return(<>
         <Form.Label className="d-flex justify-content-center"><h3>Dashboard General de Solicitudes</h3></Form.Label>
@@ -80,6 +86,11 @@ export default function Dashoard(){
                     </blockquote>
                 </Card.Body>
             </Card>            
+            </Row>
+            <Row>
+                <Col style={{"padding-left" : "35px","margin-top" : "20px"}}>
+                   <Button md="auto" variant="primary" onClick={closeAll}>Cerrar todos los formularios</Button>
+                </Col>
             </Row>            
         </Container>
     </>)

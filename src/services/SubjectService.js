@@ -18,6 +18,17 @@ axios.interceptors.request.use(
     }
 );
 
+const closeAllRequests = () =>{
+    return axios.patch(path + "/api/formulario/cerrar")
+    .then(response => {
+        return response.data
+    })
+    .catch((error)=>{
+        console.log(error);
+        return error
+    }) 
+} 
+
 const getSubjects2 = (nombre)=>{
     const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
     return axios.get(path + url)
@@ -172,4 +183,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
