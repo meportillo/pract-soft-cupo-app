@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, ButtonGroup, Container } from "react-bootstrap";
 import {getRequestsByCommision} from '../../services/SubjectService';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import { optionsTable } from "../../utils/table";
 
 export default function CommissionRequest(props){
     const location = useLocation();
@@ -13,32 +16,46 @@ export default function CommissionRequest(props){
 
     useEffect(()=>{
         getRequestsByCommision(idcomision, setRequests);
+        console.log(requests);
     },[])
 
+    const actions = (dni)=>{
+        return(<>
+            <ButtonGroup>
+                <Button key={Math.random()} onClick={ e => navigate('/student/'+dni)}>
+                    Ver Detalle
+                </Button>
+            </ButtonGroup>        
+        </>
+        );  
+    } 
+
+    const columns = [{
+        dataField: 'dni',
+        text: 'DNI',
+        sort: true,
+        classes: 'w-25 p-3'
+      } , {
+        dataField: 'cantidadDeAprobadas',
+        text: 'Comision',
+        sort: true
+      }, {
+        dataField: 'dni',
+        text: 'Acciones',
+        sort: true,
+        style: {
+          width: 'auto' 
+        },
+        formatter: actions        
+      }]
+
     return (<>
-        <h3 style={{textAlign:"center"}}>{`Alumnos solicitantes para la Comision ${comisionId} de la materia ${nombreMateria}`}</h3>
-        <Table className="container">
-            <thead>
-                <tr key={Math.random()}>
-                    <th>Dni</th>
-                    <th>Materias Aprobadas</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>                
-            <tbody>
-                {requests.map(request => 
-                    <tr key={Math.random()}>
-                        <td>{request.dni}</td>
-                        <td>{request.cantidadDeAprobadas}</td>
-                        <td>
-                            <ButtonGroup>
-                                <Button key={Math.random()} onClick={ e => navigate('/student/'+request.dni)}>
-                                    Ver Detalle
-                                </Button>
-                            </ButtonGroup>  
-                            </td>
-                    </tr>)}
-                    </tbody>                
-        </Table>
+        <h3 style={{textAlign:"center"}}>{`Alumnos solicitantes para la Comision ${comisionId} ${nombreMateria}`}</h3>
+
+        <Container>
+                <BootstrapTable keyField='nombre' data={ requests }  pagination={ paginationFactory(optionsTable(requests.length, 5,10))}  columns={ columns } 
+                striped hover condensed>
+                </BootstrapTable>
+        </Container>
     </>);
 }
