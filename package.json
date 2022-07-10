@@ -2,6 +2,9 @@
   "name": "prac-soft-cupo-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.14.2"
+  },  
   "dependencies": {
     "@csstools/normalize.css": "^12.0.0",
     "@emotion/react": "^11.9.0",
