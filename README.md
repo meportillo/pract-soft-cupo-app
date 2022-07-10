@@ -6,7 +6,7 @@
 
 Frontend realizado para la aplicacion encargada de facilitar la asignacion de sobre cupos
 
-# Stack
+## Stack
   - React
   - React-Bootstrap
 
@@ -16,13 +16,7 @@ Frontend realizado para la aplicacion encargada de facilitar la asignacion de so
   - [Gradle](https://docs.gradle.org/current/userguide/userguide.html)
 
 
-
-# Librerias Interesantes:
-[<img src="https://cdn.anychart.com/images/logo-transparent-segoe.png?2" width="234px" alt="AnyChart - Robust JavaScript/HTML5 Chart library for any project">](https://www.anychart.com)
-
-## [`react-bootstrap-table2`](https://github.com/react-bootstrap-table/react-bootstrap-table2) 
-
-# Instalación
+## Instalación
 
 1. ### Clonar repositorio:
     <pre><code>git clone https://github.com/meportillo/pract-soft-cupo-app.git</code></pre>
