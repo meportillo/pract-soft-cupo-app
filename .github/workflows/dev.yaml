@@ -1,0 +1,34 @@
+name: Unque Master
+
+on: 
+  push:  
+    branches: [ dev ]
+  pull_request: 
+    branches: [ dev ]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [16.x]
+    
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Node Version ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with: 
+          node-version: ${{ matrix.node-version }}
+      - run: npm install --force
+      - run: npm test
+      - run: npm run build --if-present
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: 'unque-front-dev'
+          heroku_email: 'mauroeportillo@gmail.com'
+          env_file: ./dev/.env
+          branch: "dev"
