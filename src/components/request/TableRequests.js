@@ -50,9 +50,9 @@ export default function TableRequests({itemsPerPage}) {
            getMaterias(search)
         }
 
-        const actionsCommisions = (com,subject)=>{
+        const actionsCommisions = (cell, row)=>{
             return(<><ButtonGroup>
-                            <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${com}`,{state:{nombreMateria:subject.nombre,comisionId:com.numero}})}>
+                            <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${cell}`,{state:{nombreMateria:row.materia,comisionId:row.numero}})}>
                             Ver
                             </Button>
                         </ButtonGroup></>)

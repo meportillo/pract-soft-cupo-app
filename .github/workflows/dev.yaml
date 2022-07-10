@@ -1,0 +1,25 @@
+name: Unque Master
+
+on: 
+  push:  
+    branches: [ dev ]
+  pull_request: 
+    branches: [ dev ]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [16.x]
+    
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Node Version ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with: 
+          node-version: ${{ matrix.node-version }}
+      - run: npm install --force
+      - run: npm test
