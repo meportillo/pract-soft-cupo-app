@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Card, Carousel, Container, Form, Row } from "react-bootstrap";
 import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
+import AnyChart from "anychart-react";
+import anychart from "anychart";
+
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
-    const [alumnosProcesados, setAlumnosProcesados] = useState(0);
-    const [alumnosTotal, setAlumnosTotal] = useState(0);
-    const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(0);
+    const [alumnosProcesados, setAlumnosProcesados] = useState(undefined);
+    const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(undefined);
 
 
     useEffect(()=>{
@@ -18,24 +20,22 @@ export default function Dashoard(){
         .catch(error=>{
             console.log(error);
         });
-        getAlumnosSolicFiltro('NO_FILTRAR')
-        .then(response=>{
-            setAlumnosTotal(response.data.length);
-            console.log(response.data);
-        })
-        .catch(error=>{
-            console.log(error);
-        });
-
-        getAlumnosSolicFiltro('SIN_PROCESAR')
+        getAlumnosSolicFiltro('FALTA_PROCESAR')
         .then(response=>{
             setAlumnosSinProcesar(response.data.length);
-            setAlumnosProcesados(alumnosTotal - alumnosSinProcesar)
             console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
         });
+        getAlumnosSolicFiltro('PROCESADO')
+        .then(response=>{
+            setAlumnosProcesados(response.data.length);
+            console.log(response.data);
+        })
+        .catch(error=>{
+            console.log(error);
+        });        
     },[])
         
     return(<>
@@ -61,24 +61,20 @@ export default function Dashoard(){
             </Card>
             <br></br>
             <hr></hr>
-            <Card class="col-md-8">
-                <Card.Header> Procesamiento Totales por Alumno</Card.Header>
-                <Card.Body>
-                    <blockquote className="blockquote mb-0">
-                    <p>
-                        {' '}
-                        Cantidad Total de Alumnos con Solicitudes: {alumnosTotal}
-                        <br></br>
-                        Cantidad Total de Alumnos con Solicitudes Procesadas: {alumnosTotal - alumnosSinProcesar}
-                        <br></br>
-                        Cantidad Total de Alumnos con Solicitudes Pendientes: {alumnosSinProcesar}
+            <Card className="col-md-8">
+            { alumnosProcesados == undefined && alumnosSinProcesar == undefined ? 
+            <></>
+            :
+                <AnyChart
+                id="pieChart"
+                width={800}
+                height={600}
+                type="pie"
+                data={[{ x:'Prceosados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
+                title="Alumnos con Solicitudes"
+            />
 
-                    </p>
-               { /*    <footer className="blockquote-footer">
-                        Someone famous in <cite title="Source Title">Source Title</cite>
-    </footer>*/}
-                    </blockquote>
-                </Card.Body>
+            }
             </Card>            
             </Row>            
         </Container>

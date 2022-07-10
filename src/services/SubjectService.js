@@ -54,12 +54,14 @@ const getCommisionsBySubject = (code) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
+    return axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
     .then(response => {
         setter(response.data);
+        return response;
     })
     .catch(error=> {
         console.log(error);
+        return error;
     });
 }
 

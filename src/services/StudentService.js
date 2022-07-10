@@ -111,6 +111,13 @@ const createAlum = (alum) => {
 
 }
 
+const getAlumByDni = (dni) => {
+    return axios.get(`${path}/api/alumnos?dni=${dni}`)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err)))
+}
+
+
 const deleteAlum = (dni) => {
     return axios.delete(`${path}/api/alumnos?dni=${dni}`)
     .then(res => new Promise((resolve,error)=>resolve(res)))
@@ -124,4 +131,4 @@ const deleteRequest = () => {
 
 }
 
-export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum};
+export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum,getAlumByDni};
