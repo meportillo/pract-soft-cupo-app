@@ -4,12 +4,15 @@ import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/Sub
 
 import AnyChart from "anychart-react";
 import anychart from "anychart";
+import CountDown from "./countDown/CountDown";
 
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
     const [alumnosProcesados, setAlumnosProcesados] = useState(undefined);
     const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(undefined);
-
+    const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
+    const NOW_IN_MS = new Date().getTime();
+    const dateTimeAfterThreeDays = new Date(cuatrimestre.finInscripciones).getTime();
 
     useEffect(()=>{
         getCuatrimestreByanio('2022','S1')
@@ -46,10 +49,10 @@ export default function Dashoard(){
             <Card>
                 <Card.Header> {cuatrimestre.semestre == 'S1' ? 'Primer': 'Segundo'} Cuatrimestre - { cuatrimestre.anio }</Card.Header>
                 <Card.Body>
+                Tiempo restante para que finalice el proceso de inscripciones en Guarani:
+                <CountDown targetDate={dateTimeAfterThreeDays} />
                     <blockquote className="blockquote mb-0">
                     <p>
-                        {' '}
-                        Inicio de Incripciones: {new Date(cuatrimestre.inicioInscripciones).toLocaleString().split(",")[0] }
                         <br></br>
                         Fin de Inscripciones: {new Date(cuatrimestre.finInscripciones).toLocaleString().split(",")[0]}{' '}
                     </p>
@@ -57,6 +60,9 @@ export default function Dashoard(){
                         Someone famous in <cite title="Source Title">Source Title</cite>
     </footer>*/}
                     </blockquote>
+                    <div>
+
+                    </div>
                 </Card.Body>
             </Card>
             <br></br>
@@ -65,6 +71,7 @@ export default function Dashoard(){
             { alumnosProcesados == undefined && alumnosSinProcesar == undefined ? 
             <></>
             :
+            <div style={{align: 'center'}}>
                 <AnyChart
                 id="pieChart"
                 width={800}
@@ -72,7 +79,8 @@ export default function Dashoard(){
                 type="pie"
                 data={[{ x:'Prceosados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
                 title="Alumnos con Solicitudes"
-            />
+                />
+            </div>
 
             }
             </Card>            
