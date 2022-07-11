@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
-import { Card, Carousel, Container, Form, Row } from "react-bootstrap";
-import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { closeAllRequests, getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
 import AnyChart from "anychart-react";
-import anychart from "anychart";
 import CountDown from "./countDown/CountDown";
+import { AlertRequest } from "./AlertRequest";
 
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
     const [alumnosProcesados, setAlumnosProcesados] = useState(undefined);
     const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(undefined);
+    const [message,setMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [callError, setCallError] = useState(false);
     const dateTimeAfterThreeDays = new Date(cuatrimestre.finInscripciones).getTime();
 
     useEffect(()=>{
         getCuatrimestreByanio('2022','S1')
         .then(response=>{
             setCuatrimestre(response.data);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
@@ -24,7 +26,6 @@ export default function Dashoard(){
         getAlumnosSolicFiltro('FALTA_PROCESAR')
         .then(response=>{
             setAlumnosSinProcesar(response.data.length);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
@@ -32,12 +33,29 @@ export default function Dashoard(){
         getAlumnosSolicFiltro('PROCESADO')
         .then(response=>{
             setAlumnosProcesados(response.data.length);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
         });        
     },[])
+
+    const closeAll = () => {
+        if(window.confirm("Desea cerrar todos los formularios?")){
+            closeAllRequests()
+            .then(response => {
+                if(response.status == 200){
+                    //alert("Fomulario cerrado Ok")
+                    setMessage('Solicitudes restantes rechazadas correctamente');
+                    setShowMessage(true);
+                    setCallError(false);
+                }else{
+                    setMessage(response.response.data.error+ ": " + response.response.data.message );
+                    setShowMessage(true);
+                    setCallError(true);
+                }
+            })
+        }
+     }
         
     return(<>
         <Form.Label className="d-flex justify-content-center"><h3>Dashboard General de Solicitudes</h3></Form.Label>
@@ -75,14 +93,23 @@ export default function Dashoard(){
                 width={800}
                 height={600}
                 type="pie"
-                data={[{ x:'Prceosados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
+                data={[{ x:'Procesados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
                 title="Alumnos con Solicitudes"
                 />
             </div>
 
             }
-            </Card>            
-            </Row>            
+            </Card>
+            <Col style={{"position" : "relative"}}>
+            {
+            showMessage?
+                <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+            :
+                <></>
+            }
+                   <Button md="auto" variant="primary" onClick={closeAll}>Cerrar todos los formularios</Button>
+            </Col>          
+            </Row>          
         </Container>
     </>)
 }

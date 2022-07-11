@@ -18,6 +18,17 @@ axios.interceptors.request.use(
     }
 );
 
+const closeAllRequests = () =>{
+    return axios.patch(path + "/api/formulario/cerrar")
+    .then(response => {
+        return response
+    })
+    .catch((error)=>{
+        console.log(error);
+        return error
+    }) 
+} 
+
 const getSubjects2 = (nombre)=>{
     const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
     return axios.get(path + url)
@@ -109,7 +120,6 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     }
     return axios.post(path+"/api/comisiones/oferta",oferta)
     .then((response) => {
-        console.log(response);
         return response
     })
     .catch((error)=>{
@@ -121,7 +131,6 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
 const getAlumnos = () =>{
     return axios.get(path+"/api/alumnos/formulario")
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
@@ -133,7 +142,6 @@ const getAlumnos = () =>{
 const getAlumnosByDni = (dni) =>{
     return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
@@ -174,4 +182,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};

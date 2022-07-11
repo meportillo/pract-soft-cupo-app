@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
 import {getRequestsOfStudentAdmin } from '../../services/StudentService';
-import { Button, Container, Tab, Tabs } from 'react-bootstrap';
+import { Button, Tab, Tabs } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
 import TableInscriptas from './TableInscriptas';
 
 
 export  default function ViewStudent(props){
-
     let { dni } = useParams();
     const [materiasAprobadas, setMateriasAprobadas]= useState([])
     const [cuposPedidos, setCuposPedidos]= useState([])
@@ -34,7 +33,6 @@ export  default function ViewStudent(props){
     useEffect(() => {
         getRequestsOfStudentAdmin(dni)
         .then((data) => {
-            console.log('datadata', data);
             setFormulario(data);
             setCarrera(data.carrera);
             setCoeficiente(data.coeficiente);
@@ -73,7 +71,7 @@ export  default function ViewStudent(props){
                         </div>
                         <div class="col">
                             <h5>Carrera: {carrera}</h5>
-                            <h5> Coeficiente: {coeficiente}</h5>
+                            <h5>Coeficiente: {coeficiente}</h5>
                         </div>
                         <hr></hr>
                         {formulario === undefined ?  <></>:
