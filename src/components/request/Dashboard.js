@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Carousel, Container, Form, Row } from "react-bootstrap";
+import { CardContainer, Form, Row } from "react-bootstrap";
 import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
 export default function Dashoard(){
@@ -13,28 +13,22 @@ export default function Dashoard(){
         getCuatrimestreByanio('2022','S1')
         .then(response=>{
             setCuatrimestre(response.data);
-            console.log(response.data);
         })
         .catch(error=>{
-            console.log(error);
         });
         getAlumnosSolicFiltro('NO_FILTRAR')
         .then(response=>{
             setAlumnosTotal(response.data.length);
-            console.log(response.data);
         })
         .catch(error=>{
-            console.log(error);
         });
 
         getAlumnosSolicFiltro('SIN_PROCESAR')
         .then(response=>{
             setAlumnosSinProcesar(response.data.length);
             setAlumnosProcesados(alumnosTotal - alumnosSinProcesar)
-            console.log(response.data);
         })
         .catch(error=>{
-            console.log(error);
         });
     },[])
         

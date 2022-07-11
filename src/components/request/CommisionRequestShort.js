@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import {useState } from "react";
+import { Button } from "react-bootstrap";
 import {FiSend} from  "react-icons/fi";
 import { horarioToString } from "../../utils/time";
 
 
 export default function CommisionRequestShort(props){
 
-    const [commission, setcommission] = useState(props.commission);
+    const [commission] = useState(props.commission);
     return(<>
                 <tr>
                     <th>

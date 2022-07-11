@@ -42,7 +42,6 @@ export default function ABMStudent(){
         createAlum(alum).then((response)=>{
             clear();
             formRef.current.reset();
-            console.log(response);
             if(response.status == 201 || response.status == 200){
                 setMessage('Alumno creado exitosamente');
                 setShowMessage(true);
@@ -53,21 +52,16 @@ export default function ABMStudent(){
                 setCallError(true);
             }
         }).catch((error)=>{
-            console.log(error);
-            
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);
         })
-
-        console.log('body alumno', alum);
     }
 
     const _deleteAlum = ()=>{
      
         deleteAlum(dni).then((response)=>{
             formDelRef.current.reset();
-            console.log(response);
             if(response.status == 204 || response.status == 200 || response.status == 201){
                 setMessage('Alumno eliminado exitosamente');
                 setShowMessage(true);
@@ -78,8 +72,6 @@ export default function ABMStudent(){
                 setCallError(true);
             }
         }).catch((error)=>{
-            console.log(error);
-            
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);

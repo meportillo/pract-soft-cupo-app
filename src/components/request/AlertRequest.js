@@ -1,5 +1,5 @@
 import Alert from 'react-bootstrap/Alert';
-import React, { useEffect, useState } from "react";
+import React from "react";
 export  function AlertRequest(props){
   
     return(

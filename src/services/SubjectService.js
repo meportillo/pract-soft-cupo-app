@@ -33,7 +33,6 @@ const getSubjects2 = (nombre)=>{
         })
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 
@@ -43,7 +42,6 @@ const getCommissions = (anio,semestre,setter)=>{
         setter(response.data);
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 const getCommisionsBySubject = (code) => {
@@ -59,7 +57,6 @@ const getRequestsByCommision = (comisionId, setter) => {
         setter(response.data);
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 
@@ -107,11 +104,9 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     }
     return axios.post(path+"/api/comisiones/oferta",oferta)
     .then((response) => {
-        console.log(response);
         return response
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -119,11 +114,9 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
 const getAlumnos = () =>{
     return axios.get(path+"/api/alumnos/formulario")
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -131,11 +124,9 @@ const getAlumnos = () =>{
 const getAlumnosByDni = (dni) =>{
     return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }

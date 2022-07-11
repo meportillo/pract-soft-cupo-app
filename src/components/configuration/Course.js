@@ -29,7 +29,6 @@ export default function Course(){
         createCourse(course).then((response)=>{
             clear();
             formRef.current.reset();
-            console.log(response);
             if(response.status == 201 || response.status == 200 || response.status == 204 ){
                 setMessage('Materia creada exitosamente');
                 setShowMessage(true);

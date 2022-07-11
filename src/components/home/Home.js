@@ -14,7 +14,6 @@ export default function Home() {
     },[])
 
     const clickFilters = (condition)=>{
-        console.log(condition);
     };
     return(<>
         <div className="container">

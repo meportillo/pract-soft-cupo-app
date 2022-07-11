@@ -7,7 +7,7 @@ import CommisionRequestShort from './CommisionRequestShort';
 import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
-    const [dni,setDni]  = useState(props.studentid);
+    const [dni]  = useState(props.studentid);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
     const [showComision, setShowComision] = useState(false);
