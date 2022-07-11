@@ -131,4 +131,10 @@ const deleteRequest = () => {
 
 }
 
-export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum,getAlumByDni};
+const getCuatrimestreActual = () => {
+    return axios.get(`${path}/api/alumno/cuatrimestre`)
+    .then(res => new Promise((resolve,error)=>resolve(res.data)))
+    .catch(err => new Promise((resolve,error)=>error(err)))
+}
+
+export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum,getAlumByDni, getCuatrimestreActual};

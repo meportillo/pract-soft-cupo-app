@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { getRequestsOfStudent, deleteRequest } from '../../services/StudentService';
+import { getRequestsOfStudent, deleteRequest, getCuatrimestreActual } from '../../services/StudentService';
 import Table from 'react-bootstrap/Table';
 import { getUser } from "../../utils/auth";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import { getCuatrimestreByanio } from "../../services/SubjectService";
+import CountDown from "../request/countDown/CountDown";
+
 
 export function HomeStudent() {
+    const [cuatrimestre, setCuatrimestre] = useState(null);
     const [solicitudes, setSolicitudes] = useState([]);
     const [inscripciones, setInscripciones] = useState([]);
 
@@ -21,6 +26,11 @@ export function HomeStudent() {
         }
     }
     useEffect(()=>{
+        getCuatrimestreActual()
+        .then(response=>{
+            setCuatrimestre(response);
+        })
+        .catch();
         const user = getUser();
         getRequestsOfStudent(user)
         .then(data => {
@@ -35,6 +45,24 @@ export function HomeStudent() {
 
     return(
         <Form className="container">
+            <Card>
+            { 
+                cuatrimestre ?
+                    <>     
+                    <Card.Header> {cuatrimestre.semestre == 'S1' ? 'Primer': 'Segundo'} Cuatrimestre - { cuatrimestre.anio }</Card.Header>
+                    <Card.Body>
+                        Tiempo restante para que finalice el proceso de inscripciones en Guarani:
+                        <CountDown targetDate={new Date(cuatrimestre.finInscripciones).getTime()}/>
+                        <blockquote className="blockquote mb-0">
+                        <p>
+                            <br></br>
+                            Fin de Inscripciones: {new Date(cuatrimestre.finInscripciones).toLocaleString().split(",")[0]}{' '}
+                        </p>
+                        </blockquote>
+                    </Card.Body></>
+                :   <></>
+                }
+            </Card>
             <h3 className="d-flex justify-content-center mb-3">Formulario Cargado</h3>
             {
                 solicitudes.length + inscripciones.length === 0
