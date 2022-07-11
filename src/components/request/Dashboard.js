@@ -87,12 +87,13 @@ export default function Dashoard(){
             </div>
 
             }
-            </Card>            
+            </Card>  
+            <Col style={{"position" : "relative"}}>
+                   <Button md="auto" variant="primary" onClick={closeAll}>Cerrar todos los formularios</Button>
+            </Col>          
             </Row>
             <Row>
-                <Col style={{"padding-left" : "35px","margin-top" : "20px"}}>
-                   <Button md="auto" variant="primary" onClick={closeAll}>Cerrar todos los formularios</Button>
-                </Col>
+
             </Row>            
         </Container>
     </>)
