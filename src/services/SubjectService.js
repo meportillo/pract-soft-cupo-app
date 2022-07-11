@@ -21,7 +21,7 @@ axios.interceptors.request.use(
 const closeAllRequests = () =>{
     return axios.patch(path + "/api/formulario/cerrar")
     .then(response => {
-        return response.data
+        return response
     })
     .catch((error)=>{
         console.log(error);

@@ -5,11 +5,15 @@ import { closeAllRequests, getAlumnosSolicFiltro, getCuatrimestreByanio } from "
 import AnyChart from "anychart-react";
 import anychart from "anychart";
 import CountDown from "./countDown/CountDown";
+import { AlertRequest } from "./AlertRequest";
 
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
     const [alumnosProcesados, setAlumnosProcesados] = useState(undefined);
     const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(undefined);
+    const [message,setMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [callError, setCallError] = useState(false);
     const dateTimeAfterThreeDays = new Date(cuatrimestre.finInscripciones).getTime();
 
     useEffect(()=>{
@@ -42,6 +46,18 @@ export default function Dashoard(){
     const closeAll = () => {
         if(window.confirm("Desea cerrar todos los formularios?")){
             closeAllRequests()
+            .then(response => {
+                if(response.status == 200){
+                    //alert("Fomulario cerrado Ok")
+                    setMessage('Solicitudes restantes rechazadas correctamente');
+                    setShowMessage(true);
+                    setCallError(false);
+                }else{
+                    setMessage(response.response.data.error+ ": " + response.response.data.message );
+                    setShowMessage(true);
+                    setCallError(true);
+                }
+            })
         }
      }
         
@@ -87,14 +103,17 @@ export default function Dashoard(){
             </div>
 
             }
-            </Card>  
+            </Card>
             <Col style={{"position" : "relative"}}>
+            {
+            showMessage?
+                <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+            :
+                <></>
+            }
                    <Button md="auto" variant="primary" onClick={closeAll}>Cerrar todos los formularios</Button>
             </Col>          
-            </Row>
-            <Row>
-
-            </Row>            
+            </Row>          
         </Container>
     </>)
 }
