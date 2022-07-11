@@ -1,11 +1,12 @@
 import React, { useState, navigate , useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
-import ReactPaginate from 'react-paginate';
 import {getRequests, getSubjects2, getCommissions, getCommisionsBySubject} from '../../services/SubjectService';
 import Form from 'react-bootstrap/Form';
+import { optionsTable } from '../../utils/table';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import BootstrapTable from 'react-bootstrap-table-next';
 
 
 
@@ -44,19 +45,65 @@ export default function TableRequests({itemsPerPage}) {
             setFirst(false);
         }, [itemOffset, itemsPerPage, items]);
 
-        const handlePageClick = (event) => {
-            const newOffset = (event.selected * itemsPerPage) % items.length;
-            setItemOffset(newOffset);
-        };
-        const handlePageClickInit = (nro) => {
-            const newOffset = (nro * itemsPerPage) % items.length;
-            setItemOffset(newOffset);
-        };
 
         const sendSearch = () => {
            getMaterias(search)
         }
-        return (<>
+
+        const actionsCommisions = (cell, row)=>{
+            return(<><ButtonGroup>
+                            <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${cell}`,{state:{nombreMateria:row.materia,comisionId:row.numero}})}>
+                            Ver
+                            </Button>
+                        </ButtonGroup></>)
+        }
+
+        const columnsComisions = [{
+            dataField: 'numero',
+            text: 'Nro',
+            sort: true,
+            classes: 'w-25 p-3'
+          } , {
+            dataField: 'cuposDisponibles',
+            text: 'Disponibles',
+            sort: true
+          }, {
+            dataField: 'cuposTotales',
+            text: 'Totales',
+            sort: true,
+            style: {
+              width: 'auto' 
+            }        
+          },
+          {
+            dataField: 'id',
+            text: 'Acciones',
+            sort: true,
+            formatter:  actionsCommisions   
+          }
+        ];
+
+        const formatterCom = (cell)=>{
+            return(<>
+            <BootstrapTable keyField='nombreMateria' data={ cell } columns={ columnsComisions } >
+                </BootstrapTable>
+            </>)
+        }
+        const columnsSubjects = [{
+            dataField: 'nombre',
+            text: 'Nombre',
+            sort: true,
+            classes: 'w-25 p-3'
+          } , {
+            dataField: 'comisiones',
+            text: 'Comisiones',
+            sort: true,
+            formatter: formatterCom
+          }];
+
+
+
+        return(<>
         <Form>
         <Row className="mb-3">
             <Col md="auto" style={{"margin-block-start": "auto"}}>
@@ -68,85 +115,10 @@ export default function TableRequests({itemsPerPage}) {
             <Button as={Col} md="auto" variant="primary" onClick={sendSearch}>Buscar</Button>
         </Row>
         </Form>
-            <Table size='sm' striped bordered hover responsive='sm' >
-                        <thead>
-                            <tr key={Math.random()}>
-                                <th>Nombre</th>
-                                <th>Comisiones</th>
-                            </tr>
-                        </thead>                
-                        <tbody>
-                            {currentItems && currentItems.map(subject => 
-                               <> <tr key={Math.random()}>
-                                    <td>{subject.nombre}</td>
-                                    <td>
-                                    <Table size='sm' striped bordered hover responsive='sm'>
-                                    <thead>
-                                        <tr key={Math.random()}>
-                                            <th>Nro</th>
-                                            <th>Disponibles</th>
-                                            <th>Totales</th>
-                                            <th>Acciones</th>
-
-                                        </tr>
-                                    </thead>   
-                                                <tbody>
-
-                                        {
-                                        subject.comisiones.length == 0?
-                                        <> 
-                                                    <tr>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td> No
-                                                        </td>
-                                                    </tr>             
-                                        </> 
-                                        :<>
-                                           {subject.comisiones.map(com=>{
-                                               return <>
-                                                        <tr>
-                                                            <td>{com.numero}</td>
-                                                            <td>{com.cuposDisponibles}</td>
-                                                            <td>{com.cuposTotales}</td>
-                                                            <td>
-                                                            <ButtonGroup>
-                                                                <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${com.id}`,{state:{nombreMateria:subject.nombre,comisionId:com.numero}})}>
-                                                                    Ver
-                                                                </Button>
-                                                            </ButtonGroup>  
-                                                            </td>
-                                                      </tr>
-                                                    </>
-                                                })}
-                                        </>}
-                                            </tbody>
-                                            </Table>
-
-                                    </td>
-                                </tr></>)}
-                        </tbody>                
-            </Table>             
-            <ReactPaginate
-            breakLabel="..."
-            nextLabel=" >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount}
-            previousLabel="< "
-            renderOnZeroPageCount={null}
-            breakClassName={'page-item'}
-            breakLinkClassName={'page-link'}
-            containerClassName={'pagination'}
-            pageClassName={'page-item'}
-            pageLinkClassName={'page-link'}
-            previousClassName={'page-item'}
-            previousLinkClassName={'page-link'}
-            nextClassName={'page-item'}
-            nextLinkClassName={'page-link'}
-            activeClassName={'active'}          
-            />
+        {currentItems === undefined || currentItems === null ? <></>:
+        <BootstrapTable keyField='nombre' data={ currentItems }  pagination={ paginationFactory(optionsTable(currentItems.length, 5,10))}  columns={ columnsSubjects } 
+        striped hover condensed>
+        </BootstrapTable>}
         </>);
 
   }

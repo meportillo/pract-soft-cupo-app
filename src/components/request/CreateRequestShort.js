@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import {getCommisionsBySubject, getSubjects2, postCreateRequest} from '../../services/SubjectService';
@@ -14,6 +14,7 @@ export default function CreateRequestShort(props){
     const [code, setCode] = useState('');
     const [commissions, setCommissions] = useState([]);
     const [subjectName, setSubjectName] = useState('');
+    const formRef = useRef(null);
 
     useEffect(()=>{
         getSubjects2().then((data)=>{
@@ -48,15 +49,18 @@ return(<>
                 <Modal.Title id="contained-modal-title-getSubjects2vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
-                <Form.Control
-                    type="text"
-                    id="search"
-                    aria-describedby="passwordHelpBlock"
-                    onChange={(e) => {
-                        setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
-                    }
-            }
-                />
+                <Form ref={formRef}>
+                    <Form.Control
+                        type="text"
+                        id="search"
+                        aria-describedby="passwordHelpBlock"
+                        onChange={(e) => {
+                            setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
+                        }
+                }
+                    />
+
+                </Form>
             </Modal.Header>
             <Modal.Body className="show-grid">
 
@@ -74,13 +78,14 @@ return(<>
                 {commissions.map((com)=>{
                          return <CommisionRequestShort  key={Math.random()} commission={com} materia={subjectName} createRequest={createRequest} dni={dni}/>}
                     )}
-
                 </tbody>
                 </Table>
                          <Button  key={Math.random()} onClick={(e) => {
-                             setCommissions([])
-                             setShowComision(false)
-                             }}>ok</Button>
+                             setCommissions([]);
+                             setShowComision(false);
+                             formRef.current.reset();
+
+                             }}>Limpiar</Button>
                 <hr></hr>
                 <Container>
                     {subjectsFilter.map(subject=>{

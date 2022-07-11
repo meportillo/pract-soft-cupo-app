@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { getRequestsOfStudent, deleteRequest } from '../../services/StudentService';
 import Table from 'react-bootstrap/Table';
 import { getUser } from "../../utils/auth";
