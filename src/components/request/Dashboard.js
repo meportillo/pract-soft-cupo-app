@@ -93,7 +93,7 @@ export default function Dashoard(){
                 width={800}
                 height={600}
                 type="pie"
-                data={[{ x:'Prceosados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
+                data={[{ x:'Procesados', value:alumnosProcesados}, {x: 'Sin Procesar', value:alumnosSinProcesar} ]}
                 title="Alumnos con Solicitudes"
                 />
             </div>
