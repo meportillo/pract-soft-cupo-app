@@ -1,8 +1,8 @@
-import React, { useState, navigate , useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import {getRequests, getSubjects2, getCommissions, getCommisionsBySubject} from '../../services/SubjectService';
+import {getSubjects2,getCommisionsBySubject} from '../../services/SubjectService';
 import Form from 'react-bootstrap/Form';
 import { optionsTable } from '../../utils/table';
 import paginationFactory from 'react-bootstrap-table2-paginator';

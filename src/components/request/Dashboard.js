@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Carousel, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { closeAllRequests, getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
 import AnyChart from "anychart-react";
-import anychart from "anychart";
 import CountDown from "./countDown/CountDown";
 import { AlertRequest } from "./AlertRequest";
 

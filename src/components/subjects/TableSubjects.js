@@ -1,10 +1,7 @@
-import React, { Component, useEffect, useState } from 'react'
-import { Button, ButtonGroup, Col, Form, Row, Table } from 'react-bootstrap';
+import React, {useEffect, useState } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import ReactPaginate from 'react-paginate';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { getAlumnos, getAlumnosByDni, getSubjectsComplete } from '../../services/SubjectService';
+import {getSubjectsComplete } from '../../services/SubjectService';
 import { optionsTable } from '../../utils/table';
 
 export default function TableSubjects({itemsPerPage}) {
