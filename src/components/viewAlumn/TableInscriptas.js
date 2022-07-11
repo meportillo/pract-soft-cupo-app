@@ -5,7 +5,6 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 
 export default function TableInscriptas(props){
-    console.log("TablaInscriptas ",props);
     const columns = [{
         dataField: 'nombreMateria',
         text: 'Nombre',

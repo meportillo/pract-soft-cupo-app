@@ -19,11 +19,9 @@ export default function CommissionRequest(props){
     useEffect(()=>{
         getRequestsByCommision(idcomision, setRequests)
         .then(response => {
-          console.log('response: ',response);
           let temp = [];
           response.data.map(req =>{
             const reqAl = getAlumByDni(req.dni).then(response=>{
-              console.log('alumno', response);
               let obj = req;
               obj.alumno = response.data.length == 1 ? response.data[0]: undefined;
               return obj
@@ -34,7 +32,6 @@ export default function CommissionRequest(props){
           .then(promises => setItems(promises));
 
         });
-        console.log(items);
     },[])
 
     const actions = (dni)=>{

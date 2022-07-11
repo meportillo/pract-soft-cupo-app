@@ -33,7 +33,6 @@ export  default function ViewStudent(props){
     useEffect(() => {
         getRequestsOfStudentAdmin(dni)
         .then((data) => {
-            console.log('datadata', data);
             setFormulario(data);
             setCarrera(data.carrera);
             setCoeficiente(data.coeficiente);

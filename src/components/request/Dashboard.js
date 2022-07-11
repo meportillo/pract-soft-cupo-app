@@ -20,7 +20,6 @@ export default function Dashoard(){
         getCuatrimestreByanio('2022','S1')
         .then(response=>{
             setCuatrimestre(response.data);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
@@ -28,7 +27,6 @@ export default function Dashoard(){
         getAlumnosSolicFiltro('FALTA_PROCESAR')
         .then(response=>{
             setAlumnosSinProcesar(response.data.length);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);
@@ -36,7 +34,6 @@ export default function Dashoard(){
         getAlumnosSolicFiltro('PROCESADO')
         .then(response=>{
             setAlumnosProcesados(response.data.length);
-            console.log(response.data);
         })
         .catch(error=>{
             console.log(error);

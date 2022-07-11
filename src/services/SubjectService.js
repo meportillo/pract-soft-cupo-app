@@ -120,7 +120,6 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     }
     return axios.post(path+"/api/comisiones/oferta",oferta)
     .then((response) => {
-        console.log(response);
         return response
     })
     .catch((error)=>{
@@ -132,7 +131,6 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
 const getAlumnos = () =>{
     return axios.get(path+"/api/alumnos/formulario")
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
@@ -144,7 +142,6 @@ const getAlumnos = () =>{
 const getAlumnosByDni = (dni) =>{
     return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{

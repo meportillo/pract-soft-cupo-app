@@ -17,7 +17,6 @@ export default function TableStudents() {
     useEffect(() => {
         getAlumnos()
         .then((data) => {
-            console.log(data);
             setAlumnos(data);
         });
     },[])

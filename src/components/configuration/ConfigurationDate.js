@@ -15,10 +15,6 @@ export const ConfigurationDate = () => {
     const [callError, setCallError] = useState(false);
     const formRef = useRef(null);
 
-    console.log("DATE Start", dateStart);
-    console.log("DATE End", dateEnd);
-    console.log("TIME", time);
-
     const clear = ()=>{
         setDateStart(new Date());
         setDateEnd(new Date());
