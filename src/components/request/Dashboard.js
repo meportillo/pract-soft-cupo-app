@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CardContainer, Form, Row } from "react-bootstrap";
+import { Card, Container, Form, Row } from "react-bootstrap";
 import { getAlumnosSolicFiltro, getCuatrimestreByanio } from "../../services/SubjectService";
 
 export default function Dashoard(){
