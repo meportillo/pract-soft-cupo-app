@@ -127,13 +127,7 @@ export default function Course(){
             <Accordion.Item eventKey="2">
                 <Accordion.Header>Carga Masiva de Materias</Accordion.Header>
                 <Accordion.Body>
-                <ImportFile importar={importCSVCourses} formatHeader={["carrera","codigo","nombre"]} filename="materias" idCSV="csvFileInputMaterias" ></ImportFile>
-                </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="3">
-                <Accordion.Header>Carga Masiva de Correlatividades de materias</Accordion.Header>
-                <Accordion.Body>
-                <ImportFile importar={importCSVCorrelatives} formatHeader={["codigoMateria","codigoCorrelativa"]} filename="correlatividades" idCSV="csvFileInputCorrelativas"></ImportFile>
+                <ImportFile importar={importCSVCourses}></ImportFile>
                 </Accordion.Body>
             </Accordion.Item>
             </Accordion>
