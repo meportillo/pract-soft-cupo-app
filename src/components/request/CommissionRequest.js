@@ -51,10 +51,6 @@ export default function CommissionRequest(props){
         sort: true,
         classes: 'w-25 p-3'
       },{
-        dataField: 'cantidadDeAprobadas',
-        text: 'Comision',
-        sort: true
-      },{
         dataField: 'dni',
         text: 'Acciones',
         sort: true,
@@ -67,7 +63,7 @@ export default function CommissionRequest(props){
     return (<>
         <h3 style={{textAlign:"center"}}>{`Alumnos solicitantes para la Comision ${comisionId} de ${nombreMateria}`}</h3>
 
-        <Container style={{'float': 'right'}}>
+        <Container style={{'float': 'left'}}>
                 <BootstrapTable keyField='nombre' data={ items }  pagination={ paginationFactory(optionsTable(requests.length, 5,10))}  columns={ columns } 
                 striped hover condensed>
                 </BootstrapTable>
