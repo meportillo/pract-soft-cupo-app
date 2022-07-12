@@ -66,7 +66,7 @@ export  default function ViewStudent(props){
             setInscriptas(data.formulario.comisionesInscripto);
             setComentarios(data.formulario.comentarios);           
         });        
-    },[solUpdate,comentario])
+    },[solUpdate])
     
     const comentar = ()=>{
         if(comentario==''){
@@ -76,18 +76,27 @@ export  default function ViewStudent(props){
             setCallError(true);
             return;
         }
-        patchComentarFormulario(formulario.formulario.id, localStorage.getItem('user').split('@')[0],comentario,dni).
-        then((data)=>{
-            updateSol();
+        try{
+            patchComentarFormulario(formulario.formulario.id, localStorage.getItem('user').split('@')[0],comentario,dni).
+            then((data)=>{
+                updateSol();
+                formRef.current.reset();
+                setComentario('');
+            }).catch(response=>{
+                formRef.current.reset();
+                setComentario('');
+                setMessage(response);
+                setShowMessage(true);
+                setCallError(true);
+            });
+        } catch (error){
             formRef.current.reset();
-            setComentario('');
-        }).catch(response=>{
-            formRef.current.reset();
-            setComentario('');
-            setMessage(response.data.error+ ": " + response.data.message);
+            setMessage(error);
             setShowMessage(true);
             setCallError(true);
-        });
+            return;
+        }
+        
     }
 
     const bag = ()=>{
@@ -141,7 +150,7 @@ export  default function ViewStudent(props){
                                         <Card.Header>
                                             <Form ref={formRef} validated>
                                             <Form.Group className="row" controlId="commentControl">
-                                                    <Form.Control className='col' type="text" placeholder="Ingresar comentario..." onKeyDown={(e)=> { if(e.key == "enter"){e.preventDefault();console.log("Enter")} console.log(e)}} onChange={(e)=>setComentario(e.target.value)} />
+                                                    <Form.Control className='col' type="text" placeholder="Ingresar comentario..."  onChange={(e)=>setComentario(e.target.value)} />
                                                     <Button  className='col-1' variant="info" onClick={(e) => comentar()}><GrFormAdd></GrFormAdd></Button>
                                             </Form.Group>
                                             </Form>
