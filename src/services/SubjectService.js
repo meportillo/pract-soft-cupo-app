@@ -115,7 +115,7 @@ const patchComentarFormulario = (id,autor,descripcion,dni) =>{
         return response
     })
     .catch((error)=>{
-        alert(error.response.data.error+ ": " + error.response.data.message );
+        //alert(error.response.data.error+ ": " + error.response.data.message );
         return error
     }) 
 }

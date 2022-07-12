@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import TableInscriptas from './TableInscriptas';
 import { GrFormAdd } from 'react-icons/gr';
 import { patchComentarFormulario } from '../../services/SubjectService';
+import { AlertRequest } from '../request/AlertRequest';
 
 
 export  default function ViewStudent(props){
@@ -23,7 +24,11 @@ export  default function ViewStudent(props){
     const [solUpdate, setSolUpdate] = useState(Math.random())
     const [comentarios,setComentarios] = useState([]);
     const [comentario,setComentario] = useState('');
+    const [showMessage,setShowMessage] = useState(false);
+    const [callError, setCallError] = useState(false);
+    const [message,setMessage] = useState('');
     const formRef = useRef(null);
+
 
     const updateSol = ()=>{
         setSolUpdate(Math.random());
@@ -64,13 +69,24 @@ export  default function ViewStudent(props){
     },[solUpdate,comentario])
     
     const comentar = ()=>{
+        if(comentario==''){
+            formRef.current.reset();
+            setMessage('No se puede enviar comentarios vacios!');
+            setShowMessage(true);
+            setCallError(true);
+            return;
+        }
         patchComentarFormulario(formulario.formulario.id, localStorage.getItem('user').split('@')[0],comentario,dni).
         then((data)=>{
             updateSol();
             formRef.current.reset();
-        }).catch(error=>{
+            setComentario('');
+        }).catch(response=>{
             formRef.current.reset();
-
+            setComentario('');
+            setMessage(response.data.error+ ": " + response.data.message);
+            setShowMessage(true);
+            setCallError(true);
         });
     }
 
@@ -115,9 +131,15 @@ export  default function ViewStudent(props){
                                     <div>LLENAR CON EL HISTORIAL</div>
                                 </Tab>
                                 <Tab eventKey="comentarios-solicitudes" title={`Comentarios de Solicitudes: ${comentarios.length}`} style={{height: '50px'}}>
+                                    {
+                                    showMessage?
+                                        <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+                                        :
+                                        <></>
+                                    }                                    
                                     <Card >
                                         <Card.Header>
-                                            <Form ref={formRef}>
+                                            <Form ref={formRef} validated>
                                             <Form.Group className="row" controlId="commentControl">
                                                     <Form.Control className='col' type="text" placeholder="Ingresar comentario..." onKeyDown={(e)=> { if(e.key == "enter"){e.preventDefault();console.log("Enter")} console.log(e)}} onChange={(e)=>setComentario(e.target.value)} />
                                                     <Button  className='col-1' variant="info" onClick={(e) => comentar()}><GrFormAdd></GrFormAdd></Button>
