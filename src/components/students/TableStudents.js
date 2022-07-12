@@ -48,13 +48,6 @@ export default function TableStudents() {
       dataField: 'alumno.dni',
       text: 'DNI',
       sort: true
-    }, {
-      dataField: 'alumno.legajo',
-      text: 'Legajo',
-      sort: true,
-      style: {
-        width: 'auto' 
-      }        
     },{
       dataField: 'alumno.correo',
       text: 'Correo',
@@ -62,13 +55,9 @@ export default function TableStudents() {
       style: {
         width: 'auto' 
       }      
-    },{
-      dataField: 'alumno.coeficiente',
-      text: 'Coeficiente',
-      sort: true
     },
     {
-      dataField: 'alumno.dni',
+      dataField: 'alumno.actions',
       text: 'Acciones',
       sort: true,
       formatter:  action   
@@ -94,7 +83,7 @@ export default function TableStudents() {
         <Button as={Col} md="auto" onClick={updateTime}  variant="primary">Filtrar</Button>
         </Row>
         </Form>
-        <BootstrapTable keyField='alumno.legajo' data={ alumnos } columns={ columns } pagination={ paginationFactory(optionsTable(alumnos.length,2,5)) } 
+        <BootstrapTable keyField='alumno.dni' data={ alumnos } columns={ columns } pagination={ paginationFactory(optionsTable(alumnos.length,2,5)) } 
         striped hover condensed>
         </BootstrapTable>
 

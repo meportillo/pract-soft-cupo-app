@@ -6,10 +6,8 @@ import { AlertRequest } from "../request/AlertRequest";
 export default function ABMStudent(){
     
     const [dni,setDni] = useState('');
-    const [legajo,setLegajo] = useState('');
     const [apellido,setApellido] = useState('');
     const [nombre,setNombre] = useState('');
-    const [coeficiente,setCoeficiente] = useState(0);
     const [correo,setCorreo] = useState('');
     const [carrera,setCarrera] = useState('');
     const [showMessage,setShowMessage] = useState(false);
@@ -20,10 +18,8 @@ export default function ABMStudent(){
 
     const clear = ()=> {
        setDni('');
-       setLegajo('');
        setApellido('');
        setNombre('');
-       setCoeficiente('');
        setCorreo('');
        setCarrera('');
     }
@@ -31,10 +27,8 @@ export default function ABMStudent(){
     const create = ()=>{
         let alum = {
             'dni': dni,
-            'legajo':legajo,
             'apellido': apellido,
             'nombre': nombre,
-            'coeficiente': coeficiente,
             'correo': correo,
             'carrera': carrera
         }
@@ -105,12 +99,6 @@ export default function ABMStudent(){
                         <Form.Control type="text" placeholder="Numero de Dni del alumno" onChange={(e)=>{setDni(e.target.value)}} />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="legControl">
-                        <Form.Label>Legajo: </Form.Label>
-                        <Form.Control type="text" placeholder="Numero de Legajo del alumno" onChange={(e)=>{setLegajo(e.target.value)}} />
-                    </Form.Group>
-
-
                     <Form.Group className="mb-3" controlId="nombControl">
                         <Form.Label>Nombre: </Form.Label>
                         <Form.Control type="text" placeholder="Nombre del alumno" onChange={(e)=>{setNombre(e.target.value)}} />
@@ -120,13 +108,6 @@ export default function ABMStudent(){
                         <Form.Label>Apellido: </Form.Label>
                         <Form.Control type="text" placeholder="Apellido del alumno" onChange={(e)=>{setApellido(e.target.value)}} />
                     </Form.Group>
-
-
-                    <Form.Group className="mb-3" controlId="coeControl">
-                        <Form.Label>Coeficiente: </Form.Label>
-                        <Form.Control type="text" placeholder="Coeficiente del alumno" onChange={(e)=>{setCoeficiente(e.target.value)}} />
-                    </Form.Group>
-
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email </Form.Label>

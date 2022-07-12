@@ -51,17 +51,6 @@ export default function CommissionRequest(props){
         sort: true,
         classes: 'w-25 p-3'
       },{
-        dataField: 'alumno.legajo',
-        text: 'Legajo',
-        sort: true,
-        classes: 'w-25 p-3'
-      },{
-        dataField: 'alumno.coeficiente',
-        text: 'Coeficiente',
-        sort: true,
-        classes: 'w-25 p-3'
-      },{
-        //coeficiente
         dataField: 'cantidadDeAprobadas',
         text: 'Comision',
         sort: true

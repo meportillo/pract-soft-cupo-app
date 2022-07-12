@@ -17,7 +17,6 @@ export  default function ViewStudent(props){
     const [cuposPedidos, setCuposPedidos]= useState([])
     const [alumno,setAlumno] = useState({'dni':dni})
     const [carrera,setCarrera] = useState('');
-    const [coeficiente,setCoeficiente] = useState('');    
     const [createRequestShow, setCreateRequestShow] = useState(false);
     const [formulario,setFormulario] = useState();
     const [inscriptas, setInscriptas] = useState([]);
@@ -45,7 +44,6 @@ export  default function ViewStudent(props){
         .then((data) => {
             setFormulario(data);
             setCarrera(data.carrera);
-            setCoeficiente(data.coeficiente);
             setMateriasAprobadas(data.resumenCursadas);
             setAlumno({"nombre" : data.nombre, "dni": data.dni});
             setCuposPedidos(data.formulario.solicitudes);
@@ -59,7 +57,6 @@ export  default function ViewStudent(props){
         .then((data) => {
             setFormulario(data);
             setCarrera(data.carrera);
-            setCoeficiente(data.coeficiente);
             setMateriasAprobadas(data.resumenCursadas);
             setAlumno({"nombre" : data.nombre, "dni": data.dni});
             setCuposPedidos(data.formulario.solicitudes);
@@ -118,7 +115,6 @@ export  default function ViewStudent(props){
                         </div>
                         <div class="col">
                             <h5>Carrera: {carrera}</h5>
-                            <h5>Coeficiente: {coeficiente}</h5>
                         </div>
                         <hr></hr>
                         {formulario === undefined ?  <></>:
