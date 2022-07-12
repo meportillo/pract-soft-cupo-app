@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useRef} from 'react';
 import TableMateria from './TableMateria';
 import TableCupos from './TableCupos';
 import {getRequestsOfStudentAdmin } from '../../services/StudentService';
-import { Button, Tab, Tabs } from 'react-bootstrap';
+import { Badge, Button, Card, Form, ListGroup, Tab, Tabs } from 'react-bootstrap';
 import CreateRequestShort from '../request/CreateRequestShort';
 import { useParams } from 'react-router-dom';
 import TableInscriptas from './TableInscriptas';
+import { GrFormAdd } from 'react-icons/gr';
+import { patchComentarFormulario } from '../../services/SubjectService';
 
 
 export  default function ViewStudent(props){
@@ -19,6 +21,9 @@ export  default function ViewStudent(props){
     const [formulario,setFormulario] = useState();
     const [inscriptas, setInscriptas] = useState([]);
     const [solUpdate, setSolUpdate] = useState(Math.random())
+    const [comentarios,setComentarios] = useState([]);
+    const [comentario,setComentario] = useState('');
+    const formRef = useRef(null);
 
     const updateSol = ()=>{
         setSolUpdate(Math.random());
@@ -40,6 +45,7 @@ export  default function ViewStudent(props){
             setAlumno({"nombre" : data.nombre, "dni": data.dni});
             setCuposPedidos(data.formulario.solicitudes);
             setInscriptas(data.formulario.comisionesInscripto);
+            setComentarios(data.formulario.comentarios);
         });
     },[])
 
@@ -53,9 +59,25 @@ export  default function ViewStudent(props){
             setAlumno({"nombre" : data.nombre, "dni": data.dni});
             setCuposPedidos(data.formulario.solicitudes);
             setInscriptas(data.formulario.comisionesInscripto);
+            setComentarios(data.formulario.comentarios);           
         });        
-    },[solUpdate])
+    },[solUpdate,comentario])
     
+    const comentar = ()=>{
+        patchComentarFormulario(formulario.formulario.id, localStorage.getItem('user').split('@')[0],comentario,dni).
+        then((data)=>{
+            updateSol();
+            formRef.current.reset();
+        }).catch(error=>{
+            formRef.current.reset();
+
+        });
+    }
+
+    const bag = ()=>{
+        return(<Badge bg="secondary">{comentarios.length}</Badge>)
+    }
+
     return (
           <>
               <div className='container'>
@@ -91,6 +113,24 @@ export  default function ViewStudent(props){
                                 </Tab>
                                 <Tab eventKey="historial-solicitudes" title="Historial de Solicitudes" style={{height: '50px'}}>
                                     <div>LLENAR CON EL HISTORIAL</div>
+                                </Tab>
+                                <Tab eventKey="comentarios-solicitudes" title={`Comentarios de Solicitudes: ${comentarios.length}`} style={{height: '50px'}}>
+                                    <Card >
+                                        <Card.Header>
+                                            <Form ref={formRef}>
+                                            <Form.Group className="row" controlId="commentControl">
+                                                    <Form.Control className='col' type="text" placeholder="Ingresar comentario..." onKeyDown={(e)=> { if(e.key == "enter"){e.preventDefault();console.log("Enter")} console.log(e)}} onChange={(e)=>setComentario(e.target.value)} />
+                                                    <Button  className='col-1' variant="info" onClick={(e) => comentar()}><GrFormAdd></GrFormAdd></Button>
+                                            </Form.Group>
+                                            </Form>
+                                        </Card.Header>
+                                        <ListGroup variant="flush" style={{ 'height': '100px', 'overflow-y': 'scroll'}}>
+                                            { comentarios.length === 0 ? <>No hay Comentarios</>: comentarios.map(comentario=>{
+                                                return(<ListGroup.Item>{comentario.descripcion}{' '}-{' '}{comentario.autor}{' '}-{' '}{(new Date(comentario.fecha)).toLocaleString('es-AR')}</ListGroup.Item>)
+                                            })}
+
+                                        </ListGroup>
+                                    </Card>    
                                 </Tab>
                           </Tabs>
                         <CreateRequestShort studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>

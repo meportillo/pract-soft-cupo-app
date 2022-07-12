@@ -25,6 +25,7 @@ export function LoginAdmin() {
     const handleSubmit = () => {
         loginAdmin(email.trim(),password.trim())
         .then(res => {
+            localStorage.setItem('user', email.trim());
             setToken(res)
             navigate("/");
         })

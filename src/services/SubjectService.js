@@ -109,6 +109,17 @@ const patchCerrarFormulario = (id,dni) =>{
     }) 
 }
 
+const patchComentarFormulario = (id,autor,descripcion,dni) =>{
+    return axios.patch(path+'/api/formulario/'+id+'/comentar?autor='+autor+'&descripcion='+descripcion+'&dni='+dni,{})
+    .then((response) => {
+        return response
+    })
+    .catch((error)=>{
+        alert(error.response.data.error+ ": " + error.response.data.message );
+        return error
+    }) 
+}
+
 const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const oferta = {
         "comisionesACargar": [],
@@ -182,4 +193,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest,patchComentarFormulario};
