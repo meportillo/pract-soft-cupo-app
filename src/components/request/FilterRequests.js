@@ -10,7 +10,6 @@ export default function FilterRequests(props){
     const [career, setCareer] = useState();
     const [states, setSates] = useState([]);
     const [quarters, setQuarters] = useState([])
-    const [legajo, setLegajo] = useState('');
     const [dni, setDni] = useState('');
 
     const addStateRquest = (e, evt) =>{
@@ -90,10 +89,6 @@ export default function FilterRequests(props){
             </Form.Label>
             <Form.Group className="row justify-content-md-center">
                 <Form.Label className="col">
-                    Legajo: 
-                    <Form.Control type="text" onChange={e => setLegajo(e.target.value)} placeholder="Legajo"/>
-                </Form.Label>
-                <Form.Label className="col">
                     Dni: 
                     <Form.Control  type="text" onChange={e => setDni(e.target.value)} placeholder="Dni"/>
                 </Form.Label>
@@ -106,7 +101,7 @@ export default function FilterRequests(props){
             <div className="col"></div>
             <ButtonGroup className="col">
                 <Button  onClick={ e => clear()} className="col order-last" variant="secondary">Limpiar</Button>{' '}
-                <Button  onClick={ e => props.onClickFilter({ 'year': year, 'career': career, 'statesRequest': states, 'quarters': quarters, 'legajo': legajo, 'dni': dni })} className="col order-last"variant="primary">Filtrar</Button>{' '}
+                <Button  onClick={ e => props.onClickFilter({ 'year': year, 'career': career, 'statesRequest': states, 'quarters': quarters, 'dni': dni })} className="col order-last"variant="primary">Filtrar</Button>{' '}
             </ButtonGroup>
         </Form.Group>
     </Form.Group>

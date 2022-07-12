@@ -22,11 +22,10 @@ export default function TableStudents() {
     },[])
 
     const action = (cell, row, rowIndex)=>{
-
       return(<ButtonGroup>
               <Button
                 key={Math.random()}
-                onClick={(e) => navigate('/student/'+ cell)}>
+                onClick={(e) => navigate('/student/'+ row.alumno.dni)}>
                       Ver
               </Button>
       </ButtonGroup>)
@@ -48,13 +47,6 @@ export default function TableStudents() {
       dataField: 'alumno.dni',
       text: 'DNI',
       sort: true
-    }, {
-      dataField: 'alumno.legajo',
-      text: 'Legajo',
-      sort: true,
-      style: {
-        width: 'auto' 
-      }        
     },{
       dataField: 'alumno.correo',
       text: 'Correo',
@@ -63,17 +55,11 @@ export default function TableStudents() {
         width: 'auto' 
       }      
     },{
-      dataField: 'alumno.coeficiente',
-      text: 'Coeficiente',
-      sort: true
-    },
-    {
-      dataField: 'alumno.dni',
+      dataField: 'alumno.actions',
       text: 'Acciones',
       sort: true,
       formatter:  action   
     }
-    
   ];
   return (
       <>
@@ -94,7 +80,7 @@ export default function TableStudents() {
         <Button as={Col} md="auto" onClick={updateTime}  variant="primary">Filtrar</Button>
         </Row>
         </Form>
-        <BootstrapTable keyField='alumno.legajo' data={ alumnos } columns={ columns } pagination={ paginationFactory(optionsTable(alumnos.length,2,5)) } 
+        <BootstrapTable keyField='alumno.dni' data={ alumnos } columns={ columns } pagination={ paginationFactory(optionsTable(alumnos.length,2,5)) } 
         striped hover condensed>
         </BootstrapTable>
 

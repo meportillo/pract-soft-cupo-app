@@ -149,8 +149,8 @@ export default function TableCupos({cupos, alertUpdate ,form, addRequest}){
             )}}>Cerrar Formulario</Button>
             {addRequest()}       
             </ButtonGroup>
-            <br></br>
-        </div>
+            <br></br>         
+        </div>       
         <BootstrapTable keyField='nombreMateria' data={ form.formulario.solicitudes } columns={ columns } pagination={ paginationFactory(optionsTable(form.formulario.solicitudes.length, 2,5))} rowStyle={rowStyle} 
         striped hover condensed>
         </BootstrapTable>

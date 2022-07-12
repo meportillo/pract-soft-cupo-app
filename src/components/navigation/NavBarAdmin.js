@@ -15,6 +15,7 @@ export const NavbarAdmin = () => {
     
     const closeSession = () => {
         localStorage.removeItem("jwt");
+        localStorage.removeItem("user");
         navigate("/signIn");
     }
 
