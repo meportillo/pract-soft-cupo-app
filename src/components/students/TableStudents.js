@@ -22,11 +22,10 @@ export default function TableStudents() {
     },[])
 
     const action = (cell, row, rowIndex)=>{
-
       return(<ButtonGroup>
               <Button
                 key={Math.random()}
-                onClick={(e) => navigate('/student/'+ cell)}>
+                onClick={(e) => navigate('/student/'+ row.alumno.dni)}>
                       Ver
               </Button>
       </ButtonGroup>)
@@ -55,14 +54,12 @@ export default function TableStudents() {
       style: {
         width: 'auto' 
       }      
-    },
-    {
+    },{
       dataField: 'alumno.actions',
       text: 'Acciones',
       sort: true,
       formatter:  action   
     }
-    
   ];
   return (
       <>
