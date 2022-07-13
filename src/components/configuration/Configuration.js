@@ -2,7 +2,7 @@ import { Form } from "react-bootstrap";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { ConfigurationDate } from "./ConfigurationDate";
-import ABMStudent from "./ABMStudet";
+import ABMStudent from "./ABMStudent";
 import Course from "./Course";
 
 export default function Configuration(){

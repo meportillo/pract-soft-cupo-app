@@ -107,9 +107,15 @@ const createAlum = (alum) => {
     return axios.post(`${path}/api/alumnos`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
-
-
 }
+
+const createAlums = (alum) => {
+    let body = alum;
+    return axios.post(`${path}/api/alumnos`,body)
+    .then(res => new Promise((resolve,error)=>resolve(res)))
+    .catch(err => new Promise((resolve,error)=>error(err)))
+}
+
 
 const getAlumByDni = (dni) => {
     return axios.get(`${path}/api/alumnos?dni=${dni}`)
@@ -137,4 +143,4 @@ const getCuatrimestreActual = () => {
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
-export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum,getAlumByDni, getCuatrimestreActual};
+export { getRequestsOfStudentAdmin,login,deleteRequest ,createUser, getSubjectsOfStudent, getRequestsOfStudent, sendRequest, loginAdmin, sendCode, updateRequest, createAlum, deleteAlum,getAlumByDni, getCuatrimestreActual,createAlums};
