@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useCSVReader } from 'react-papaparse';
+import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
-import { Button } from 'react-bootstrap';
+import {  Button } from 'react-bootstrap';
 import { createAlums } from '../../services/StudentService';
+import { AlertRequest } from '../request/AlertRequest';
+import { useCSVDownloader } from 'react-papaparse';
+import Alert from 'react-bootstrap/Alert';
 
 const styles = {
     csvReader: {
@@ -35,14 +39,40 @@ const styles = {
     const { CSVReader } = useCSVReader();
     const [alumnos,setAlumnos] = useState([]);
     const [isOkToUpload, setIsOkToUpload] = useState(false);
+    const { jsonToCSV } = usePapaParse();
+    const [showMessage,setShowMessage] = useState(false);
+    const [showDescarga,setDescarga] = useState(false);
+    const [callError, setCallError] = useState(false);
+    const [message,setMessage] = useState('');
+    const { CSVDownloader, Type } = useCSVDownloader();
+    const [resultadoProceso, setResultadoProceso] = useState([]);
 
     const sendFileStudent = ()=>{
         createAlums(alumnos)
         .then(response=>{
             console.log(response);
+            if(response.status !== 201){
+                const results = jsonToCSV(response.data);
+                console.log('---------------------------');
+                console.log('Results: TO CSV', results);
+                console.log('---------------------------');
+
+            }else {
+                console.log('alumnos cargados correctamente');
+                setMessage('Carga Masiva de Alumnos Exitosa');
+                setShowMessage(true);
+                setCallError(false);                
+            }
+            
         })
         .catch(error=>{
             console.log(error);
+            const results = jsonToCSV(error.response.data);
+            setResultadoProceso(results);
+            setDescarga(true);
+            console.log('---------------------------');
+            console.log('Results: TO CSV', results);
+            console.log('---------------------------');            
         })
     }
 
@@ -62,14 +92,23 @@ const styles = {
 
             Promise.all(results.data).then((alumsRes)=>{
             let alumnosTemp = [];
+
+           let fila = 1;
             alumsRes.map(elem=>{
                 let alum = {
                     'apellido': elem.Apellido === undefined? '':elem.Apellido ,
-                    'carrera': elem.Propuesta === undefined? '': elem.Propuesta,
+                    'propuesta': elem.Propuesta === undefined? '': elem.Propuesta,
                     'dni': elem.Documento === undefined? '': elem.Documento,
                     'nombre': elem.Nombre === undefined? '': elem.Nombre,
-                    'correo': elem.correo === undefined? '': elem.correo
+                    'plan': elem.Plan === undefined? '': elem.Plan,
+                    'estado': elem['Estado Inscr.'] === undefined? '': elem['Estado Inscr.'],
+                    'locacion': elem['Locación'] === undefined? '': elem['Locación'],
+                    'regular':elem.Regular === undefined? '': elem.Regular,
+                    'calidad':elem.Calidad === undefined? '': elem.Calidad,
+                    'fila': fila 
+
                 }
+                fila+=1
                 alumnosTemp.push(alum);
             });
                 Promise.all(alumnosTemp)
@@ -105,6 +144,36 @@ const styles = {
             )}
         </CSVReader>
       <Button onClick={(e)=> sendFileStudent()} disabled={!isOkToUpload}>Enviar Archivo</Button>
+      {
+          showMessage?
+            <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+            :
+            <></>
+        }
+      {
+          showDescarga?
+            <> {' '}
+                <Alert key='warning' variant='warning'>
+                   Hay conflictos con la importacion.
+                </Alert>
+                {' '}
+                <CSVDownloader
+                type={Type.Button}
+                filename={'filename'}
+                bom={true}
+                config={{
+                    delimiter: ',',
+                }}
+                data={
+                    resultadoProceso
+                }
+                style={{backgroundColor: '#d6cca1'}}
+                >
+                Descargar
+                </CSVDownloader>
+            </>:
+            <></>
+        }
       </>);
 
 }
