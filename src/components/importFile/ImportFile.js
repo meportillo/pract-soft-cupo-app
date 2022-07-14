@@ -69,19 +69,31 @@ export const ImportFile = (props) => {
   const textByCarrera = () =>{
       switch(carrera) {
         case "TPI2010" : return(
-        <Card.Text>
-          Header : Plan TPI 2010,	Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos
-        </Card.Text>
+        <>
+          <Card.Text>
+            Header : Plan TPI 2010,	Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos
+          </Card.Text>
+          <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
+          <Card.Text>Fila : CC,1051,8,Programación con Objetos III,{"{3032}"},102,52</Card.Text>
+        </>
         );
         case "TPI2015" : return(
+          <>
           <Card.Text>
             Header : Plan TPI 2010,Código Materia,Créditos,Materia,Correlatividades,Secuencialidad CI - créditos,Secuencialidad CO - créditos,Secuencialidad CA - créditos,Secuencialidad CC - créditos
           </Card.Text>
+          <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
+          <Card.Text>Fila : CA,1044,12,Estrategias de Persistencia,{ "{1035, 1037}" },30,70</Card.Text>
+          </>
           ); 
         case "LI" : return(
+          <>
           <Card.Text>
             Header : Plan TPI 2010,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,Secuencialidad NBW (Núcleo Básico), - créditos	Secuencialidad CB  (W15BO) - créditos
           </Card.Text>
+          <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
+          <Card.Text>Fila : CA,1051,8,Programación con Objetos III,{"{1037}"},30,180,56 </Card.Text>
+          </>
           );
         default : return(<></>)
       }
@@ -112,7 +124,7 @@ export const ImportFile = (props) => {
   } 
   return (
     <>
-    <h4 style={{"textAlign":"center"}}>Seleccionar el plan de carrera de las materias que va Subir</h4>
+    <h4 style={{"textAlign":"center"}}>Seleccionar el Plan de carrera de las materias que va subir</h4>
     <p style={{"color" : "red"}}>Cuando se selecione una carrera se mostrara el formato a respetar </p>
     <Form.Select className="form-control" onChange={e => {
       if (null != deleteFile.current) {
