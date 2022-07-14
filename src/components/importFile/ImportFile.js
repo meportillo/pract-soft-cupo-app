@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';   
 import Alert from 'react-bootstrap/Alert';    
+import Card from 'react-bootstrap/Card'; 
 import { mapMateriasPlan2010, mapMateriasPlanLI } from "../../utils/CSVFunctions"
 import { useCSVReader } from 'react-papaparse';
 import { CSVDownloader } from '../importFile/CSVDownloader'
@@ -65,6 +66,28 @@ export const ImportFile = (props) => {
       return mapMateriasPlan2010(rows)
   }
 
+  const textByCarrera = () =>{
+      switch(carrera) {
+        case "TPI2010" : return(
+        <Card.Text>
+          Header : Plan TPI 2010,	Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos
+        </Card.Text>
+        );
+        case "TPI2015" : return(
+          <Card.Text>
+            Header : Plan TPI 2010,Código Materia,Créditos,Materia,Correlatividades,Secuencialidad CI - créditos,Secuencialidad CO - créditos,Secuencialidad CA - créditos,Secuencialidad CC - créditos
+          </Card.Text>
+          ); 
+        case "LI" : return(
+          <Card.Text>
+            Header : Plan TPI 2010,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,Secuencialidad NBW (Núcleo Básico), - créditos	Secuencialidad CB  (W15BO) - créditos
+          </Card.Text>
+          );
+        default : return(<></>)
+      }
+      
+  }
+
 
   const enviarCSV = () => {
     const materias = mapMateriasSegunCarrera(data)
@@ -90,6 +113,7 @@ export const ImportFile = (props) => {
   return (
     <>
     <h4 style={{"textAlign":"center"}}>Seleccionar el plan de carrera de las materias que va Subir</h4>
+    <p style={{"color" : "red"}}>Cuando se selecione una carrera se mostrara el formato a respetar </p>
     <Form.Select className="form-control" onChange={e => {
       if (null != deleteFile.current) {
         deleteFile.current.click()
@@ -107,6 +131,15 @@ export const ImportFile = (props) => {
         carrera == "" 
           ? <></>
           : <>
+            <div style={{"display":"flex","justifyContent":"center"}}>
+              <Card style={{}}>
+                <Card.Body>
+                  <Card.Title>Formato CSV {carrera}</Card.Title>
+                  { textByCarrera() }
+                </Card.Body>
+              </Card>
+            </div>
+            <br></br>
           <CSVReader
             onUploadAccepted={(results) => {
               setData(results.data)
