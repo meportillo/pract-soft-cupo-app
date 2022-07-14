@@ -109,10 +109,10 @@ export const ImportFile = (props) => {
         setSuccess(true)
     })
     .catch(err => {
-      console.log(err.status)
         setEnviando(false)
         if(err.status == "400") {
             setError400(true)
+            setTimeout(() => setError400(false),5000)
         }else if(err.status == "409"){
           setConflictsImport(err.data)
           setError(true)
@@ -190,7 +190,7 @@ export const ImportFile = (props) => {
           {
             error400 ?  
               <Alert variant="warning" onClose={() => setError400(false)} dismissible>
-                  Verifique que el csv que envio no tiene ningun caracter extraño  
+                  Verifique que el csv tiene el formato aclarado
               </Alert>
               :<></>
           }
