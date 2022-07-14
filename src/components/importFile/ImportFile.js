@@ -49,10 +49,14 @@ export const ImportFile = (props) => {
           case "TPI2015" :
               return mapCarreraTPI2015(rows);
           case "LI":
-              return mapCarreraLI(rows);
-
+              return mapCarreraLI(rows)
       }
   };
+
+  const resetState = () => {
+    setData([]);
+    setError(false);
+  }
 
   const mapCarreraTPI2015 = () => {
         
@@ -102,25 +106,34 @@ export const ImportFile = (props) => {
 
 
   const enviarCSV = () => {
-    const materias = mapMateriasSegunCarrera(data)
-    props.importar({"plan":carrera,"materias":materias})
-    .then(res => {
-        setEnviando(false)
-        setSuccess(true)
+    mapMateriasSegunCarrera(data)
+    .then(info => {
+          console.log(info)
+          props.importar({"plan":carrera,"materias":info})
+          .then(res => {
+            setEnviando(false)
+            setSuccess(true)
+          })
+          .catch(err => {
+              setEnviando(false)
+              if(err.status == "400") {
+                  setError400(true)
+                  setTimeout(() => setError400(false),5000)
+              }else if(err.status == "409"){
+                setConflictsImport(err.data)
+                setError(true)
+              }else{
+                setError(true)
+              }
+          })
+          setEnviando(true)
     })
     .catch(err => {
-        setEnviando(false)
-        if(err.status == "400") {
+            console.log("Catch", err)
+            setEnviando(false)
             setError400(true)
             setTimeout(() => setError400(false),5000)
-        }else if(err.status == "409"){
-          setConflictsImport(err.data)
-          setError(true)
-        }else{
-          setError(true)
-        }
     })
-    setEnviando(true)
   } 
   return (
     <>
@@ -131,6 +144,8 @@ export const ImportFile = (props) => {
         deleteFile.current.click()
       }
       setCarrera(e.target.value)
+      resetState()
+      setIsOkToUpload(false)
       }
     }>
         <option key={0} value={""} >Seleccionar opcion</option>
