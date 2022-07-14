@@ -37,8 +37,6 @@ export const ConfigurationDate = () => {
                 setCallError(true);
             }
         }).catch(error=>{
-            console.log(error);
-            
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);

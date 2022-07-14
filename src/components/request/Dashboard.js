@@ -21,21 +21,18 @@ export default function Dashoard(){
             setCuatrimestre(response.data);
         })
         .catch(error=>{
-            console.log(error);
         });
         getAlumnosSolicFiltro('FALTA_PROCESAR')
         .then(response=>{
             setAlumnosSinProcesar(response.data.length);
         })
         .catch(error=>{
-            console.log(error);
         });
         getAlumnosSolicFiltro('PROCESADO')
         .then(response=>{
             setAlumnosProcesados(response.data.length);
         })
         .catch(error=>{
-            console.log(error);
         });        
     },[])
 

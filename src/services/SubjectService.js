@@ -24,7 +24,6 @@ const closeAllRequests = () =>{
         return response
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 } 
@@ -44,7 +43,6 @@ const getSubjects2 = (nombre)=>{
         })
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 
@@ -54,7 +52,6 @@ const getCommissions = (anio,semestre,setter)=>{
         setter(response.data);
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 const getCommisionsBySubject = (code) => {
@@ -71,7 +68,6 @@ const getRequestsByCommision = (comisionId, setter) => {
         return response;
     })
     .catch(error=> {
-        console.log(error);
         return error;
     });
 }
@@ -134,7 +130,6 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
         return response
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -145,7 +140,6 @@ const getAlumnos = () =>{
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -156,7 +150,6 @@ const getAlumnosByDni = (dni) =>{
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
