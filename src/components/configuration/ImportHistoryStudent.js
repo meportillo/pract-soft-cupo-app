@@ -3,43 +3,14 @@ import { useCSVReader } from 'react-papaparse';
 import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
 import {  Button } from 'react-bootstrap';
-import { createAlums } from '../../services/StudentService';
+import { createAlums, updateHistory } from '../../services/StudentService';
 import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
 import Alert from 'react-bootstrap/Alert';
-import Spinner from 'react-bootstrap/Spinner';
 
-
-const styles = {
-    csvReader: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginBottom: 10,
-    } ,
-    browseFile: {
-      width: '20%',
-    } ,
-    acceptedFile: {
-      border: '1px solid #ccc',
-      height: 45,
-      lineHeight: 2.5,
-      paddingLeft: 10,
-      width: '80%',
-    },
-    remove: {
-      borderRadius: 0,
-      padding: '10px',
-      backgroundColor: 'white'
-    },
-    progressBarBackgroundColor: {
-      backgroundColor: 'red',
-    },
-  };
-  
-
- const CSVReader = ()=> {
+export default function ImportHistoryStudent(){
     const { CSVReader } = useCSVReader();
-    const [alumnos,setAlumnos] = useState([]);
+    const [historia,setHistoria] = useState([]);
     const [isOkToUpload, setIsOkToUpload] = useState(false);
     const { jsonToCSV } = usePapaParse();
     const [showMessage,setShowMessage] = useState(false);
@@ -48,17 +19,38 @@ const styles = {
     const [message,setMessage] = useState('');
     const { CSVDownloader, Type } = useCSVDownloader();
     const [resultadoProceso, setResultadoProceso] = useState([]);
-    const [showSpiner, setShowSpiner] = useState(false);
 
-    const sendFileStudent = (clear)=>{
-        setShowSpiner(true);
-        setIsOkToUpload(false);
-        createAlums(alumnos)
+    const styles = {
+        csvReader: {
+          display: 'flex',
+          flexDirection: 'row',
+          marginBottom: 10,
+        } ,
+        browseFile: {
+          width: '20%',
+        } ,
+        acceptedFile: {
+          border: '1px solid #ccc',
+          height: 45,
+          lineHeight: 2.5,
+          paddingLeft: 10,
+          width: '80%',
+        },
+        remove: {
+          borderRadius: 0,
+          padding: '10px',
+          backgroundColor: 'white'
+        },
+        progressBarBackgroundColor: {
+          backgroundColor: 'red',
+        },
+      };
+
+      const sendFileStudent = ()=>{
+        updateHistory(historia)
         .then(response=>{
-            clear();
-            setShowSpiner(false);
             console.log(response);
-            if(response.status !== 201){
+            if(response.status !== 201 && response.status !== 200){
                 const results = jsonToCSV(response.data);
                 console.log('---------------------------');
                 console.log('Results: TO CSV', results);
@@ -66,28 +58,38 @@ const styles = {
 
             }else {
                 console.log('alumnos cargados correctamente');
-                setMessage('Carga Masiva de Alumnos Exitosa');
+                setMessage('Carga Masiva de Historia Academica Exitosa');
                 setShowMessage(true);
                 setCallError(false);                
             }
             
         })
         .catch(error=>{
-            clear();
-            setShowSpiner(false);
             console.log(error);
-            const results = jsonToCSV(error.response.data);
+          /*  const results = jsonToCSV(error.response.data);
             setResultadoProceso(results);
-            setDescarga(true);
+            setDescarga(true);*/
             console.log('---------------------------');
-            console.log('Results: TO CSV', results);
+          //  console.log('Results: TO CSV', results);
             console.log('---------------------------');            
         })
     }
 
-    let fun_;
+    const replaceZero = (st)=>{
+        let rec = st;
+        let pos = 0;
+        console.log(st.charAt(pos)==='0');
+        while(st.charAt(pos)==='0'){
+            console.log(st.charAt(pos))
+            rec=rec.replace('0', '');
+            console.log(rec);
+            pos+=1;
+        }
+        return rec;
+       
+    }
 
-    return (
+      return (
         <>
         <CSVReader
         config={
@@ -97,37 +99,33 @@ const styles = {
                 }
             }
             onUploadAccepted={(results) => {
-            setAlumnos([]);
+            setHistoria([]);
             console.log('---------------------------');
             console.log(results);
 
-            Promise.all(results.data).then((alumsRes)=>{
-            let alumnosTemp = [];
+            Promise.all(results.data).then((historiaRes)=>{
+            let historiaTemp = [];
 
            let fila = 1;
-            alumsRes.map(elem=>{
-                let alum = {
-                    'apellido': elem.Apellido === undefined? '':elem.Apellido ,
-                    'propuesta': elem.Propuesta === undefined? '': elem.Propuesta,
-                    'dni': elem.Documento === undefined? '': elem.Documento,
-                    'nombre': elem.Nombre === undefined? '': elem.Nombre,
-                    'plan': elem.Plan === undefined? '': elem.Plan,
-                    'estado': elem['Estado Inscr.'] === undefined? '': elem['Estado Inscr.'],
-                    'locacion': elem['Locación'] === undefined? '': elem['Locación'],
-                    'regular':elem.Regular === undefined? '': elem.Regular,
-                    'calidad':elem.Calidad === undefined? '': elem.Calidad,
-                    'fila': fila 
+           historiaRes.map(elem=>{
+                let fecha = elem.Fecha.split('/');
+                let cursada = {
+                    'codigo': elem.Materia === undefined? '':replaceZero(elem.Materia), // hay que sacar el cero de adelante.
+                    'dni': elem.DNI === undefined? '': elem.DNI.split(' ')[1],
+                    'fecha': elem.Fecha ===  undefined? '': fecha[2]+'-'+fecha[1]+'-'+fecha[0],
+                    'fila': fila,
+                    'resultado': elem.Resultado ===  undefined?'':elem.Resultado === 'A'||elem.Resultado === 'P'||elem.Resultado === 'U'?'APROBADO':elem.Resultado === 'E'? 'PA': 'DESAPROBADO'
 
                 }
                 fila+=1
-                alumnosTemp.push(alum);
+                historiaTemp.push(cursada);
             });
-                Promise.all(alumnosTemp)
+                Promise.all(historiaTemp)
                 .then(promises =>{ 
-                    setAlumnos(promises);
+                    setHistoria(promises);
                     setIsOkToUpload(true);
                 });
-                console.log(alumnos);
+                console.log(historia);
                 console.log('---------------------------');
             });
         }}>
@@ -139,7 +137,6 @@ const styles = {
             getRemoveFileProps,
             }) => (
             <>
-                {fun_ = getRemoveFileProps}
                 <div style={styles.csvReader}>
                 <button type='button' {...getRootProps()} style={styles.browseFile}>
                     Importar Archivo
@@ -155,24 +152,21 @@ const styles = {
             </>
             )}
         </CSVReader>
-      <Button onClick={(e)=> sendFileStudent(fun_)} disabled={!isOkToUpload}>Enviar Archivo</Button>
+      <Button onClick={(e)=> sendFileStudent()} disabled={!isOkToUpload}>Enviar Archivo</Button>
       {
           showMessage?
             <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
             :
             <></>
         }
-        {
-            showSpiner?  <Spinner animation="border" >.:.</Spinner>:<></>
-        }      
-        {
+      {
           showDescarga?
             <> {' '}
-                <Alert key='warning' variant='warning' dismissible onClick={(e)=>{setDescarga(false)}}>
+                <Alert key='warning' variant='warning'>
                    Hay conflictos con la importacion.
                 </Alert>
                 {' '}
-                <CSVDownloader
+                <CSVDownloader onClick={e => {setDescarga(false)}}
                 type={Type.Button}
                 filename={'filename'}
                 bom={true}
@@ -190,6 +184,4 @@ const styles = {
             <></>
         }
       </>);
-
 }
-export {CSVReader}

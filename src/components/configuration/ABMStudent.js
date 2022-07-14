@@ -4,6 +4,7 @@ import { createAlum, deleteAlum } from "../../services/StudentService";
 import { AlertRequest } from "../request/AlertRequest";
 import { ImportFile } from "../importFile/ImportFile";
 import {CSVReader} from './ImportStudent';
+import ImportHistoryStudent from "./ImportHistoryStudent";
 
 export default function ABMStudent(){
     
@@ -159,7 +160,7 @@ export default function ABMStudent(){
                 <Accordion.Body>
                 { //<ImportFile importar={importCSVCourses}></ImportFile>
 }
-                    <CSVReader></CSVReader>
+                    <ImportHistoryStudent></ImportHistoryStudent>
                   </Accordion.Body>
             </Accordion.Item>                       
             </Accordion>
