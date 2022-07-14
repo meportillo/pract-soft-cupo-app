@@ -39,6 +39,7 @@ export const ImportFile = (props) => {
   const [enviando,setEnviando] = useState(false);
   const [success,setSuccess] = useState(false)
   const [error400,setError400] = useState(false)
+  const [isOkToUpload, setIsOkToUpload] = useState(false);
   const [conflictsImport,setConflictsImport] = useState([])
   const mapMateriasSegunCarrera = (rows) => {
       switch(carrera) {
@@ -109,6 +110,7 @@ export const ImportFile = (props) => {
           <CSVReader
             onUploadAccepted={(results) => {
               setData(results.data)
+              setIsOkToUpload(true)
             }}
           >
             {({
@@ -134,7 +136,7 @@ export const ImportFile = (props) => {
             )}
           </CSVReader>
           <div style={{"display":"flex","justifyContent":"center"}}>
-              <Button onClick={enviarCSV}>Enviar CSV cargado</Button>
+              <Button disabled={!isOkToUpload} onClick={enviarCSV}>Enviar CSV cargado</Button>
           </div>
           <br></br>
           {

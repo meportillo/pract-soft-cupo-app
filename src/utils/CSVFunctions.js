@@ -68,7 +68,6 @@ const mapMateriasPlan2010 = (filas) => {
 //Plan TPI 2010,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,	
 //Secuencialidad NBW (Núcleo Básico), - créditos	Secuencialidad CB  (W15BO) - créditos,
 const mapMateriasPlanLI = (filas) => {
-  console.log(filas.slice(1,filas.length)[43])
   return filas.slice(1,filas.length).map((fila,index) => {
     const getCorrelativas = (crs) => crs.replace(/[{}]/g, '').split(",").map(c => c.trim())  
     const correlativas = fila[4].trim() ? getCorrelativas(fila[4].trim()) : []  
