@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
-import { createCourse, deleteCourse, importCSVCourses, importCSVCorrelatives } from "../../services/CourseService";
+import { createCourse, deleteCourse, importCSVCourses } from "../../services/CourseService";
 import { AlertRequest } from "../request/AlertRequest";
 import { ImportFile } from "../importFile/ImportFile";
 export default function Course(){

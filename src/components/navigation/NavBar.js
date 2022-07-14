@@ -32,7 +32,7 @@ export const Navbar = () => {
                         <BsFillPersonFill style={{"marginRight":5}}/>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={closeSession}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={closeSession}>Cerrra sesion</Dropdown.Item>
                     </Dropdown.Menu>
             </Dropdown>
         </Nav>

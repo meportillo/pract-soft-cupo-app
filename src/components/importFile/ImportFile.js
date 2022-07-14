@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';   
 import Alert from 'react-bootstrap/Alert';    
-
+import { mapMateriasPlan2010 } from "../../utils/CSVFunctions"
 import { useCSVReader } from 'react-papaparse';
-
+import { CSVDownloader } from '../importFile/CSVDownloader'
 const styles = {
   csvReader: {
     display: 'flex',
@@ -30,32 +30,67 @@ const styles = {
   }
 };
 
-export const ImportFile = () => {
+export const ImportFile = (props) => {
   const { CSVReader } = useCSVReader();
   const [carrera,setCarrera] = useState("");
   const [data,setData] = useState([]);
-
-  const mapMateriasSegunCarrera = (carrera) => {
+  const [error,setError] = useState(false) 
+  const deleteFile = useRef(null); 
+  const [enviando,setEnviando] = useState(false);
+  const [success,setSuccess] = useState(false)
+  const [error400,setError400] = useState(false)
+  const mapMateriasSegunCarrera = (rows) => {
       switch(carrera) {
           case "TPI2010" : 
-              return mapCarreraTPI2010(); 
+              return mapCarreraTPI2010(rows); 
+          case "TPI2015" :
+              return mapCarreraTPI2015(rows);
+          case "LI":
+              return mapCarreraLI(rows);
+
       }
-  } 
-  //mapear la materia de ese plan
-  const mapCarreraTPI2010 = () => {
-      const result = data.map(materia => {
-          return {}
-      })  
+  };
+
+  const mapCarreraTPI2015 = () => {
+        
+  };
+
+  const mapCarreraLI = () => {
+
+  };
+ 
+  const mapCarreraTPI2010 = (rows) => {
+      return mapMateriasPlan2010(rows)
   }
 
+
   const enviarCSV = () => {
-      const res = mapMateriasSegunCarrera(carrera);
-      //enviar el res al back
+    const materias = mapMateriasSegunCarrera(data)
+    props.importar({"plan":carrera,"materias":materias})
+    .then(res => {
+        setEnviando(false)
+        setSuccess(true)
+    })
+    .catch(err => {
+        setEnviando(false)
+        if(err.status == "400") {
+            setError400(true)
+        }else{
+            setError(true)
+        }
+    })
+    setEnviando(true)
   } 
   return (
     <>
     <h4 style={{"textAlign":"center"}}>Seleccionar el plan de carrera de las materias que va Subir</h4>
-    <Form.Select className="form-control" onChange={e => setCarrera(e.target.value)}>
+    <Form.Select className="form-control" onChange={e => {
+      if (null != deleteFile.current) {
+        deleteFile.current.click()
+      }
+      setCarrera(e.target.value)
+      }
+    }>
         <option key={0} value={""} >Seleccionar opcion</option>
         <option key={1} value={"TPI2010"} >Plan TPI 2010</option>
         <option key={2} value={"TPI2015"} >Plan TPI 2015</option>
@@ -67,17 +102,8 @@ export const ImportFile = () => {
           ? <></>
           : <>
           <CSVReader
-            config={
-              {
-                  skipEmptyLines: 'greedy',
-                  header:true
-              }
-            }
             onUploadAccepted={(results) => {
-              console.log('---------------------------');
-              console.log(results)
-              setData(results)
-              console.log('---------------------------');
+              setData(results.data)
             }}
           >
             {({
@@ -94,8 +120,8 @@ export const ImportFile = () => {
                   <div style={styles.acceptedFile}>
                     {acceptedFile && acceptedFile.name}
                   </div>
-                  <button {...getRemoveFileProps()} style={styles.remove}>
-                    Resetear
+                  <button ref={deleteFile} {...getRemoveFileProps()} style={styles.remove}>
+                    Eliminar
                   </button>
                 </div>
                 <ProgressBar style={styles.progressBarBackgroundColor} />
@@ -103,8 +129,32 @@ export const ImportFile = () => {
             )}
           </CSVReader>
           <div style={{"display":"flex","justifyContent":"center"}}>
-              <Button onClick={enviarCSV} >Enviar CSV cargado</Button>
+              <Button onClick={enviarCSV}>Enviar CSV cargado</Button>
           </div>
+          <br></br>
+          {
+            enviando ? <div style={{textAlign:"center"}}>Enviando csv ... </div>: <></> 
+          }
+          {
+            error400 ?  
+              <Alert variant="warning" onClose={() => setError400(false)} dismissible>
+                  Verifique que el csv que envio no tiene ningun caracter extraño  
+              </Alert>
+              :<></>
+          }
+          { error ?
+                  <div>
+                      <Alert variant="warning" onClose={() => setError(false)} dismissible>
+                                Hubo algunos errores al importar el csv para mas informacion descargar el csv 
+                      </Alert>
+                      <CSVDownloader name="errorCSVMaterias"></CSVDownloader>
+                  </div>
+              :   <></>
+          }
+          { success ? <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
+                            Se importaron las materias con exito
+                      </Alert> : <></>
+          }
           </>
     }
     </>
