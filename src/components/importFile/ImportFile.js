@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';   
 import Alert from 'react-bootstrap/Alert';    
-import { mapMateriasPlan2010 } from "../../utils/CSVFunctions"
+import { mapMateriasPlan2010, mapMateriasPlanLI } from "../../utils/CSVFunctions"
 import { useCSVReader } from 'react-papaparse';
 import { CSVDownloader } from '../importFile/CSVDownloader'
 const styles = {
@@ -39,6 +39,7 @@ export const ImportFile = (props) => {
   const [enviando,setEnviando] = useState(false);
   const [success,setSuccess] = useState(false)
   const [error400,setError400] = useState(false)
+  const [conflictsImport,setConflictsImport] = useState([])
   const mapMateriasSegunCarrera = (rows) => {
       switch(carrera) {
           case "TPI2010" : 
@@ -55,8 +56,8 @@ export const ImportFile = (props) => {
         
   };
 
-  const mapCarreraLI = () => {
-
+  const mapCarreraLI = (rows) => {
+    return mapMateriasPlanLI(rows)
   };
  
   const mapCarreraTPI2010 = (rows) => {
@@ -72,11 +73,15 @@ export const ImportFile = (props) => {
         setSuccess(true)
     })
     .catch(err => {
+      console.log(err.status)
         setEnviando(false)
         if(err.status == "400") {
             setError400(true)
+        }else if(err.status == "409"){
+          setConflictsImport(err.data)
+          setError(true)
         }else{
-            setError(true)
+          setError(true)
         }
     })
     setEnviando(true)
@@ -147,7 +152,7 @@ export const ImportFile = (props) => {
                       <Alert variant="warning" onClose={() => setError(false)} dismissible>
                                 Hubo algunos errores al importar el csv para mas informacion descargar el csv 
                       </Alert>
-                      <CSVDownloader name="errorCSVMaterias"></CSVDownloader>
+                      <CSVDownloader conflicts={conflictsImport} name="errorCSVMaterias"></CSVDownloader>
                   </div>
               :   <></>
           }

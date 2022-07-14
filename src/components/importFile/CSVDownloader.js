@@ -11,7 +11,7 @@ export const CSVDownloader = (props) => {
       config={{
         delimiter: ',',
       }}
-      data={props.errores}
+      data={props.conflicts}
     >
       Download
     </CSVDownloader>

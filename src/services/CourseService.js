@@ -32,7 +32,7 @@ const importCSVCourses = (courses) => {
     let body = courses;
     return axios.post(`${path}/api/materias`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
-    .catch(err => new Promise((resolve,error)=>error(err.response.data)))
+    .catch(err => new Promise((resolve,error)=>error(err.response)))
 }
 
 const deleteCourse = (code) => {
