@@ -39,13 +39,13 @@ const createUser = (dni,password,passwordConfirm) => {
         confirmacionContrasenia:passwordConfirm,
         contrasenia:password
     } 
-    return axios.post(`${path}/api/auth/alumno/registrar`,body)
+    return axios.post(`${path}api/auth/alumno/registrar`,body)
     .then(res => new Promise((resolve,error)=>resolve(res.data)))
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const getSubjectsOfStudent = (dni) => {
-    return axios.get(path+'/api/alumno/materias')
+    return axios.get(path+'api/alumno/materias')
     .then(res=>{  
         return new Promise((resolve,error)=>
              resolve(res.data))
@@ -55,13 +55,13 @@ const getSubjectsOfStudent = (dni) => {
 }
 
 const getRequestsOfStudent = (dni) => {
-    return axios.get(`${path}/api/alumno/formulario`)
+    return axios.get(`${path}api/alumno/formulario`)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const getRequestsOfStudentAdmin = (dni) => {
-    return axios.get(`${path}/api/alumnos/${dni}`)
+    return axios.get(`${path}api/alumnos/${dni}`)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 }
@@ -73,7 +73,7 @@ const sendRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumno/solicitudes`
+    const url = `${path}api/alumno/solicitudes`
     return axios.post(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
@@ -86,7 +86,7 @@ const updateRequest = (subjects,dni) => {
         comisiones: comisiones,
         comisionesInscripto: comisionesInscripto
     }
-    const url = `${path}/api/alumno/solicitudes`
+    const url = `${path}api/alumno/solicitudes`
     return axios.patch(url,body)
     .then(res=>new Promise((resolve,error)=>resolve(res.data)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data.message)))
@@ -94,7 +94,7 @@ const updateRequest = (subjects,dni) => {
 
 
 const updateHistory = (history) => {
-    const url = `${path}/api/alumnos/historia-academica`
+    const url = `${path}api/alumnos/historia-academica`
     return axios.patch(url,history)
     .then(res=>new Promise((resolve,error)=>resolve(res)))
     .catch(err=>new Promise((resolve,error)=>error(err)))
@@ -106,48 +106,48 @@ const sendCode = (codigo,dni) => {
         codigo: codigo,
         dni: dni
     }
-    return axios.post(`${path}/api/auth/alumno/confirmar`,body)
+    return axios.post(`${path}api/auth/alumno/confirmar`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err.response.data.message)))
 }
 
 const createAlum = (alum) => {
     let body = [alum];
-    return axios.post(`${path}/api/alumnos`,body)
+    return axios.post(`${path}api/alumnos`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
 const createAlums = (alum) => {
     let body = alum;
-    return axios.post(`${path}/api/alumnos`,body)
+    return axios.post(`${path}api/alumnos`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
 
 const getAlumByDni = (dni) => {
-    return axios.get(`${path}/api/alumnos?dni=${dni}`)
+    return axios.get(`${path}api/alumnos?dni=${dni}`)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
 
 const deleteAlum = (dni) => {
-    return axios.delete(`${path}/api/alumnos?dni=${dni}`)
+    return axios.delete(`${path}api/alumnos?dni=${dni}`)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
 
 const deleteRequest = () => {
-    return axios.delete(`${path}/api/alumno/formulario`)
+    return axios.delete(`${path}api/alumno/formulario`)
     .then(res=>new Promise((resolve,error)=>resolve(res)))
     .catch(err=>new Promise((resolve,error)=>error(err.response.data)))
 
 }
 
 const getCuatrimestreActual = () => {
-    return axios.get(`${path}/api/alumno/cuatrimestre`)
+    return axios.get(`${path}api/alumno/cuatrimestre`)
     .then(res => new Promise((resolve,error)=>resolve(res.data)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }

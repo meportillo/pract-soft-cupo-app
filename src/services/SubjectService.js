@@ -19,7 +19,7 @@ axios.interceptors.request.use(
 );
 
 const closeAllRequests = () =>{
-    return axios.patch(path + "/api/formulario/cerrar")
+    return axios.patch(path + "api/formulario/cerrar")
     .then(response => {
         return response
     })
@@ -29,7 +29,7 @@ const closeAllRequests = () =>{
 } 
 
 const getSubjects2 = (nombre)=>{
-    const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
+    const url = nombre == "" || nombre == undefined  ? 'api/materias/solicitudes':`api/materias/solicitudes?nombre=${nombre}`
     return axios.get(path + url)
     .then(response => {
         return new Promise((resolve, error )=>{
@@ -47,7 +47,7 @@ const getSubjects2 = (nombre)=>{
 }
 
 const getCommissions = (anio,semestre,setter)=>{
-    axios.get(path+'/api/comision/?anio='+anio+'&semestre='+semestre)
+    axios.get(path+'api/comision/?anio='+anio+'&semestre='+semestre)
     .then(response => {
         setter(response.data);
     })
@@ -55,14 +55,14 @@ const getCommissions = (anio,semestre,setter)=>{
     });
 }
 const getCommisionsBySubject = (code) => {
-    return axios.get(path+`/api/materias/${code}/comision`)
+    return axios.get(path+`api/materias/${code}/comision`)
     .then(response => {
         return response.data
     })
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    return axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
+    return axios.get(path+'api/comisiones/'+comisionId+'/solicitantes')
     .then(response => {
         setter(response.data);
         return response;
@@ -73,7 +73,7 @@ const getRequestsByCommision = (comisionId, setter) => {
 }
 
 const postCreateRequest= (dni,listComm) =>{
-        return axios.patch(path+'/api/alumnos/'+dni+'/formulario/?idComision='+listComm,{})
+        return axios.patch(path+'api/alumnos/'+dni+'/formulario/?idComision='+listComm,{})
         .then(response => {
             return response
         })
@@ -85,7 +85,7 @@ const postCreateRequest= (dni,listComm) =>{
 };
 
 const patchRequest= (dni,id, state, formId) =>{
-   return axios.patch(path+'/api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{})
+   return axios.patch(path+'api/alumnos/'+dni+'/solicitudes/'+id+'?formularioId='+formId+'&estado='+state,{})
     .then((response) => {
         return response;
     })
@@ -96,7 +96,7 @@ const patchRequest= (dni,id, state, formId) =>{
 };
 
 const patchCerrarFormulario = (id,dni) =>{
-    return axios.patch(path+'/api/formulario/'+id+'/cerrar?dni='+dni,{})
+    return axios.patch(path+'api/formulario/'+id+'/cerrar?dni='+dni,{})
     .then((response) => {
         return response
     })
@@ -107,7 +107,7 @@ const patchCerrarFormulario = (id,dni) =>{
 }
 
 const patchComentarFormulario = (id,autor,descripcion,dni) =>{
-    return axios.patch(path+'/api/formulario/'+id+'/comentar?autor='+autor+'&descripcion='+descripcion+'&dni='+dni,{})
+    return axios.patch(path+'api/formulario/'+id+'/comentar?autor='+autor+'&descripcion='+descripcion+'&dni='+dni,{})
     .then((response) => {
         return response
     })
@@ -126,7 +126,7 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const body = {
         oferta : oferta
     }
-    return axios.post(path+"/api/comisiones/oferta",oferta)
+    return axios.post(path+"api/comisiones/oferta",oferta)
     .then((response) => {
         return response
     })
@@ -144,7 +144,7 @@ const uploadCommisiones = (comisiones,dateStart,dateEnd) =>{
     const body = {
         oferta : oferta
     }
-    return axios.post(path+"/api/comisiones/oferta",oferta)
+    return axios.post(path+"api/comisiones/oferta",oferta)
     .then((response) => {
         return response
     })
@@ -154,7 +154,7 @@ const uploadCommisiones = (comisiones,dateStart,dateEnd) =>{
 }
 
 const getAlumnos = () =>{
-    return axios.get(path+"/api/alumnos/formulario")
+    return axios.get(path+"api/alumnos/formulario")
     .then((response) => {
         return response.data
     })
@@ -164,7 +164,7 @@ const getAlumnos = () =>{
 }
 
 const getAlumnosByDni = (dni) =>{
-    return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
+    return axios.get(path+ `api/alumnos/formulario?dni=${dni}`)
     .then((response) => {
         return response.data
     })
@@ -174,7 +174,7 @@ const getAlumnosByDni = (dni) =>{
 }
 
 const getSubjectsComplete = () => {
-    return axios.get(path + "/api/materias")
+    return axios.get(path + "api/materias")
     .then(response => {
         return response.data
     })
@@ -184,7 +184,7 @@ const getSubjectsComplete = () => {
 }
 
 const getCuatrimestreByanio = (anio, semestre) => {
-    return axios.get(path+'/api/cuatrimestres?anio='+anio+'&semestre='+semestre)// ?anio='+anio+'&semestre='+semestre)
+    return axios.get(path+'api/cuatrimestres?anio='+anio+'&semestre='+semestre)// ?anio='+anio+'&semestre='+semestre)
     .then(response => {
         return response;
     })
@@ -192,10 +192,10 @@ const getCuatrimestreByanio = (anio, semestre) => {
         return error;
     });
 }
-//http://localhost:8081/api/alumnos/formulario?procesamiento=FALTA_PROCESAR
+//http://localhost:8081api/alumnos/formulario?procesamiento=FALTA_PROCESAR
 
 const getAlumnosSolicFiltro = (filtro) => {
-    return axios.get(path+'/api/alumnos/formulario?procesamiento='+filtro)
+    return axios.get(path+'api/alumnos/formulario?procesamiento='+filtro)
     .then(response => {
         return response;
     })

@@ -21,7 +21,7 @@ axios.interceptors.request.use(
 
 const createCourse = (course) => {
     let body = [course];
-    return axios.post(`${path}/api/materias`,body)
+    return axios.post(`${path}api/materias`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 
@@ -30,13 +30,13 @@ const createCourse = (course) => {
 
 const importCSVCourses = (courses) => {
     let body = courses;
-    return axios.post(`${path}/api/materias`,body)
+    return axios.post(`${path}api/materias`,body)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err.response)))
 }
 
 const deleteCourse = (code) => {
-    return axios.delete(`${path}/api/materias?codigo=${code}`)
+    return axios.delete(`${path}api/materias?codigo=${code}`)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err)))
 }
@@ -56,7 +56,7 @@ const importCSVCorrelatives = (correlatives) => {
             result.push({codigoMateria:element.codigoMateria,correlativas:correlativas}) 
         }
     }); 
-    return axios.patch(`${path}/api/materias/correlativas`,result)
+    return axios.patch(`${path}api/materias/correlativas`,result)
     .then(res => new Promise((resolve,error)=>resolve(res)))
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
