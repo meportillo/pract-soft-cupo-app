@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCSVReader } from 'react-papaparse';
 import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
-import {  Button } from 'react-bootstrap';
+import {  Button, Card } from 'react-bootstrap';
 import { createAlums, updateHistory } from '../../services/StudentService';
 import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
@@ -97,6 +97,10 @@ export default function ImportCommission(){
             return temp === undefined ? '':temp.charAt(temp.length-1);
     }
     
+    const comisionesExample = [{
+        
+    }]
+
     return (
         <>
         <CSVReader
@@ -157,6 +161,27 @@ export default function ImportCommission(){
             getRemoveFileProps,
             }) => (
             <>
+
+          <Card>
+            <Card.Text>
+                Formato del Header : Código, 	Actividad,	Comisión,	Modalidad,	Ubicacion,	Banda Horaria y Aula
+            </Card.Text>
+            <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
+          </Card>
+          <CSVDownloader
+                type={Type.Button}
+                filename={'filename'}
+                bom={true}
+                config={{
+                    delimiter: ',',
+                }}
+                data={
+                    comisionesExample
+                }
+                style={{backgroundColor: '#d6cca1'}}
+                >
+                Descargar Ejemplo CSV
+                </CSVDownloader>            
                 {//fun_ = getRemoveFileProps
                 }
                 <div style={styles.csvReader}>
