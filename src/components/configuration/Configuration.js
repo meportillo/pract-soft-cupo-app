@@ -4,6 +4,8 @@ import Tab from 'react-bootstrap/Tab';
 import { ConfigurationDate } from "./ConfigurationDate";
 import ABMStudent from "./ABMStudent";
 import Course from "./Course";
+import Commissions from "./Commissions";
+import ImportCommission from "./ImportCommission";
 
 export default function Configuration(){
     return(<>
@@ -21,6 +23,9 @@ export default function Configuration(){
                             <Tab eventKey="abm-materias" title="Materias">
                                 <Course></Course>
                             </Tab>
+                            <Tab eventKey="abm-comisiones" title="Comisiones">
+                                <ImportCommission></ImportCommission>
+                            </Tab>                            
                         </Tabs>
                     </div>
                 </div>
