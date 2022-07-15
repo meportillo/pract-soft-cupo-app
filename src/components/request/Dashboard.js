@@ -7,13 +7,12 @@ import CountDown from "./countDown/CountDown";
 import { AlertRequest } from "./AlertRequest";
 
 export default function Dashoard(){
-    const [cuatrimestre, setCuatrimestre] = useState({});
+    const [cuatrimestre, setCuatrimestre] = useState(null);
     const [alumnosProcesados, setAlumnosProcesados] = useState(undefined);
     const [alumnosSinProcesar, setAlumnosSinProcesar] = useState(undefined);
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
-    const dateTimeAfterThreeDays = new Date(cuatrimestre.finInscripciones).getTime();
 
     useEffect(()=>{
         getCuatrimestreByanio('2022','S1')
@@ -67,30 +66,44 @@ export default function Dashoard(){
             })
         }
      }
-        
+// <Card>
+//     <Card.Header> {cuatrimestre.semestre == 'S1' ? 'Primer': 'Segundo'} Cuatrimestre - { cuatrimestre.anio }</Card.Header>
+//     <Card.Body>
+//     Tiempo restante para que finalice el proceso de inscripciones en Guarani:
+//     <CountDown targetDate={dateTimeAfterThreeDays} />
+//         <blockquote className="blockquote mb-0">
+//         <p>
+//             <br></br>
+//             Fin de Inscripciones: {new Date(cuatrimestre.finInscripciones).toLocaleString().split(",")[0]}{' '}
+//         </p>
+//         </blockquote>
+//         <div>
+
+//         </div>
+//     </Card.Body>
+// </Card>        
     return(<>
         <Form.Label className="d-flex justify-content-center"><h3>Dashboard General de Solicitudes</h3></Form.Label>
         <Container>
             <Row>
             <hr></hr>
             <Card>
-                <Card.Header> {cuatrimestre.semestre == 'S1' ? 'Primer': 'Segundo'} Cuatrimestre - { cuatrimestre.anio }</Card.Header>
-                <Card.Body>
-                Tiempo restante para que finalice el proceso de inscripciones en Guarani:
-                <CountDown targetDate={dateTimeAfterThreeDays} />
-                    <blockquote className="blockquote mb-0">
-                    <p>
-                        <br></br>
-                        Fin de Inscripciones: {new Date(cuatrimestre.finInscripciones).toLocaleString().split(",")[0]}{' '}
-                    </p>
-               { /*    <footer className="blockquote-footer">
-                        Someone famous in <cite title="Source Title">Source Title</cite>
-    </footer>*/}
-                    </blockquote>
-                    <div>
-
-                    </div>
-                </Card.Body>
+            { 
+                cuatrimestre ?
+                    <>     
+                    <Card.Header> {cuatrimestre.semestre == 'S1' ? 'Primer': 'Segundo'} Cuatrimestre - { cuatrimestre.anio }</Card.Header>
+                    <Card.Body>
+                        Tiempo restante para que finalice el proceso de inscripciones en Guarani:
+                        <CountDown targetDate={new Date(cuatrimestre.finInscripciones).getTime()}/>
+                        <blockquote className="blockquote mb-0">
+                        <p>
+                            <br></br>
+                            Fin de Inscripciones: {new Date(cuatrimestre.finInscripciones).toLocaleString().split(",")[0]}{' '}
+                        </p>
+                        </blockquote>
+                    </Card.Body></>
+                :   <></>
+                }
             </Card>
             <br></br>
             <hr></hr>

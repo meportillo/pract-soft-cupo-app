@@ -7,13 +7,14 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CountDown from "../request/countDown/CountDown";
+import { Alert } from "react-bootstrap";
 
 
 export function HomeStudent() {
     const [cuatrimestre, setCuatrimestre] = useState(null);
     const [solicitudes, setSolicitudes] = useState([]);
     const [inscripciones, setInscripciones] = useState([]);
-
+    const [error,setError] = useState(false);
     const deleteForm = () => {
         if (window.confirm("Estas seguro que deseas borrar este formulario")) {
             deleteRequest()
@@ -21,7 +22,9 @@ export function HomeStudent() {
                 setSolicitudes([])
                 setInscripciones([])
             })
-            .catch()
+            .catch(res=>{
+                setError(res.message)
+            })
         }
     }
     
@@ -64,6 +67,14 @@ export function HomeStudent() {
                 }
             </Card>
             <br></br>
+            <Form.Group>
+            {
+                error ? <Alert  variant="danger" onClose={() => setError(false)} dismissible>
+                            {error}
+                        </Alert>
+                : <></>
+            }
+            </Form.Group>
             <h3 className="d-flex justify-content-center mb-3">Formulario Cargado</h3>
             {
                 solicitudes.length + inscripciones.length === 0
