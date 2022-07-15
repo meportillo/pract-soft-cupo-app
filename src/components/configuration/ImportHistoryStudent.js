@@ -7,6 +7,8 @@ import { createAlums, updateHistory } from '../../services/StudentService';
 import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
 import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
+
 
 export default function ImportHistoryStudent(){
     const { CSVReader } = useCSVReader();
@@ -19,6 +21,7 @@ export default function ImportHistoryStudent(){
     const [message,setMessage] = useState('');
     const { CSVDownloader, Type } = useCSVDownloader();
     const [resultadoProceso, setResultadoProceso] = useState([]);
+    const [showSpiner, setShowSpiner] = useState(false);
 
     const styles = {
         csvReader: {
@@ -47,8 +50,10 @@ export default function ImportHistoryStudent(){
       };
 
       const sendFileStudent = ()=>{
+        setShowSpiner(true);
         updateHistory(historia)
         .then(response=>{
+          setShowSpiner(false);          
             console.log(response);
             if(response.status !== 201 && response.status !== 200){
                 const results = jsonToCSV(response.data);
@@ -194,6 +199,9 @@ export default function ImportHistoryStudent(){
             <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
             :
             <></>
+        }
+        {
+            showSpiner?  <Spinner animation="border" >.:.</Spinner>:<></>
         }
       {
           showDescarga?

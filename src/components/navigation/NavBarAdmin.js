@@ -40,10 +40,10 @@ export const NavbarAdmin = () => {
                        <FcHome/> Dashboard
                     </NavLink>                
                     <NavLink to='/requests'>
-                        <FcDataSheet/> Solicitudes
+                        <FcDataSheet/> Solicitudes - Materia
                     </NavLink>                
                     <NavLink to='/students'>
-                       <FcButtingIn/> Alumnos
+                       <FcButtingIn/> Solicitudes - Alumnos
                     </NavLink>
                     <NavLink to='/subjects'>
                        <FcDiploma1/> Materias

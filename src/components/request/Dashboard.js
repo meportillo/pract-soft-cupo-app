@@ -5,6 +5,7 @@ import { closeAllRequests, getAlumnosSolicFiltro, getCuatrimestreByanio } from "
 import AnyChart from "anychart-react";
 import CountDown from "./countDown/CountDown";
 import { AlertRequest } from "./AlertRequest";
+import { periodoActual } from "../../utils/time";
 
 export default function Dashoard(){
     const [cuatrimestre, setCuatrimestre] = useState({});
@@ -16,7 +17,7 @@ export default function Dashoard(){
     const dateTimeAfterThreeDays = new Date(cuatrimestre.finInscripciones).getTime();
 
     useEffect(()=>{
-        getCuatrimestreByanio('2022','S1')
+        getCuatrimestreByanio(periodoActual().anio,periodoActual().S)
         .then(response=>{
             setCuatrimestre(response.data);
         })

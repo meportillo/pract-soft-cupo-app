@@ -9,6 +9,7 @@ import { useCSVDownloader } from 'react-papaparse';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { getCuatrimestreByanio, uploadCommisiones } from '../../services/SubjectService';
+import { periodoActual } from '../../utils/time';
 
 
 export default function ImportCommission(){
@@ -27,7 +28,7 @@ export default function ImportCommission(){
     const [cuatrimestre,setCuatrimestre] = useState();
 
     useEffect(()=>{
-        getCuatrimestreByanio('2022','S1')
+        getCuatrimestreByanio(periodoActual().anio,periodoActual().S)
         .then(response=>{
             setCuatrimestre(response.data);
             console.log(response);
@@ -60,8 +61,10 @@ export default function ImportCommission(){
       };
 
       const sendFileStudent = ()=>{
+        setShowSpiner(true);
         uploadCommisiones(commissions,cuatrimestre.inicioInscripciones,cuatrimestre.finInscripciones)
         .then(response=>{
+            setShowSpiner(true);
             console.log(response);
             if(response.response.status !== 201 && response.response.status !== 200){
                 const results = jsonToCSV(response.response.data);

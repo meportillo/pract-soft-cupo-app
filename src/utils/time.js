@@ -3,4 +3,15 @@ const  horarioToString = (horarios)=>{
         return <div> {dia} {inicio}-{fin}</div>
     })
 }
-export{horarioToString}
+
+const periodoActual = ()=>{
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    return {
+        'anio': year.toString(),
+        'S':month >= 8? 'S2': 'S1' 
+    }
+}
+
+export{horarioToString, periodoActual}
