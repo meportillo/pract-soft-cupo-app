@@ -70,33 +70,69 @@ export const ImportFile = (props) => {
       return mapMateriasPlan2010(rows)
   }
 
+  const ejemploPlanTPI2010 = [{
+        "Plan TPI 2010": "CC",
+        "Código Materia": "1051",
+        "Creditos":"8",
+        "Materia":"Programación con Objetos III",
+        "Correlatividades":"",
+        "Secuencialidad CO - créditos": "102",
+        "Secuencialidad CA - créditos": "52"
+  }]
+
+  const ejemploPlanTPI2015 = [{
+        "Plan TPI 2010": "CC",
+        "Código Materia": "1051",
+        "Creditos":"8",
+        "Materia":"Programación con Objetos III",
+        "Correlatividades":"",
+        "Secuencialidad CI - créditos":"",
+        "Secuencialidad CO - créditos": "102",
+        "Secuencialidad CA - créditos": "52",
+        "Secuencialidad CC - créditos":""
+  }]
+
+  const ejemploPlanLI = [{
+      "Plan TPI 2010": "CC",
+      "Código Materia": "1051",
+      "Creditos":"8",
+      "Materia":"Programación con Objetos III",
+      "Correlatividades":"{1037}",
+      "Secuencialidad CI - créditos":"30",
+      "Secuencialidad NBW (Núcleo Básico)": "180",
+      "Secuencialidad CB  (W15BO) - créditos": "56"
+  }]
+ 
   const textByCarrera = () =>{
       switch(carrera) {
         case "TPI2010" : return(
         <>
           <Card.Text>
-            Header : Plan TPI 2010,	Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos
+            Header : Plan Ciclo, Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos
           </Card.Text>
           <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
           <Card.Text>Fila : CC,1051,8,Programación con Objetos III,{"{3032}"},102,52</Card.Text>
+          <CSVDownloader  nameButton={"Descargar ejemplo CSV"} conflicts={ejemploPlanTPI2010} name="ejMateriasPlanTPI2010"></CSVDownloader>
         </>
         );
         case "TPI2015" : return(
           <>
           <Card.Text>
-            Header : Plan TPI 2010,Código Materia,Créditos,Materia,Correlatividades,Secuencialidad CI - créditos,Secuencialidad CO - créditos,Secuencialidad CA - créditos,Secuencialidad CC - créditos
+            Header : Plan Ciclo,Código Materia,Créditos,Materia,Correlatividades,Secuencialidad CI - créditos,Secuencialidad CO - créditos,Secuencialidad CA - créditos,Secuencialidad CC - créditos
           </Card.Text>
           <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
-          <Card.Text>Fila : CA,1044,12,Estrategias de Persistencia,{ "{1035, 1037}" },30,70</Card.Text>
+          <Card.Text>Fila : CA,1051,8,Programación con Objetos III,,30,70,,,</Card.Text>
+          <CSVDownloader  nameButton={"Descargar ejemplo CSV"} conflicts={ejemploPlanTPI2015} name="ejMateriasPlanTPI2015"></CSVDownloader>
           </>
           ); 
         case "LI" : return(
           <>
           <Card.Text>
-            Header : Plan TPI 2010,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,Secuencialidad NBW (Núcleo Básico), - créditos	Secuencialidad CB  (W15BO) - créditos
+            Header : Plan Ciclo,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,Secuencialidad NBW (Núcleo Básico), Secuencialidad CB  (W15BO) - créditos
           </Card.Text>
           <p style={{"color" : "red"}}>En caso de no tener valor un campo no poner nada : CA, ,8</p>
           <Card.Text>Fila : CA,1051,8,Programación con Objetos III,{"{1037}"},30,180,56 </Card.Text>
+          <CSVDownloader  nameButton={"Descargar ejemplo CSV"} conflicts={ejemploPlanLI} name="ejMateriasPlanLI"></CSVDownloader>
           </>
           );
         default : return(<></>)
@@ -213,7 +249,7 @@ export const ImportFile = (props) => {
                       <Alert variant="warning" onClose={() => setError(false)} dismissible>
                                 Hubo algunos errores al importar el csv para mas informacion descargar el csv 
                       </Alert>
-                      <CSVDownloader conflicts={conflictsImport} name="errorCSVMaterias"></CSVDownloader>
+                      <CSVDownloader nameButton={"Descargar conflictos"} conflicts={conflictsImport} name="errorCSVMaterias"></CSVDownloader>
                   </div>
               :   <></>
           }

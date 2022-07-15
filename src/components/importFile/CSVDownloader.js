@@ -13,7 +13,7 @@ export const CSVDownloader = (props) => {
       }}
       data={props.conflicts}
     >
-      Descargar
+      {props.nameButton}
     </CSVDownloader>
   );
 }
