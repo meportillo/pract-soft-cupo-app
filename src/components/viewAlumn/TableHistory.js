@@ -10,17 +10,12 @@ import {optionsTable} from '../../utils/table';
 
 export default function TableHistory({solicitudes}) {
 
-    // const [alumnos, setAlumnos]= useState([]);
-    // const [search,setSearch] = useState([]);
-    // const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     getAlumnos()
-    //     .then((data) => {
-    //         setAlumnos(data);
-    //     });
-    // },[])
-    console.log(solicitudes)
+    const rowStyle = (row, rowIndex) => {
+        const style =(row.estado === 'APROBADO')? {background: 'rgb(127,255,0)'} : 
+        ((row.estado === 'RECHAZADO')? {background: 'rgba(247, 148, 123, 0.788)'}: {
+            background: 'rgba(250, 252, 157, 0.842)'});
+        return style;
+      };
 
     const columns = [{
       dataField: 'nombreMateria',
@@ -43,7 +38,7 @@ export default function TableHistory({solicitudes}) {
   ];
   return (
       <>
-        <BootstrapTable keyField='materia' data={ solicitudes } columns={ columns } pagination={ paginationFactory(optionsTable(solicitudes.length,2,5)) } 
+        <BootstrapTable keyField='materia' data={ solicitudes } columns={ columns } pagination={ paginationFactory(optionsTable(solicitudes.length,2,5)) } rowStyle={rowStyle}
         striped hover condensed>
         </BootstrapTable>
       </>
