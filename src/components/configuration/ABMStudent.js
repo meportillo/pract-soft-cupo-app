@@ -87,49 +87,7 @@ export default function ABMStudent(){
         }
 
         <Container>
-        <Accordion defaultActiveKey="1">
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>Crear</Accordion.Header>
-                <Accordion.Body>
-                <Form ref={formRef}>
-
-                    <Form.Group className="mb-3" controlId="dniControl">
-                        <Form.Label>Nro. DNI: </Form.Label>
-                        <Form.Control type="text" placeholder="Numero de Dni del alumno" onChange={(e)=>{setDni(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="nombControl">
-                        <Form.Label>Nombre: </Form.Label>
-                        <Form.Control type="text" placeholder="Nombre del alumno" onChange={(e)=>{setNombre(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="apeControl">
-                        <Form.Label>Apellido: </Form.Label>
-                        <Form.Control type="text" placeholder="Apellido del alumno" onChange={(e)=>{setApellido(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email </Form.Label>
-                        <Form.Control type="email" placeholder="Email del alumno"  onChange={(e)=>{setCorreo(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Carrera </Form.Label>
-
-                        <Form.Select aria-label="Carrera" onChange={(e)=>{setCarrera(e.target.value)}} >
-                            <option>Selecionar</option>
-                            <option value="P">Tecnicatura universitaria en Programacion Informatica</option>
-                            <option value="W">Licenciatura en informatica</option>
-                            <option value="PW">Simultaneidad</option>
-                        </Form.Select>
-                    </Form.Group>
-
-
-                    </Form>
-                    <Button variant="outline-primary" onClick={create}>Crear</Button>
-
-                </Accordion.Body>
-            </Accordion.Item>
+        <Accordion>
             <Accordion.Item eventKey="1">
                 <Accordion.Header>Borrar</Accordion.Header>
                 <Accordion.Body>

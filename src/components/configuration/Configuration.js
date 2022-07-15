@@ -14,15 +14,12 @@ export default function Configuration(){
 
                     </div>
                     <div className="col-12">
-                        <Tabs defaultActiveKey="abm-cuatrimestre" id="uncontrolled-tab-example" className="mb-3">
+                        <Tabs defaultActiveKey="abm-student" id="uncontrolled-tab-example" className="mb-3">
                             <Tab eventKey="abm-student" title="Alumnos">
                                 <ABMStudent></ABMStudent>
                             </Tab>
                             <Tab eventKey="abm-materias" title="Materias">
                                 <Course></Course>
-                            </Tab>
-                            <Tab eventKey="abm-cuatrimestre" title="Cuatrimestre">
-                                <ConfigurationDate></ConfigurationDate>
                             </Tab>
                         </Tabs>
                     </div>

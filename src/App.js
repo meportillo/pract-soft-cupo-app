@@ -24,6 +24,7 @@ import Dashoard from "./components/request/Dashboard";
 import { ImportFile } from "./components/importFile/ImportFile";
 import Subjects from "./components/subjects/Subjects";
 import './App.css';
+import ConfigurationPeriod from "./components/configuration/ConfigurationPeriod";
 
 class App extends Component {
     render(){
@@ -45,7 +46,8 @@ class App extends Component {
                         <Route path='/cuenta/codigo/' element={<ConfirmCode/>}/>
                         <Route path='/students' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Students/>} encabezado="Alumnos" navAdmin={<NavbarAdmin/>} />} />} />
                         <Route path='/subjects' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Subjects/>} encabezado="Materias" navAdmin={<NavbarAdmin/>} />} />} />
-                        <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
+                        <Route path='/load' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />
+                        <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<ConfigurationPeriod/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
                         <Route path='/csv' element={<ImportFile/>}/>
                     </Routes>
                   </BrowserRouter>
