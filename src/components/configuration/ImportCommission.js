@@ -82,6 +82,7 @@ export default function ImportCommission(){
             
         })
         .catch(error=>{
+            setShowSpiner(false);
             console.log(error);
             const results = jsonToCSV(error.response.data);
             setResultadoProceso(results);
@@ -180,7 +181,7 @@ export default function ImportCommission(){
             <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
             <CSVDownloader
                 type={Type.Button}
-                filename={'filename'}
+                filename={'ejemplo'}
                 bom={true}
                 config={{
                     delimiter: ',',
@@ -231,7 +232,7 @@ export default function ImportCommission(){
                 {' '}
                 <CSVDownloader
                 type={Type.Button}
-                filename={'filename'}
+                filename={'resultado'}
                 bom={true}
                 config={{
                     delimiter: ',',

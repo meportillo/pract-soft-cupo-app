@@ -70,6 +70,7 @@ export default function ImportHistoryStudent(){
             
         })
         .catch(error=>{
+            setShowSpiner(false);
             console.log(error);
             const results = jsonToCSV(error.response.data);
             setResultadoProceso(results);
@@ -118,7 +119,7 @@ export default function ImportHistoryStudent(){
                 <Card.Text> Formato de las Filas : 10380,DNI 12345677,W,80005,ELEMENTOS DE PROG. Y LÓGICA,07/02/2019,P,7,Promoción en otra carrera,10,39569,39658,2015</Card.Text>
                 <CSVDownloader
                 type={Type.Button}
-                filename={'filename'}
+                filename={'ejemplo'}
                 bom={true}
                 config={{
                     delimiter: ',',
@@ -212,7 +213,7 @@ export default function ImportHistoryStudent(){
                 {' '}
                 <CSVDownloader onClick={e => {setDescarga(false)}}
                 type={Type.Button}
-                filename={'filename'}
+                filename={'resultado'}
                 bom={true}
                 config={{
                     delimiter: ',',

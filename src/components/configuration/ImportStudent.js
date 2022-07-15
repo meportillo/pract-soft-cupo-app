@@ -94,7 +94,8 @@ const styles = {
             'Estado Inscr.':'Aceptado',
             'Calidad':'Pasivo',
             'Regular':'N',
-            'Locación':'Bernal'
+            'Locación':'Bernal',
+            'Correo': 'Ejemplo@correo.com'
         }
     ];
 
@@ -110,12 +111,12 @@ const styles = {
             </Card.Header>
             <Card.Body>
                 <Card.Text>
-                    Formato del Header: Código,Actividad,Comisión,Modalidad,Ubicacion,Banda Horaria y Aula
+                    Formato del Header: Apellido,Nombre,Documento,Propuesta,Plan,Estado Inscr.,Calidad,Regular,Locación,Correo
                 </Card.Text>
-                <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
+                <Card.Text> Formato de las Filas :Ibañez,Xavier,1256700,P,2015,Pendiente,Pasivo,S,Bernal,correoAlumno@gmail.com</Card.Text>
                 <CSVDownloader
                 type={Type.Button}
-                filename={'filename'}
+                filename={'ejemplo'}
                 bom={true}
                 config={{
                     delimiter: ',',
@@ -157,6 +158,9 @@ const styles = {
                     'calidad':elem.Calidad === undefined? '': elem.Calidad,
                     'fila': fila 
 
+                }
+                if(elem['Correo'] !== undefined){
+                    alum.correo=elem['Correo']
                 }
                 fila+=1
                 alumnosTemp.push(alum);
@@ -213,7 +217,7 @@ const styles = {
                 {' '}
                 <CSVDownloader
                 type={Type.Button}
-                filename={'filename'}
+                filename={'resultado'}
                 bom={true}
                 config={{
                     delimiter: ',',
