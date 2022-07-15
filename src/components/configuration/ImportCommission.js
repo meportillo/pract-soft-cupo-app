@@ -96,8 +96,15 @@ export default function ImportCommission(){
         else 
             return temp === undefined ? '':temp.charAt(temp.length-1);
     }
-    
-    const comisionesExample = [{'Código','Actividad','Comisión','Modalidad','Ubicacion','Banda Horaria y Aula'}];
+
+    const comisionesExample = [{
+        'Código':'80005',
+        'Actividad':'Elementos de Programación y Lógica',
+        'Comisión':'80005-B1-CYT2 (Presencial)',
+        'Modalidad':'Presencial',
+        'Ubicacion':'Berazategui',
+        'Banda Horaria y Aula':'Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica'
+    }];
 
     return (
         <>
@@ -160,13 +167,15 @@ export default function ImportCommission(){
             }) => (
             <>
 
-          <Card>
-            <Card.Text>
+        <Card>
+            <Card.Header>
+                Formato CSV 
+            </Card.Header>
+            <Card.Body>            <Card.Text>
                 Formato del Header : Código, 	Actividad,	Comisión,	Modalidad,	Ubicacion,	Banda Horaria y Aula
             </Card.Text>
             <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
-          </Card>
-          <CSVDownloader
+            <CSVDownloader
                 type={Type.Button}
                 filename={'filename'}
                 bom={true}
@@ -176,13 +185,16 @@ export default function ImportCommission(){
                 data={
                     comisionesExample
                 }
-                style={{backgroundColor: '#d6cca1'}}
                 >
                 Descargar Ejemplo CSV
-                </CSVDownloader>            
+                </CSVDownloader>
+            </Card.Body>
+          </Card>
+                            
                 {//fun_ = getRemoveFileProps
                 }
                 <div style={styles.csvReader}>
+                <br></br>
                 <button type='button' {...getRootProps()} style={styles.browseFile}>
                     Importar Archivo
                 </button>

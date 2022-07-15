@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCSVReader } from 'react-papaparse';
 import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
-import {  Button } from 'react-bootstrap';
+import {  Button, Card } from 'react-bootstrap';
 import { createAlums, updateHistory } from '../../services/StudentService';
 import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
@@ -75,6 +75,17 @@ export default function ImportHistoryStudent(){
         })
     }
 
+    const historyExample = [{
+        'Legajo':'10380','DNI':'DNI 12345677',
+        'Carrera':'W','Materia':'80005',
+        'Nombre':'ELEMENTOS DE PROG. Y LÓGICA',
+        'Fecha':'07/02/2019',
+        'Resultado':'P',
+        'Nota':'7',
+        'Forma Aprobación':'Promoción en otra carrera',
+        'Crédito':'10','Acta_Promo':'39569','Acta_examen':'','Plan':'2015'
+    }]
+
     const replaceZero = (st)=>{
         let rec = st;
         let pos = 0;
@@ -91,6 +102,31 @@ export default function ImportHistoryStudent(){
 
       return (
         <>
+          <Card>
+            <Card.Header>
+                Formato CSV 
+            </Card.Header>
+            <Card.Body>
+                <Card.Text>
+                    Formato del Header: Legajo,DNI,Carrera,Materia,Nombre,Fecha,Resultado,Nota,Forma Aprobación,Crédito,Acta_Promo,Acta_examen,Plan 
+                </Card.Text>
+                <Card.Text> Formato de las Filas : 10380,DNI 12345677,W,80005,ELEMENTOS DE PROG. Y LÓGICA,07/02/2019,P,7,Promoción en otra carrera,10,39569,39658,2015</Card.Text>
+                <CSVDownloader
+                type={Type.Button}
+                filename={'filename'}
+                bom={true}
+                config={{
+                    delimiter: ',',
+                }}
+                data={
+                    historyExample
+                }
+                >
+                Descargar Ejemplo CSV
+                </CSVDownloader>            
+            </Card.Body>
+          </Card>
+
         <CSVReader
         config={
                 {
