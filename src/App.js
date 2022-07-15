@@ -34,7 +34,7 @@ class App extends Component {
               <ThemeProvider
                 breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
               >
-                 <BrowserRouter>
+                 <BrowserRouter basename={window.location.pathname || ''}>
                     <Routes>
                         <Route path='/'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<Dashoard/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/requests'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
