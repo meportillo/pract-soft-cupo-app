@@ -79,6 +79,7 @@ const postCreateRequest= (dni,listComm) =>{
         })
         .catch(error=>{
             alert(error.response.data.error+ ": " + error.response.data.message );
+            return error
         })
 
 };
@@ -121,6 +122,24 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
         "comisionesACargar": [],
         "finInscripciones": `${dateEnd}T${time}`,
         "inicioInscripciones": `${dateStart}T${time}`
+    }
+    const body = {
+        oferta : oferta
+    }
+    return axios.post(path+"/api/comisiones/oferta",oferta)
+    .then((response) => {
+        return response
+    })
+    .catch((error)=>{
+        return error
+    }) 
+}
+
+const uploadCommisiones = (comisiones,dateStart,dateEnd) =>{
+    const oferta = {
+        "comisionesACargar": comisiones,
+        "finInscripciones": dateEnd,
+        "inicioInscripciones": dateStart
     }
     const body = {
         oferta : oferta
@@ -186,4 +205,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest,patchComentarFormulario};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest,patchComentarFormulario, uploadCommisiones};

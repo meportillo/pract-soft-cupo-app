@@ -39,7 +39,21 @@ export default function CreateRequestShort(props){
 
     const createRequest = (dni,idCom)=>{
         postCreateRequest(dni,[idCom]).then(data =>{
-            props.alertUpdate();
+            if(data.response.status === 400){
+                props.setMessage(data.response.data.exception+': ' + data.response.data.message);
+                props.setShowMessage(true);
+                props.setCallError(true);
+                props.onHide();
+                props.alertUpdate();    
+            }else{
+                if(data.response.status === 200 || data.response.status === 201)
+                props.setMessage('Solicitud Generada Ok');
+                props.setShowMessage(true);
+                props.setCallError(false);
+                props.onHide();
+                props.alertUpdate();    
+            }
+            console.log(data);
         });
     }
 

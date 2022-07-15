@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCSVReader } from 'react-papaparse';
 import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
@@ -8,11 +8,14 @@ import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
+import { getCuatrimestreByanio, uploadCommisiones } from '../../services/SubjectService';
+import { periodoActual } from '../../utils/time';
 
 
-export default function ImportHistoryStudent(){
+export default function ImportCommission(){
+
     const { CSVReader } = useCSVReader();
-    const [historia,setHistoria] = useState([]);
+    const [commissions,setCommissios] = useState([]);
     const [isOkToUpload, setIsOkToUpload] = useState(false);
     const { jsonToCSV } = usePapaParse();
     const [showMessage,setShowMessage] = useState(false);
@@ -22,6 +25,14 @@ export default function ImportHistoryStudent(){
     const { CSVDownloader, Type } = useCSVDownloader();
     const [resultadoProceso, setResultadoProceso] = useState([]);
     const [showSpiner, setShowSpiner] = useState(false);
+    const [cuatrimestre,setCuatrimestre] = useState();
+
+    useEffect(()=>{
+        getCuatrimestreByanio(periodoActual().anio,periodoActual().S)
+        .then(response=>{
+            setCuatrimestre(response.data);
+            console.log(response);
+        })},[])
 
     const styles = {
         csvReader: {
@@ -51,16 +62,17 @@ export default function ImportHistoryStudent(){
 
       const sendFileStudent = ()=>{
         setShowSpiner(true);
-        updateHistory(historia)
+        uploadCommisiones(commissions,cuatrimestre.inicioInscripciones,cuatrimestre.finInscripciones)
         .then(response=>{
-          setShowSpiner(false);          
+            setShowSpiner(true);
             console.log(response);
-            if(response.status !== 201 && response.status !== 200){
-                const results = jsonToCSV(response.data);
+            if(response.response.status !== 201 && response.response.status !== 200){
+                const results = jsonToCSV(response.response.data);
                 console.log('---------------------------');
                 console.log('Results: TO CSV', results);
                 console.log('---------------------------');
-
+                setResultadoProceso(results);
+                setDescarga(true);
             }else {
                 console.log('alumnos cargados correctamente');
                 setMessage('Carga Masiva de Historia Academica Exitosa');
@@ -79,59 +91,26 @@ export default function ImportHistoryStudent(){
             console.log('---------------------------');            
         })
     }
-
-    const historyExample = [{
-        'Legajo':'10380','DNI':'DNI 12345677',
-        'Carrera':'W','Materia':'80005',
-        'Nombre':'ELEMENTOS DE PROG. Y LÓGICA',
-        'Fecha':'07/02/2019',
-        'Resultado':'P',
-        'Nota':'7',
-        'Forma Aprobación':'Promoción en otra carrera',
-        'Crédito':'10','Acta_Promo':'39569','Acta_examen':'','Plan':'2015'
-    }]
-
-    const replaceZero = (st)=>{
-        let rec = st;
-        let pos = 0;
-        console.log(st.charAt(pos)==='0');
-        while(st.charAt(pos)==='0'){
-            console.log(st.charAt(pos))
-            rec=rec.replace('0', '');
-            console.log(rec);
-            pos+=1;
-        }
-        return rec;
-       
+    const proccessCom = (com)=>{
+        let temp = com.split(' ')[0].split('-')[com.split(' ')[0].split('-').length-2];
+        console.log(temp);
+        if(Number.isInteger(temp))
+            return temp;
+        else 
+            return temp === undefined ? '':temp.charAt(temp.length-1);
     }
 
-      return (
-        <>
-          <Card>
-            <Card.Header>
-                Formato CSV 
-            </Card.Header>
-            <Card.Body>
-                <Card.Text>
-                    Formato del Header: Legajo,DNI,Carrera,Materia,Nombre,Fecha,Resultado,Nota,Forma Aprobación,Crédito,Acta_Promo,Acta_examen,Plan 
-                </Card.Text>
-                <Card.Text> Formato de las Filas : 10380,DNI 12345677,W,80005,ELEMENTOS DE PROG. Y LÓGICA,07/02/2019,P,7,Promoción en otra carrera,10,39569,39658,2015</Card.Text>
-                <CSVDownloader
-                type={Type.Button}
-                filename={'filename'}
-                bom={true}
-                config={{
-                    delimiter: ',',
-                }}
-                data={
-                    historyExample
-                }
-                >
-                Descargar Ejemplo CSV
-                </CSVDownloader>            
-            </Card.Body>
-          </Card>
+    const comisionesExample = [{
+        'Código':'80005',
+        'Actividad':'Elementos de Programación y Lógica',
+        'Comisión':'80005-B1-CYT2 (Presencial)',
+        'Modalidad':'Presencial',
+        'Ubicacion':'Berazategui',
+        'Banda Horaria y Aula':'Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica'
+    }];
 
+    return (
+        <>
         <CSVReader
         config={
                 {
@@ -140,33 +119,45 @@ export default function ImportHistoryStudent(){
                 }
             }
             onUploadAccepted={(results) => {
-            setHistoria([]);
+            setCommissios([]);
             console.log('---------------------------');
             console.log(results);
 
-            Promise.all(results.data).then((historiaRes)=>{
-            let historiaTemp = [];
+            Promise.all(results.data).then((commsRes)=>{
+            let commsTemp = [];
 
            let fila = 1;
-           historiaRes.map(elem=>{
-                let fecha = elem.Fecha.split('/');
-                let cursada = {
-                    'codigo': elem.Materia === undefined? '':replaceZero(elem.Materia), // hay que sacar el cero de adelante.
-                    'dni': elem.DNI === undefined? '': elem.DNI.split(' ')[1],
-                    'fecha': elem.Fecha ===  undefined? '': fecha[2]+'-'+fecha[1]+'-'+fecha[0],
-                    'fila': fila,
-                    'resultado': elem.Resultado ===  undefined?'':elem.Resultado === 'A'||elem.Resultado === 'P'||elem.Resultado === 'U'?'APROBADO':elem.Resultado === 'E'? 'PA': 'DESAPROBADO'
+           commsRes.map(elem=>{
+                let com = {
+                    'codigo': elem['Código'] === undefined? '':elem['Código'] ,
+                    'actividad': elem.Actividad === undefined? '': elem.Actividad,
+                    'comision': elem['Comisión'] === undefined? '': proccessCom(elem['Comisión']),
+                    'locacion': elem['Ubicacion'] === undefined? '': elem['Ubicacion'].includes(' ')?elem['Ubicacion'].split(' ')[0]+'_'+elem['Ubicacion'].split(' ')[1]:elem['Ubicacion'],
+                    'modalidad': elem.Modalidad === undefined? '': (elem.Modalidad.includes(' ')? (elem.Modalidad.split(' ')[0]+'_'+elem.Modalidad.split(' ')[1]).toUpperCase():elem.Modalidad.toUpperCase()),
+                    'horarios': elem['Banda Horaria y Aula'] === undefined || elem['Banda Horaria y Aula'] === "" ? []: elem['Banda Horaria y Aula'].split('/').map(horario=>{
+                        let parse = horario.trim().split(' ');
+                        
+                        let obj = {
+                            'dia':parse[0],
+                            'fin':parse[3],
+                            'inicio':parse[1]
+                        }
+                        console.log(obj);
+                        return obj
+                    }) , 
+                    'fila': fila 
 
                 }
                 fila+=1
-                historiaTemp.push(cursada);
+                if(!(com.actividad==='' && com.comision===''))
+                    commsTemp.push(com);
             });
-                Promise.all(historiaTemp)
-                .then(promises =>{ 
-                    setHistoria(promises);
+                Promise.all(commsTemp)
+                .then(promises =>{
+                    console.log(promises); 
+                    setCommissios(promises);
                     setIsOkToUpload(true);
                 });
-                console.log(historia);
                 console.log('---------------------------');
             });
         }}>
@@ -178,7 +169,35 @@ export default function ImportHistoryStudent(){
             getRemoveFileProps,
             }) => (
             <>
+
+        <Card>
+            <Card.Header>
+                Formato CSV 
+            </Card.Header>
+            <Card.Body>            <Card.Text>
+                Formato del Header : Código, 	Actividad,	Comisión,	Modalidad,	Ubicacion,	Banda Horaria y Aula
+            </Card.Text>
+            <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
+            <CSVDownloader
+                type={Type.Button}
+                filename={'filename'}
+                bom={true}
+                config={{
+                    delimiter: ',',
+                }}
+                data={
+                    comisionesExample
+                }
+                >
+                Descargar Ejemplo CSV
+                </CSVDownloader>
+            </Card.Body>
+          </Card>
+                            
+                {//fun_ = getRemoveFileProps
+                }
                 <div style={styles.csvReader}>
+                <br></br>
                 <button type='button' {...getRootProps()} style={styles.browseFile}>
                     Importar Archivo
                 </button>
@@ -202,15 +221,15 @@ export default function ImportHistoryStudent(){
         }
         {
             showSpiner?  <Spinner animation="border" >.:.</Spinner>:<></>
-        }
-      {
+        }      
+        {
           showDescarga?
             <> {' '}
-                <Alert key='warning' variant='warning'>
+                <Alert key='warning' variant='warning' dismissible onClick={(e)=>{setDescarga(false)}}>
                    Hay conflictos con la importacion.
                 </Alert>
                 {' '}
-                <CSVDownloader onClick={e => {setDescarga(false)}}
+                <CSVDownloader
                 type={Type.Button}
                 filename={'filename'}
                 bom={true}

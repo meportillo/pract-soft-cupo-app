@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCSVReader } from 'react-papaparse';
 import { usePapaParse } from 'react-papaparse';
 import {FcCancel} from  "react-icons/fc";
-import {  Button } from 'react-bootstrap';
+import {  Button, Card } from 'react-bootstrap';
 import { createAlums } from '../../services/StudentService';
 import { AlertRequest } from '../request/AlertRequest';
 import { useCSVDownloader } from 'react-papaparse';
@@ -85,10 +85,49 @@ const styles = {
         })
     }
 
+    let alumnosExample = [
+        {
+            'Apellido':'Gonzalez',
+            'Nombre':'Celia',
+            'Documento':'701584',
+            'Propuesta':'W','Plan':'2012',
+            'Estado Inscr.':'Aceptado',
+            'Calidad':'Pasivo',
+            'Regular':'N',
+            'Locación':'Bernal'
+        }
+    ];
+
     let fun_;
 
     return (
         <>
+
+
+        <Card>
+            <Card.Header>
+                Formato CSV 
+            </Card.Header>
+            <Card.Body>
+                <Card.Text>
+                    Formato del Header: Código,Actividad,Comisión,Modalidad,Ubicacion,Banda Horaria y Aula
+                </Card.Text>
+                <Card.Text> Formato de las Filas : 80005,	Elementos de Programación y Lógica,	80005-B1-CYT2 (Presencial),	Presencial,	Berazategui,	Lun 18:00 a 19:59 - Teórica / Mie 18:00 a 19:59 - Teórica</Card.Text>
+                <CSVDownloader
+                type={Type.Button}
+                filename={'filename'}
+                bom={true}
+                config={{
+                    delimiter: ',',
+                }}
+                data={
+                    alumnosExample
+                }
+                >
+                Descargar Ejemplo CSV
+                </CSVDownloader>            
+            </Card.Body>
+          </Card>
         <CSVReader
         config={
                 {

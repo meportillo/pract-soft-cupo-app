@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Form from "react-bootstrap/Form";
-import { updateTimeFormulario } from '../../services/SubjectService';
+import { updateTimeFormulario ,getCuatrimestreByanio} from '../../services/SubjectService';
 import { AlertRequest } from '../request/AlertRequest';
 import Accordion from 'react-bootstrap/Accordion';
+import { periodoActual } from "../../utils/time";
 
 
 export const ConfigurationDate = () => {
@@ -14,7 +15,31 @@ export const ConfigurationDate = () => {
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
     const formRef = useRef(null);
+    const [start, setStart] = useState(new Date());
+    const [end, setEnd] = useState(new Date());
+    
 
+    useEffect(()=>{
+        getCuatrimestreByanio(periodoActual().anio,periodoActual().S)
+        .then(response=>{
+            console.log(response);
+            setStart(new Date(response.data.inicioInscripciones));
+            setEnd(new Date(response.data.finInscripciones));            
+        })
+        .catch(error=>{
+        });
+    },[])
+    
+    useEffect(()=>{
+        getCuatrimestreByanio(periodoActual().anio,periodoActual().S)
+        .then(response=>{
+            console.log(response);
+            setStart(new Date(response.data.inicioInscripciones));
+            setEnd(new Date(response.data.finInscripciones));            
+        })
+        .catch(error=>{
+        });
+    },[showMessage])
     const clear = ()=>{
         setDateStart(new Date());
         setDateEnd(new Date());
@@ -56,7 +81,7 @@ export const ConfigurationDate = () => {
             <Container>
                 <Accordion defaultActiveKey="1">
                     <Accordion.Item eventKey="0">        
-                        <Accordion.Header>Inscripciones Inicio - Cierre</Accordion.Header>
+                        <Accordion.Header>Inscripciones Inicio:{start.toLocaleDateString()} - Cierre:{end.toLocaleDateString()}</Accordion.Header>
                         <Accordion.Body>                    
                         <Form ref={formRef}>
                             <Form.Group className="mb-3" controlId="formInicio">
@@ -73,7 +98,7 @@ export const ConfigurationDate = () => {
                             <Form.Label>Fecha fin</Form.Label>
                             <Form.Control
                                     type="date"
-                                    name="duedate"
+                                    name="duedate2"
                                     placeholder="Due date"
                                     value={dateEnd}
                                     onChange={(e) => setDateEnd(e.target.value)}
