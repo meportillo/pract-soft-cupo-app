@@ -49,7 +49,10 @@ export const NavbarAdmin = () => {
                        <FcDiploma1/> Materias
                     </NavLink>  
                     <NavLink to='/config'>
-                       <FcSupport/> Configuracion
+                       <FcSupport/> Editar Periodo
+                    </NavLink> 
+                    <NavLink to='/load'>
+                       <FcSupport/> Carga Datos
                     </NavLink> 
                 </NavMenu>
 	        </Nav>            
