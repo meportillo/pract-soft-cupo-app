@@ -1,8 +1,8 @@
-import React, { useState, navigate , useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import {getRequests, getSubjects2, getCommissions, getCommisionsBySubject} from '../../services/SubjectService';
+import {getSubjects2,getCommisionsBySubject} from '../../services/SubjectService';
 import Form from 'react-bootstrap/Form';
 import { optionsTable } from '../../utils/table';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -50,9 +50,9 @@ export default function TableRequests({itemsPerPage}) {
            getMaterias(search)
         }
 
-        const actionsCommisions = (com,subject)=>{
+        const actionsCommisions = (cell, row)=>{
             return(<><ButtonGroup>
-                            <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${com}`,{state:{nombreMateria:subject.nombre,comisionId:com.numero}})}>
+                            <Button key={Math.random()} onClick={ e => navigate(`commissionRequest/${cell}`,{state:{nombreMateria:row.materia,comisionId:row.numero}})}>
                             Ver
                             </Button>
                         </ButtonGroup></>)

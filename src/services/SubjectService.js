@@ -18,6 +18,16 @@ axios.interceptors.request.use(
     }
 );
 
+const closeAllRequests = () =>{
+    return axios.patch(path + "/api/formulario/cerrar")
+    .then(response => {
+        return response
+    })
+    .catch((error)=>{
+        return error
+    }) 
+} 
+
 const getSubjects2 = (nombre)=>{
     const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
     return axios.get(path + url)
@@ -52,11 +62,13 @@ const getCommisionsBySubject = (code) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
+    return axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
     .then(response => {
         setter(response.data);
+        return response;
     })
     .catch(error=> {
+        return error;
     });
 }
 
@@ -67,6 +79,7 @@ const postCreateRequest= (dni,listComm) =>{
         })
         .catch(error=>{
             alert(error.response.data.error+ ": " + error.response.data.message );
+            return error
         })
 
 };
@@ -93,11 +106,40 @@ const patchCerrarFormulario = (id,dni) =>{
     }) 
 }
 
+const patchComentarFormulario = (id,autor,descripcion,dni) =>{
+    return axios.patch(path+'/api/formulario/'+id+'/comentar?autor='+autor+'&descripcion='+descripcion+'&dni='+dni,{})
+    .then((response) => {
+        return response
+    })
+    .catch((error)=>{
+        //alert(error.response.data.error+ ": " + error.response.data.message );
+        return error
+    }) 
+}
+
 const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const oferta = {
         "comisionesACargar": [],
         "finInscripciones": `${dateEnd}T${time}`,
         "inicioInscripciones": `${dateStart}T${time}`
+    }
+    const body = {
+        oferta : oferta
+    }
+    return axios.post(path+"/api/comisiones/oferta",oferta)
+    .then((response) => {
+        return response
+    })
+    .catch((error)=>{
+        return error
+    }) 
+}
+
+const uploadCommisiones = (comisiones,dateStart,dateEnd) =>{
+    const oferta = {
+        "comisionesACargar": comisiones,
+        "finInscripciones": dateEnd,
+        "inicioInscripciones": dateStart
     }
     const body = {
         oferta : oferta
@@ -163,4 +205,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest,patchComentarFormulario, uploadCommisiones};

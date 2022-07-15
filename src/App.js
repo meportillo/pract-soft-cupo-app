@@ -23,7 +23,8 @@ import Configuration from "./components/configuration/Configuration";
 import Dashoard from "./components/request/Dashboard";
 import { ImportFile } from "./components/importFile/ImportFile";
 import Subjects from "./components/subjects/Subjects";
-
+import './App.css';
+import ConfigurationPeriod from "./components/configuration/ConfigurationPeriod";
 
 class App extends Component {
     render(){
@@ -37,15 +38,16 @@ class App extends Component {
                     <Routes>
                         <Route path='/'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<Dashoard/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/requests'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
-                        <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Solicitud de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
-                        <Route path='/cupo/edit' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<EditCreateRequest encabezado='Editar de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Formulario Alta de Cupo'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/cupo/edit' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<EditCreateRequest encabezado='Edicion Formulario Alta de Cupo'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/requests/commissionRequest/:idcomision' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<CommissionRequest></CommissionRequest>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/student/:dni' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent admin={<ViewStudent></ViewStudent>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/signIn' element={<SignIn/>}/>
                         <Route path='/cuenta/codigo/' element={<ConfirmCode/>}/>
                         <Route path='/students' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Students/>} encabezado="Alumnos" navAdmin={<NavbarAdmin/>} />} />} />
                         <Route path='/subjects' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Subjects/>} encabezado="Materias" navAdmin={<NavbarAdmin/>} />} />} />
-                        <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
+                        <Route path='/load' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<Configuration/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />
+                        <Route path='/config' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<ConfigurationPeriod/>} encabezado="Configuraciones" navAdmin={<NavbarAdmin/>} />} />} />                        
                         <Route path='/csv' element={<ImportFile/>}/>
                     </Routes>
                   </BrowserRouter>

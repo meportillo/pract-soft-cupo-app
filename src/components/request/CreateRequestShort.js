@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import {getCommisionsBySubject, getSubjects2, postCreateRequest} from '../../services/SubjectService';
@@ -14,6 +14,7 @@ export default function CreateRequestShort(props){
     const [code, setCode] = useState('');
     const [commissions, setCommissions] = useState([]);
     const [subjectName, setSubjectName] = useState('');
+    const formRef = useRef(null);
 
     useEffect(()=>{
         getSubjects2().then((data)=>{
@@ -38,7 +39,21 @@ export default function CreateRequestShort(props){
 
     const createRequest = (dni,idCom)=>{
         postCreateRequest(dni,[idCom]).then(data =>{
-            props.alertUpdate();
+            if(data.response.status === 400){
+                props.setMessage(data.response.data.exception+': ' + data.response.data.message);
+                props.setShowMessage(true);
+                props.setCallError(true);
+                props.onHide();
+                props.alertUpdate();    
+            }else{
+                if(data.response.status === 200 || data.response.status === 201)
+                props.setMessage('Solicitud Generada Ok');
+                props.setShowMessage(true);
+                props.setCallError(false);
+                props.onHide();
+                props.alertUpdate();    
+            }
+            console.log(data);
         });
     }
 
@@ -48,15 +63,18 @@ return(<>
                 <Modal.Title id="contained-modal-title-getSubjects2vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
-                <Form.Control
-                    type="text"
-                    id="search"
-                    aria-describedby="passwordHelpBlock"
-                    onChange={(e) => {
-                        setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
-                    }
-            }
-                />
+                <Form ref={formRef}>
+                    <Form.Control
+                        type="text"
+                        id="search"
+                        aria-describedby="passwordHelpBlock"
+                        onChange={(e) => {
+                            setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
+                        }
+                }
+                    />
+
+                </Form>
             </Modal.Header>
             <Modal.Body className="show-grid">
 
@@ -77,9 +95,11 @@ return(<>
                 </tbody>
                 </Table>
                          <Button  key={Math.random()} onClick={(e) => {
-                             setCommissions([])
-                             setShowComision(false)
-                             }}>ok</Button>
+                             setCommissions([]);
+                             setShowComision(false);
+                             formRef.current.reset();
+
+                             }}>Limpiar</Button>
                 <hr></hr>
                 <Container>
                     {subjectsFilter.map(subject=>{

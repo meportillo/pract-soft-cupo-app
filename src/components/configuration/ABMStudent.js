@@ -2,14 +2,15 @@ import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
 import { createAlum, deleteAlum } from "../../services/StudentService";
 import { AlertRequest } from "../request/AlertRequest";
+import { ImportFile } from "../importFile/ImportFile";
+import {CSVReader} from './ImportStudent';
+import ImportHistoryStudent from "./ImportHistoryStudent";
 
 export default function ABMStudent(){
     
     const [dni,setDni] = useState('');
-    const [legajo,setLegajo] = useState('');
     const [apellido,setApellido] = useState('');
     const [nombre,setNombre] = useState('');
-    const [coeficiente,setCoeficiente] = useState(0);
     const [correo,setCorreo] = useState('');
     const [carrera,setCarrera] = useState('');
     const [showMessage,setShowMessage] = useState(false);
@@ -20,10 +21,8 @@ export default function ABMStudent(){
 
     const clear = ()=> {
        setDni('');
-       setLegajo('');
        setApellido('');
        setNombre('');
-       setCoeficiente('');
        setCorreo('');
        setCarrera('');
     }
@@ -31,10 +30,8 @@ export default function ABMStudent(){
     const create = ()=>{
         let alum = {
             'dni': dni,
-            'legajo':legajo,
             'apellido': apellido,
             'nombre': nombre,
-            'coeficiente': coeficiente,
             'correo': correo,
             'carrera': carrera
         }
@@ -90,64 +87,9 @@ export default function ABMStudent(){
         }
 
         <Container>
-        <Accordion defaultActiveKey="1">
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>Crear Alumno</Accordion.Header>
-                <Accordion.Body>
-                <Form ref={formRef}>
-
-                    <Form.Group className="mb-3" controlId="dniControl">
-                        <Form.Label>Nro. DNI: </Form.Label>
-                        <Form.Control type="text" placeholder="Numero de Dni del alumno" onChange={(e)=>{setDni(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="legControl">
-                        <Form.Label>Legajo: </Form.Label>
-                        <Form.Control type="text" placeholder="Numero de Legajo del alumno" onChange={(e)=>{setLegajo(e.target.value)}} />
-                    </Form.Group>
-
-
-                    <Form.Group className="mb-3" controlId="nombControl">
-                        <Form.Label>Nombre: </Form.Label>
-                        <Form.Control type="text" placeholder="Nombre del alumno" onChange={(e)=>{setNombre(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="apeControl">
-                        <Form.Label>Apellido: </Form.Label>
-                        <Form.Control type="text" placeholder="Apellido del alumno" onChange={(e)=>{setApellido(e.target.value)}} />
-                    </Form.Group>
-
-
-                    <Form.Group className="mb-3" controlId="coeControl">
-                        <Form.Label>Coeficiente: </Form.Label>
-                        <Form.Control type="text" placeholder="Coeficiente del alumno" onChange={(e)=>{setCoeficiente(e.target.value)}} />
-                    </Form.Group>
-
-
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email </Form.Label>
-                        <Form.Control type="email" placeholder="Email del alumno"  onChange={(e)=>{setCorreo(e.target.value)}} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Carrera </Form.Label>
-
-                        <Form.Select aria-label="Carrera" onChange={(e)=>{setCarrera(e.target.value)}} >
-                            <option>Selecionar</option>
-                            <option value="TPI">Tecnicatura universitaria en Programacion Informatica</option>
-                            <option value="LI">Licenciatura en informatica</option>
-                            <option value="SIMULTANEIDAD">Simultaneidad</option>
-                        </Form.Select>
-                    </Form.Group>
-
-
-                    </Form>
-                    <Button variant="outline-primary" onClick={create}>Crear</Button>
-
-                </Accordion.Body>
-            </Accordion.Item>
+        <Accordion>
             <Accordion.Item eventKey="1">
-                <Accordion.Header>Borrar Alumno</Accordion.Header>
+                <Accordion.Header>Borrar</Accordion.Header>
                 <Accordion.Body>
                 <Form ref={formDelRef}>
                     <Form.Group className="mb-3" controlId="dniControl">
@@ -159,6 +101,22 @@ export default function ABMStudent(){
 
                 </Accordion.Body>
             </Accordion.Item>
+            <Accordion.Item eventKey="2">
+                <Accordion.Header>Carga Masiva</Accordion.Header>
+                <Accordion.Body>
+                { //<ImportFile importar={importCSVCourses}></ImportFile>
+}
+                    <CSVReader></CSVReader>
+                  </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="3">
+                <Accordion.Header>Carga Masiva - Historia Academica</Accordion.Header>
+                <Accordion.Body>
+                { //<ImportFile importar={importCSVCourses}></ImportFile>
+}
+                    <ImportHistoryStudent></ImportHistoryStudent>
+                  </Accordion.Body>
+            </Accordion.Item>                       
             </Accordion>
 
         </Container>        

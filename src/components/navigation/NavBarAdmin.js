@@ -3,12 +3,12 @@ import {
 Nav,
 NavLink,
 Bars,
-NavMenu,
-} from './NavbarElements';
-import {FcHome,FcDataSheet, FcButtingIn, FcSupport, FcDiploma1}  from 'react-icons/fc';
+NavMenu} from './NavbarElements';
+import {FcHome,FcDataSheet, FcButtingIn, FcSupport, FcDiploma1,FcCalendar}  from 'react-icons/fc';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
+import logo from '../../img/unq.png';
 
 export const NavbarAdmin = () => {
 
@@ -16,6 +16,7 @@ export const NavbarAdmin = () => {
     
     const closeSession = () => {
         localStorage.removeItem("jwt");
+        localStorage.removeItem("user");
         navigate("/signIn");
     }
 
@@ -23,13 +24,13 @@ export const NavbarAdmin = () => {
         <>
        <Nav style={{background:"white"}}>
             <Bars />
-            <img style={{position:"relative", left:"20px"}}src="http://alimentos.web.unq.edu.ar/wp-content/uploads/sites/99/2017/10/LOGO_UNQ-HD.jpg" alt='unq'></img>
+            <img style={{position:"relative", left:"20px"}} src={logo} alt='unq'></img>
             <Dropdown style={{position:"relative", right:"20px", top:"20px"}}>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         <BsFillPersonFill style={{"marginRight":5}}/>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={closeSession}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={closeSession}>Cerrar sesion</Dropdown.Item>
                     </Dropdown.Menu>
             </Dropdown>
         </Nav>
@@ -40,16 +41,19 @@ export const NavbarAdmin = () => {
                        <FcHome/> Dashboard
                     </NavLink>                
                     <NavLink to='/requests'>
-                        <FcDataSheet/> Solicitudes
+                        <FcDataSheet/> Solicitudes - Materia
                     </NavLink>                
                     <NavLink to='/students'>
-                       <FcButtingIn/> Alumnos
+                       <FcButtingIn/> Solicitudes - Alumnos
                     </NavLink>
                     <NavLink to='/subjects'>
                        <FcDiploma1/> Materias
                     </NavLink>  
                     <NavLink to='/config'>
-                       <FcSupport/> Configuracion
+                       <FcCalendar/> Editar Periodo
+                    </NavLink> 
+                    <NavLink to='/load'>
+                       <FcSupport/> Carga Datos
                     </NavLink> 
                 </NavMenu>
 	        </Nav>            
