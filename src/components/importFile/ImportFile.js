@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';   
 import Alert from 'react-bootstrap/Alert';    
 import Card from 'react-bootstrap/Card'; 
-import { mapMateriasPlan2010, mapMateriasPlanLI } from "../../utils/CSVFunctions"
+import { mapMateriasPlan2010, mapMateriasPlanLI, mapMateriasPlan2015 } from "../../utils/CSVFunctions"
 import { useCSVReader } from 'react-papaparse';
 import { CSVDownloader } from '../importFile/CSVDownloader'
 const styles = {
@@ -58,8 +58,8 @@ export const ImportFile = (props) => {
     setError(false);
   }
 
-  const mapCarreraTPI2015 = () => {
-        
+  const mapCarreraTPI2015 = (rows) => {
+     return mapMateriasPlan2015(rows);   
   };
 
   const mapCarreraLI = (rows) => {
@@ -108,7 +108,6 @@ export const ImportFile = (props) => {
   const enviarCSV = () => {
     mapMateriasSegunCarrera(data)
     .then(info => {
-          console.log(info)
           props.importar({"plan":carrera,"materias":info})
           .then(res => {
             setEnviando(false)

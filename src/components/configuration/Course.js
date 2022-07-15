@@ -24,7 +24,7 @@ export default function Course(){
                 }
             }).catch((error)=>{
                 
-                setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
+                setMessage((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message);
                 setShowMessage(true);
                 setCallError(true);
             })

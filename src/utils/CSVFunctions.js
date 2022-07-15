@@ -69,6 +69,33 @@ const mapMateriasPlan2010 = (filas) => {
     }
 }
 
+//Plan TPI 2010,	Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,	Secuencialidad CO - créditos,	Secuencialidad CA - créditos,	Secuencialidad CC - créditos
+const mapMateriasPlan2015 = (filas) => { 
+  try{
+    return Promise.resolve(filas.slice(1,filas.length).map((fila,index) => {
+              const getCorrelativas = (crs) => crs.replace(/[{}]/g, '').split(",").map(c => c.trim())  
+              const correlativas = fila[4].trim() ? getCorrelativas(fila[4].trim()) : []  
+              const resultado = {
+                      "ca": fila[7].trim() ? fila[7].trim(): 0,
+                      "cb": 0,
+                      "cc": fila[8].trim() ? fila[8].trim(): 0,
+                      "ci": fila[5].trim() ? fila[5].trim(): 0,
+                      "cicloTPI": fila[0].trim() ? fila[0].trim(): "",
+                      "co": fila[6].trim() ? fila[6].trim(): 0,
+                      "codigo": fila[1].trim() ? fila[1].trim(): "",
+                      "creditos": fila[2].trim() ? fila[2].trim(): 0,
+                      "fila": index + 1,
+                      "materia": fila[3].trim() ? fila[3].trim(): "",
+                      "nbw": 0,
+                      "correlativas": correlativas
+              }
+              return resultado 
+            })) 
+    }catch(e){
+      return Promise.reject(e)
+    }
+}
+
 //Plan TPI 2010,Código Materia,	Créditos,	Materia,	Correlatividades,	Secuencialidad CI - créditos,	
 //Secuencialidad NBW (Núcleo Básico), - créditos	Secuencialidad CB  (W15BO) - créditos
 const mapMateriasPlanLI = (filas) => {
@@ -98,4 +125,4 @@ const mapMateriasPlanLI = (filas) => {
   }
 }
 
-export {mapMateriasPlan2010,mapMateriasPlanLI}
+export {mapMateriasPlan2010,mapMateriasPlanLI,mapMateriasPlan2015}
