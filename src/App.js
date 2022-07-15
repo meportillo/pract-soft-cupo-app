@@ -23,7 +23,7 @@ import Configuration from "./components/configuration/Configuration";
 import Dashoard from "./components/request/Dashboard";
 import { ImportFile } from "./components/importFile/ImportFile";
 import Subjects from "./components/subjects/Subjects";
-
+import './App.css';
 
 class App extends Component {
     render(){

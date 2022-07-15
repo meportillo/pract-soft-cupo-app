@@ -1,7 +1,12 @@
-import React, { Component, useEffect, useState } from 'react'
-import { Button, ButtonGroup, Col, Form, Row, Table } from 'react-bootstrap';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, ButtonGroup, Col, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { getAlumnos, getAlumnosByDni } from '../../services/SubjectService';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import {optionsTable} from '../../utils/table';
+
 
 export default function TableStudents() {
 
@@ -12,9 +17,19 @@ export default function TableStudents() {
     useEffect(() => {
         getAlumnos()
         .then((data) => {
-            setAlumnos(data)
+            setAlumnos(data);
         });
     },[])
+
+    const action = (cell, row, rowIndex)=>{
+      return(<ButtonGroup>
+              <Button
+                key={Math.random()}
+                onClick={(e) => navigate('/student/'+ row.alumno.dni)}>
+                      Ver
+              </Button>
+      </ButtonGroup>)
+    }
 
     const updateTime = () => {
       getAlumnosByDni(search)
@@ -23,8 +38,30 @@ export default function TableStudents() {
       })
     }
 
-
-    return (
+    const columns = [{
+      dataField: 'alumno.nombre',
+      text: 'Nombre',
+      sort: true,
+      classes: 'w-25 p-3'
+    } , {
+      dataField: 'alumno.dni',
+      text: 'DNI',
+      sort: true
+    },{
+      dataField: 'alumno.correo',
+      text: 'Correo',
+      sort: true,
+      style: {
+        width: 'auto' 
+      }      
+    },{
+      dataField: 'alumno.actions',
+      text: 'Acciones',
+      sort: true,
+      formatter:  action   
+    }
+  ];
+  return (
       <>
       <Form>
       <Row className="mb-3">
@@ -43,50 +80,10 @@ export default function TableStudents() {
         <Button as={Col} md="auto" onClick={updateTime}  variant="primary">Filtrar</Button>
         </Row>
         </Form>
-        <Table striped bordered hover className="Alumnos">
-          <thead>
-            <tr key={Math.random()}>
-              <th>Nombre</th>
-              <th>DNI</th>
-              <th>Legajo</th>
-              <th>Correo</th>
-              <th>Coeficiente</th>
-              <th>Estado Formulario</th>
-              <th>Acceder </th>
-            </tr>
-          </thead>
-          <tbody>
-            {alumnos.map(
-              ({
-                alumno: { dni, nombre, apellido, correo, legajo, coeficiente },
-                estadoFormulario,
-              }) => {
-                return (
-                  <>
-                    <tr key={dni}>
-                      <td>{nombre + " " + apellido}</td>
-                      <td>{dni}</td>
-                      <td>{legajo}</td>
-                      <td>{correo}</td>
-                      <td>{coeficiente}</td>
-                      <td>{estadoFormulario}</td>
-                      <td>
-                        <ButtonGroup>
-                          <Button
-                            key={Math.random()}
-                            onClick={(e) =>navigate('/student/'+ dni)}
-                          >
-                            Ver
-                          </Button>
-                        </ButtonGroup>
-                      </td>
-                    </tr>
-                  </>
-                );
-              }
-            )}
-          </tbody>
-        </Table>
+        <BootstrapTable keyField='alumno.dni' data={ alumnos } columns={ columns } pagination={ paginationFactory(optionsTable(alumnos.length,2,5)) } 
+        striped hover condensed>
+        </BootstrapTable>
+
       </>
     );
 

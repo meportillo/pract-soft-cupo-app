@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';   
 import Alert from 'react-bootstrap/Alert';    
 import { sendCode } from '../../services/StudentService';
-import { setToken } from '../../utils/auth';
 import { useNavigate } from "react-router-dom";
 
 export function ConfirmCode(props){

@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
 Nav,
 NavLink,
 Bars,
-NavMenu,
-NavBtn,
-NavBtnLink,
-} from './NavbarElements';
+NavMenu} from './NavbarElements';
 import {FcHome,FcDataSheet, FcButtingIn, FcSupport, FcDiploma1}  from 'react-icons/fc';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { BsFillPersonFill } from 'react-icons/bs';
@@ -18,6 +15,7 @@ export const NavbarAdmin = () => {
     
     const closeSession = () => {
         localStorage.removeItem("jwt");
+        localStorage.removeItem("user");
         navigate("/signIn");
     }
 
@@ -31,7 +29,7 @@ export const NavbarAdmin = () => {
                         <BsFillPersonFill style={{"marginRight":5}}/>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={closeSession}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={closeSession}>Cerrar sesion</Dropdown.Item>
                     </Dropdown.Menu>
             </Dropdown>
         </Nav>

@@ -18,6 +18,16 @@ axios.interceptors.request.use(
     }
 );
 
+const closeAllRequests = () =>{
+    return axios.patch(path + "/api/formulario/cerrar")
+    .then(response => {
+        return response
+    })
+    .catch((error)=>{
+        return error
+    }) 
+} 
+
 const getSubjects2 = (nombre)=>{
     const url = nombre == "" || nombre == undefined  ? '/api/materias/solicitudes':`/api/materias/solicitudes?nombre=${nombre}`
     return axios.get(path + url)
@@ -33,7 +43,6 @@ const getSubjects2 = (nombre)=>{
         })
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 
@@ -43,7 +52,6 @@ const getCommissions = (anio,semestre,setter)=>{
         setter(response.data);
     })
     .catch(error=> {
-        console.log(error);
     });
 }
 const getCommisionsBySubject = (code) => {
@@ -54,12 +62,13 @@ const getCommisionsBySubject = (code) => {
     .catch();
 }
 const getRequestsByCommision = (comisionId, setter) => {
-    axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
+    return axios.get(path+'/api/comisiones/'+comisionId+'/solicitantes')
     .then(response => {
         setter(response.data);
+        return response;
     })
     .catch(error=> {
-        console.log(error);
+        return error;
     });
 }
 
@@ -96,6 +105,17 @@ const patchCerrarFormulario = (id,dni) =>{
     }) 
 }
 
+const patchComentarFormulario = (id,autor,descripcion,dni) =>{
+    return axios.patch(path+'/api/formulario/'+id+'/comentar?autor='+autor+'&descripcion='+descripcion+'&dni='+dni,{})
+    .then((response) => {
+        return response
+    })
+    .catch((error)=>{
+        //alert(error.response.data.error+ ": " + error.response.data.message );
+        return error
+    }) 
+}
+
 const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     const oferta = {
         "comisionesACargar": [],
@@ -107,11 +127,9 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
     }
     return axios.post(path+"/api/comisiones/oferta",oferta)
     .then((response) => {
-        console.log(response);
         return response
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -119,11 +137,9 @@ const updateTimeFormulario = (dateStart,dateEnd,time) =>{
 const getAlumnos = () =>{
     return axios.get(path+"/api/alumnos/formulario")
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -131,11 +147,9 @@ const getAlumnos = () =>{
 const getAlumnosByDni = (dni) =>{
     return axios.get(path+ `/api/alumnos/formulario?dni=${dni}`)
     .then((response) => {
-        console.log(response);
         return response.data
     })
     .catch((error)=>{
-        console.log(error);
         return error
     }) 
 }
@@ -172,4 +186,4 @@ const getAlumnosSolicFiltro = (filtro) => {
 }
 
 
-export {getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest};
+export {closeAllRequests,getAlumnosSolicFiltro,getCuatrimestreByanio,getSubjectsComplete,getAlumnosByDni,getAlumnos,updateTimeFormulario,patchCerrarFormulario,getSubjects2, getCommissions, getRequestsByCommision, getCommisionsBySubject, postCreateRequest,patchRequest,patchComentarFormulario};

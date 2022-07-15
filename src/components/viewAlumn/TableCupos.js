@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Table from 'react-bootstrap/Table'
-import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, ButtonGroup} from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { FiCheck } from "react-icons/fi";
@@ -8,42 +7,18 @@ import { FiX } from "react-icons/fi";
 import {patchRequest, patchCerrarFormulario} from '../../services/SubjectService';
 import { AlertRequest } from '../request/AlertRequest';
 import {horarioToString} from '../../utils/time';
+import {optionsTable} from '../../utils/table';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
-export default function TableCupos({cupos, form}){
-    console.log(form);
+export default function TableCupos({cupos, alertUpdate ,form, addRequest}){
     const [message,setMessage] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [callError, setCallError] = useState(false);
 
-    return (<>
-        {
-            showMessage?
-                <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
-            :
-                <></>
-        }
-        <h5 class="d-flex justify-content-center">Cupos Pedidos</h5>
-        <Table striped bordered hover className='Cupos table-responsive'>
-            <tbody>
-                <tr key={Math.random()}>
-                    <td>Materia</td>
-                    <td>Comision</td>
-                    <td>Modalidad</td>
-                    <td>Horario</td>
-                    <td>Estado</td>
-                    <td>Acciones</td>
-                </tr>{form &&
-                   form.formulario.solicitudes.map((sol) => {
-                        return(
-                        <tr key={Math.random()}>
-                            <td>{sol.comision.materia}</td>
-                            <td>{sol.comision.id}</td>
-                            <td>{sol.comision.modalidad}</td>
-                            <td>{horarioToString(sol.comision.horarios)}</td>
-                            <td>{sol.estado}</td>
-                            <td>
-                            <Row className="mx-0">
-                                <ButtonGroup>
+    const actions = (sol)=>{
+        return (<>
+                    <ButtonGroup>
                                 <OverlayTrigger
                                     key={Math.random()}
                                     placement="top"
@@ -52,8 +27,9 @@ export default function TableCupos({cupos, form}){
                                             Aprobar solicitud
                                         </Tooltip>}
                                     >
-                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'APROBADO',form.formulario.id)
+                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol,'APROBADO',form.formulario.id)
                                     .then((response)=>{
+                                        alertUpdate(true);
                                         if(response.status == 200){
                                             //alert("Fomulario cerrado Ok")
                                             setMessage('Solicitud APROBADA Ok');
@@ -80,8 +56,9 @@ export default function TableCupos({cupos, form}){
                                             Rechazar solicitud
                                         </Tooltip>
                                     }>
-                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol.id,'RECHAZADO',form.formulario.id)
+                                    <Button onClick={e =>{patchRequest(form.formulario.dniAlumno,sol,'RECHAZADO',form.formulario.id)
                                     .then((response)=>{
+                                        alertUpdate(true);
                                         if(response.status == 200){
                                             //alert("Fomulario cerrado Ok")
                                             setMessage('Solicitud RECHAZADA Ok');
@@ -100,17 +77,69 @@ export default function TableCupos({cupos, form}){
                                         <FiX></FiX>
                                     </Button>
                                     </OverlayTrigger>
-                                </ButtonGroup>
-                            </Row>
-                            </td>
-                        </tr>)
-                    })
-                }
-            </tbody>
-        </Table>
-        <div className='col-3'>
+                                </ButtonGroup>        
+        </>)
+    }
+
+    const columns = [{
+        dataField: 'comision.materia',
+        text: 'Materia',
+        sort: true,
+        classes: 'w-25 p-3'
+      } , {
+        dataField: 'comision.id',
+        text: 'Comision',
+        sort: true
+      }, {
+        dataField: 'comision.modalidad',
+        text: 'Modalidad',
+        sort: true,
+        style: {
+          width: 'auto' 
+        }        
+      },{
+        dataField: 'comision.horarios',
+        text: 'Horario',
+        sort: true,
+        style: {
+          width: 'auto' 
+        },
+        formatter: horarioToString      
+      },{
+        dataField: 'estado',
+        text: 'Estado',
+        sort: true
+      },
+      {
+        dataField: 'id',
+        text: 'Acciones',
+        sort: true,
+        formatter:  actions   
+      }
+    ];
+
+
+
+    const rowStyle = (row, rowIndex) => {
+        const style =(row.estado === 'APROBADO')? {background: 'rgb(148, 255, 163)'} : 
+        ((row.estado === 'RECHAZADO')? {background: 'rgba(247, 148, 123, 0.788)'}: {
+            background: 'rgba(250, 252, 157, 0.842)'});
+        return style;
+      };
+
+    return (<>
+        {
+            showMessage?
+                <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+            :
+                <></>
+        }
+        <h5 class="d-flex justify-content-center">Cupos Pedidos</h5>
+        <div className='col-6'>
+            <ButtonGroup>
             <Button onClick={e =>{ patchCerrarFormulario(form.formulario.id,form.formulario.dniAlumno).then((response)=>{
                 if(response.status == 200){
+                    alertUpdate(true);
                     //alert("Fomulario cerrado Ok")
                     setMessage('Fomulario cerrado Ok');
                     setShowMessage(true);
@@ -118,6 +147,12 @@ export default function TableCupos({cupos, form}){
                 }
             }
             )}}>Cerrar Formulario</Button>
-        </div>
-        </>)
+            {addRequest()}       
+            </ButtonGroup>
+            <br></br>         
+        </div>       
+        <BootstrapTable keyField='nombreMateria' data={ form.formulario.solicitudes } columns={ columns } pagination={ paginationFactory(optionsTable(form.formulario.solicitudes.length, 2,5))} rowStyle={rowStyle} 
+        striped hover condensed>
+        </BootstrapTable>
+       </>)
 }

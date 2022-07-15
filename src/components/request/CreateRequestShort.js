@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import {getCommisionsBySubject, getSubjects2, postCreateRequest} from '../../services/SubjectService';
 import Form from 'react-bootstrap/Form';
@@ -13,6 +13,8 @@ export default function CreateRequestShort(props){
     const [showComision, setShowComision] = useState(false);
     const [code, setCode] = useState('');
     const [commissions, setCommissions] = useState([]);
+    const [subjectName, setSubjectName] = useState('');
+    const formRef = useRef(null);
 
     useEffect(()=>{
         getSubjects2().then((data)=>{
@@ -37,7 +39,7 @@ export default function CreateRequestShort(props){
 
     const createRequest = (dni,idCom)=>{
         postCreateRequest(dni,[idCom]).then(data =>{
-
+            props.alertUpdate();
         });
     }
 
@@ -47,33 +49,43 @@ return(<>
                 <Modal.Title id="contained-modal-title-getSubjects2vcenter">
                     Agregar Solicitudes
                 </Modal.Title>
-                <Form.Control
-                    type="text"
-                    id="search"
-                    aria-describedby="passwordHelpBlock"
-                    onChange={(e) => {
-                        setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
-                    }
-            }
-                />
+                <Form ref={formRef}>
+                    <Form.Control
+                        type="text"
+                        id="search"
+                        aria-describedby="passwordHelpBlock"
+                        onChange={(e) => {
+                            setSubjectsFilter(subjects.filter((subject)=>{return subject.nombre.toLocaleUpperCase().includes(e.target.value.toLocaleUpperCase())}))                        
+                        }
+                }
+                    />
+
+                </Form>
             </Modal.Header>
             <Modal.Body className="show-grid">
-                { (showComision)?
-                    (commissions.length ===0)? <>No hay comisiones para la materia  <Button key={Math.random()} onClick={(e) => {
-                        setShowComision(false)
-                        //setCommissions([])
-                        }}>ok</Button></>:
-                     <>{commissions.map((com)=>{
-                         return <CommisionRequestShort key={Math.random()} commission={com} createRequest={createRequest} dni={dni}/>}
+
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Materia</th>
+                        <th>Comision Nro</th>
+                        <th># Cupos Disp.</th>
+                        <th>Horario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {commissions.map((com)=>{
+                         return <CommisionRequestShort  key={Math.random()} commission={com} materia={subjectName} createRequest={createRequest} dni={dni}/>}
                     )}
+                </tbody>
+                </Table>
                          <Button  key={Math.random()} onClick={(e) => {
-                             setCommissions([])
-                             setShowComision(false)
-                             }}>ok</Button>
-                </>
-                    :
-                    <></>
-                }
+                             setCommissions([]);
+                             setShowComision(false);
+                             formRef.current.reset();
+
+                             }}>Limpiar</Button>
                 <hr></hr>
                 <Container>
                     {subjectsFilter.map(subject=>{
@@ -86,6 +98,7 @@ return(<>
                                 <Button variant='secondary' onClick={e=>{
                                         setCommissions([])
                                         setCode(subject.codigo)
+                                        setSubjectName(subject.nombre);
                                         setShowComision(true)
                                     }
                                 }><FiEye></FiEye></Button>

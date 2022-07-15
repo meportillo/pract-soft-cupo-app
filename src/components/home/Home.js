@@ -3,7 +3,7 @@ import FilterRequests from "../request/FilterRequests";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Accordion from 'react-bootstrap/Accordion';
 import TableRequests from "../request/TableRequests";
-import {getRequests, getSubjects2, getCommissions} from '../../services/SubjectService';
+import {getCommissions} from '../../services/SubjectService';
 
 
 export default function Home() {

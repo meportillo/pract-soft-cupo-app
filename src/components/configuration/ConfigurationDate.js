@@ -15,10 +15,6 @@ export const ConfigurationDate = () => {
     const [callError, setCallError] = useState(false);
     const formRef = useRef(null);
 
-    console.log("DATE Start", dateStart);
-    console.log("DATE End", dateEnd);
-    console.log("TIME", time);
-
     const clear = ()=>{
         setDateStart(new Date());
         setDateEnd(new Date());
@@ -41,8 +37,6 @@ export const ConfigurationDate = () => {
                 setCallError(true);
             }
         }).catch(error=>{
-            console.log(error);
-            
             setMessage(error.code+" : "+((error.response.data[0] !== undefined)? error.response.data[0].message : error.response.data.message));
             setShowMessage(true);
             setCallError(true);

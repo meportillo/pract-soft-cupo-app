@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import Table from 'react-bootstrap/Table'
+import React from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import {optionsTable} from '../../utils/table';
 
 export default function TableMateria({materias}){
+
+    const columns = [{
+        dataField: 'nombreMateria',
+        text: 'Nombre',
+        sort: true,
+        classes: 'w-25 p-3'        
+      } , {
+        dataField: 'estado',
+        text: 'Nota',
+        sort: true
+      }, {
+        dataField: 'fechaDeCarga',
+        text: 'Fecha',
+        sort: true,
+        style: {
+          width: 'auto' 
+        }        
+      },{
+        dataField: 'cantidadDeVecesCursada',
+        text: 'Veces Cursada',
+        sort: true,
+        style: {
+          width: 'auto' 
+        }      
+      }];
+
     return(
-        <>
-        
+        <>        
         <h5 class="d-flex justify-content-center">Materias Cursadas</h5>
-        <Table striped bordered hover className='Aprobadas table-responsive'>
-            <tbody className='overflow-auto'>
-                <tr>
-                    <td>Nombre</td>
-                    <td>Nota</td>
-                    <td>Fecha</td>
-                    <td>Veces cursada</td>
-                </tr>
-                {
-                    materias.map(mat => {
-                        return(
-                        <tr key={mat.nombreMateria}>
-                            <td>{mat.nombreMateria}</td>
-                            <td>{mat.estado}</td>
-                            <td>{mat.fechaDeCarga}</td>
-                            <td>{mat.cantidadDeVecesCursada}</td>
-                        </tr>)
-                    })
-                }
-            </tbody>
-        </Table>
+        <BootstrapTable keyField='nombreMateria' data={ materias } columns={ columns } pagination={ paginationFactory(optionsTable(materias.length,2,5)) }  
+        striped hover condensed >
+        </BootstrapTable>
         </>
     );
 }
