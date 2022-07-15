@@ -9,6 +9,7 @@ import TableInscriptas from './TableInscriptas';
 import { GrFormAdd } from 'react-icons/gr';
 import { patchComentarFormulario } from '../../services/SubjectService';
 import { AlertRequest } from '../request/AlertRequest';
+import TableHistory from './TableHistory';
 
 
 export  default function ViewStudent(props){
@@ -20,6 +21,7 @@ export  default function ViewStudent(props){
     const [createRequestShow, setCreateRequestShow] = useState(false);
     const [formulario,setFormulario] = useState();
     const [inscriptas, setInscriptas] = useState([]);
+    const [solicitudes,setSolicitudes] = useState([])
     const [solUpdate, setSolUpdate] = useState(Math.random())
     const [comentarios,setComentarios] = useState([]);
     const [comentario,setComentario] = useState('');
@@ -49,6 +51,7 @@ export  default function ViewStudent(props){
             setCuposPedidos(data.formulario.solicitudes);
             setInscriptas(data.formulario.comisionesInscripto);
             setComentarios(data.formulario.comentarios);
+            setSolicitudes(data.solicitudesAntiguas)
         });
     },[])
 
@@ -140,7 +143,7 @@ export  default function ViewStudent(props){
                                     <TableInscriptas inscriptas={inscriptas}></TableInscriptas>
                                 </Tab>
                                 <Tab eventKey="historial-solicitudes" title="Historial de Solicitudes" style={{height: '50px'}}>
-                                    <div>LLENAR CON EL HISTORIAL</div>
+                                    <TableHistory solicitudes={solicitudes}></TableHistory>
                                 </Tab>
                                 <Tab eventKey="comentarios-solicitudes" title={`Comentarios de Solicitudes: ${comentarios.length}`} style={{height: '50px'}}>
                                     <Card >
