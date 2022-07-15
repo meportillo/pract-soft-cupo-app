@@ -38,8 +38,8 @@ class App extends Component {
                     <Routes>
                         <Route path='/'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<Dashoard/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/requests'  element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<HomeStudent/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
-                        <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Solicitud de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
-                        <Route path='/cupo/edit' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<EditCreateRequest encabezado='Editar de cupo para materias'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/cupo' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<CreateRequest encabezado='Formulario Alta de Cupo'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
+                        <Route path='/cupo/edit' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent student={<EditCreateRequest encabezado='Edicion Formulario Alta de Cupo'/>} admin={<HomeAdmin/>} navAdmin={<NavbarAdmin/>} navStudent={<Navbar/>}/>} />}/>
                         <Route path='/requests/commissionRequest/:idcomision' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent  admin={<CommissionRequest></CommissionRequest>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/student/:dni' element={<Wrapper navigate={<Navigate to='/signIn'/>} component={<WrapperComponent admin={<ViewStudent></ViewStudent>} navAdmin={<NavbarAdmin/>}/>} />}/>
                         <Route path='/signIn' element={<SignIn/>}/>

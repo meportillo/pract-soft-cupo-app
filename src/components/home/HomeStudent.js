@@ -24,6 +24,7 @@ export function HomeStudent() {
             .catch()
         }
     }
+    
     useEffect(()=>{
         getCuatrimestreActual()
         .then(response=>{
@@ -62,6 +63,7 @@ export function HomeStudent() {
                 :   <></>
                 }
             </Card>
+            <br></br>
             <h3 className="d-flex justify-content-center mb-3">Formulario Cargado</h3>
             {
                 solicitudes.length + inscripciones.length === 0
@@ -79,55 +81,64 @@ const TableRequestsStudent = (props) => {
     return (
         <>
         <h4 style={{textAlign:"center"}}>Cupos solicitados</h4>
-        <Table size="sm">
-        <thead>
-            <tr>
-            <th>Estado</th>
-            <th>Materia</th>
-            <th>Modalidad</th>
-            <th>Horarios</th>
-            <th>Comision</th>
-            </tr>
-        </thead>
-        <tbody>
-            {
-                props.solicitudes.map((sol,index) => {
-                    return (
-                            <tr key={index}>
-                            <td>{sol.estado}</td>
-                            <td>{sol.materia}</td>
-                            <td>{sol.modalidad}</td>
-                            <td>{sol.horarios}</td>
-                            <td>{`C${sol.comision}`}</td>
-                            </tr>
-                        )
-                })
-            }
-        </tbody>
-        </Table>
+        {
+            props.solicitudes.length > 0  ? 
+                <Table size="sm">
+                <thead>
+                    <tr>
+                    <th>Estado</th>
+                    <th>Materia</th>
+                    <th>Modalidad</th>
+                    <th>Horarios</th>
+                    <th>Comision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        props.solicitudes.map((sol,index) => {
+                            return (
+                                    <tr key={index}>
+                                    <td>{sol.estado}</td>
+                                    <td>{sol.materia}</td>
+                                    <td>{sol.modalidad}</td>
+                                    <td>{sol.horarios}</td>
+                                    <td>{`C${sol.comision}`}</td>
+                                    </tr>
+                                )
+                        })
+                    }
+                </tbody>
+                </Table>
+            : <p>No hay cupos solicitados</p>
+
+        }
         <h4 style={{textAlign:"center"}}>Materias inscriptas</h4>
-        <Table size="sm">
-        <thead>
-            <tr>
-            <th>Materia</th>
-            <th>Horarios</th>
-            <th>Comision</th>
-            </tr>
-        </thead>
-        <tbody>
-            {
-                props.inscripciones.map((sol,index) => {
-                    return (
-                            <tr key={index}>
-                            <td>{sol.materia}</td>
-                            <td>{sol.horarios}</td>
-                            <td>{`C${sol.comision}`}</td>
-                            </tr>
-                        )
-                })
-            }
-        </tbody>
-        </Table>
+        {
+            props.inscripciones.length > 0  ? 
+                <Table size="sm">
+                <thead>
+                    <tr>
+                    <th>Materia</th>
+                    <th>Horarios</th>
+                    <th>Comision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        props.inscripciones.map((sol,index) => {
+                            return (
+                                    <tr key={index}>
+                                    <td>{sol.materia}</td>
+                                    <td>{sol.horarios}</td>
+                                    <td>{`C${sol.comision}`}</td>
+                                    </tr>
+                                )
+                        })
+                    }
+                </tbody>
+                </Table>
+            :<p>No se declararon materias inscriptas</p>
+        }
         </>
     )
 }

@@ -123,6 +123,12 @@ export default function EditCreateRequest(props){
             :  
         <Form className="container">
             <Form.Label className="d-flex justify-content-center"><h3>{props.encabezado}</h3></Form.Label>
+            <Card>
+                <p style={{"color" : "red", "fontSize":"large"}}>* Atención</p>
+                <Card.Text>En el formulario podra cargar las materias en las que se pudo inscribir por medio de Guarani, ademas tambien podra agregar materias y las comisiones en las que desee solicitar un cupo.</Card.Text>
+                <p style={{"color" : "red", "fontSize":"large"}}>** Solo apareceran las materias para las cuales cumple las correlativas</p>
+            </Card>
+            <br></br>
             <Form.Group >
                 <Card>
                     {
