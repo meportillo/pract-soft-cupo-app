@@ -79,6 +79,7 @@ const postCreateRequest= (dni,listComm) =>{
         })
         .catch(error=>{
             alert(error.response.data.error+ ": " + error.response.data.message );
+            return error
         })
 
 };

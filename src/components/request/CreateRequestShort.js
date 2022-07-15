@@ -7,7 +7,6 @@ import CommisionRequestShort from './CommisionRequestShort';
 import { FiEye } from "react-icons/fi";
 
 export default function CreateRequestShort(props){
-    console.log(props);
     const [dni,setDni]  = useState(props.studentid);
     const [subjects, setSubjects] = useState([]);
     const [subjectsFilter, setSubjectsFilter] = useState([]);
@@ -40,11 +39,21 @@ export default function CreateRequestShort(props){
 
     const createRequest = (dni,idCom)=>{
         postCreateRequest(dni,[idCom]).then(data =>{
-            props.setMessage('Solicitud Generada Ok');
-            props.setShowMessage(true);
-            props.setCallError(false);
-            props.onHide();
-            props.alertUpdate();
+            if(data.response.status === 400){
+                props.setMessage(data.response.data.exception+': ' + data.response.data.message);
+                props.setShowMessage(true);
+                props.setCallError(true);
+                props.onHide();
+                props.alertUpdate();    
+            }else{
+                if(data.response.status === 200 || data.response.status === 201)
+                props.setMessage('Solicitud Generada Ok');
+                props.setShowMessage(true);
+                props.setCallError(false);
+                props.onHide();
+                props.alertUpdate();    
+            }
+            console.log(data);
         });
     }
 
