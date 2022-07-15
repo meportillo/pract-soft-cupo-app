@@ -117,6 +117,12 @@ export  default function ViewStudent(props){
                             <h5>Carrera: {carrera}</h5>
                         </div>
                         <hr></hr>
+                        {
+                                    showMessage?
+                                        <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
+                                        :
+                                        <></>
+                                    }                        
                         {formulario === undefined ?  <></>:
                         <TableCupos cupos={cuposPedidos} alertUpdate={updateSol} addRequest={buttonAgregar} form={formulario}></TableCupos>
                         }
@@ -126,6 +132,7 @@ export  default function ViewStudent(props){
 
     //style={{height: '50px'}}
    }
+                                   
                             <Tab eventKey="cursadas" title="Materias Cursadas" style={{height: '50px'}}>
                                     <TableMateria  materias={materiasAprobadas}> </TableMateria>
                                 </Tab>
@@ -136,12 +143,6 @@ export  default function ViewStudent(props){
                                     <div>LLENAR CON EL HISTORIAL</div>
                                 </Tab>
                                 <Tab eventKey="comentarios-solicitudes" title={`Comentarios de Solicitudes: ${comentarios.length}`} style={{height: '50px'}}>
-                                    {
-                                    showMessage?
-                                        <><AlertRequest message={message} click={()=>{setShowMessage(false)}} show={showMessage} error={callError}></AlertRequest></>
-                                        :
-                                        <></>
-                                    }                                    
                                     <Card >
                                         <Card.Header>
                                             <Form ref={formRef} validated>
@@ -160,7 +161,7 @@ export  default function ViewStudent(props){
                                     </Card>    
                                 </Tab>
                           </Tabs>
-                        <CreateRequestShort studentid={alumno.dni} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
+                        <CreateRequestShort studentid={alumno.dni} setMessage={setMessage} setShowMessage={setShowMessage} setCallError={setCallError} alertUpdate={updateSol} show={createRequestShow} onHide={(e)=>{setCreateRequestShow(false)}} ></CreateRequestShort>
                     </div>
 
 
