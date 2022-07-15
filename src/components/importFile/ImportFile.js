@@ -93,13 +93,13 @@ export const ImportFile = (props) => {
   }]
 
   const ejemploPlanLI = [{
-      "Plan TPI 2010": "CC",
+      "Plan TPI 2010": "CA",
       "Código Materia": "1051",
       "Creditos":"8",
       "Materia":"Programación con Objetos III",
       "Correlatividades":"{1037}",
       "Secuencialidad CI - créditos":"30",
-      "Secuencialidad NBW (Núcleo Básico)": "180",
+      "Secuencialidad NBW (Núcleo Básico) - créditos": "180",
       "Secuencialidad CB  (W15BO) - créditos": "56"
   }]
  
