@@ -50,6 +50,20 @@ export default function Dashoard(){
                     setShowMessage(true);
                     setCallError(true);
                 }
+                getAlumnosSolicFiltro('FALTA_PROCESAR')
+                .then(response=>{
+                    setAlumnosSinProcesar(response.data.length);
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
+                getAlumnosSolicFiltro('PROCESADO')
+                .then(response=>{
+                    setAlumnosProcesados(response.data.length);
+                })
+                .catch(error=>{
+                    console.log(error);
+                });        
             })
         }
      }

@@ -2,6 +2,9 @@ import { useRef, useState } from "react"
 import { Button, Container, Form, Accordion } from "react-bootstrap";
 import { createAlum, deleteAlum } from "../../services/StudentService";
 import { AlertRequest } from "../request/AlertRequest";
+import { ImportFile } from "../importFile/ImportFile";
+import {CSVReader} from './ImportStudent';
+import ImportHistoryStudent from "./ImportHistoryStudent";
 
 export default function ABMStudent(){
     
@@ -86,7 +89,7 @@ export default function ABMStudent(){
         <Container>
         <Accordion defaultActiveKey="1">
             <Accordion.Item eventKey="0">
-                <Accordion.Header>Crear Alumno</Accordion.Header>
+                <Accordion.Header>Crear</Accordion.Header>
                 <Accordion.Body>
                 <Form ref={formRef}>
 
@@ -115,9 +118,9 @@ export default function ABMStudent(){
 
                         <Form.Select aria-label="Carrera" onChange={(e)=>{setCarrera(e.target.value)}} >
                             <option>Selecionar</option>
-                            <option value="TPI">Tecnicatura universitaria en Programacion Informatica</option>
-                            <option value="LI">Licenciatura en informatica</option>
-                            <option value="SIMULTANEIDAD">Simultaneidad</option>
+                            <option value="P">Tecnicatura universitaria en Programacion Informatica</option>
+                            <option value="W">Licenciatura en informatica</option>
+                            <option value="PW">Simultaneidad</option>
                         </Form.Select>
                     </Form.Group>
 
@@ -128,7 +131,7 @@ export default function ABMStudent(){
                 </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
-                <Accordion.Header>Borrar Alumno</Accordion.Header>
+                <Accordion.Header>Borrar</Accordion.Header>
                 <Accordion.Body>
                 <Form ref={formDelRef}>
                     <Form.Group className="mb-3" controlId="dniControl">
@@ -140,6 +143,22 @@ export default function ABMStudent(){
 
                 </Accordion.Body>
             </Accordion.Item>
+            <Accordion.Item eventKey="2">
+                <Accordion.Header>Carga Masiva</Accordion.Header>
+                <Accordion.Body>
+                { //<ImportFile importar={importCSVCourses}></ImportFile>
+}
+                    <CSVReader></CSVReader>
+                  </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="3">
+                <Accordion.Header>Carga Masiva - Historia Academica</Accordion.Header>
+                <Accordion.Body>
+                { //<ImportFile importar={importCSVCourses}></ImportFile>
+}
+                    <ImportHistoryStudent></ImportHistoryStudent>
+                  </Accordion.Body>
+            </Accordion.Item>                       
             </Accordion>
 
         </Container>        
