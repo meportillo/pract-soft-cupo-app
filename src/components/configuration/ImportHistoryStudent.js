@@ -66,9 +66,9 @@ export default function ImportHistoryStudent(){
         })
         .catch(error=>{
             console.log(error);
-          /*  const results = jsonToCSV(error.response.data);
+            const results = jsonToCSV(error.response.data);
             setResultadoProceso(results);
-            setDescarga(true);*/
+            setDescarga(true);
             console.log('---------------------------');
           //  console.log('Results: TO CSV', results);
             console.log('---------------------------');            
