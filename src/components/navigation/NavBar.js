@@ -9,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
 import {FcHome,FcDataSheet}  from 'react-icons/fc';
-
+import logo from '../../img/unq.png';
 
 export const Navbar = () => {
 
@@ -26,7 +26,7 @@ export const Navbar = () => {
         <>
         <Nav style={{background:"white"}}>
             <Bars />
-            <img style={{position:"relative", left:"20px"}}src="http://alimentos.web.unq.edu.ar/wp-content/uploads/sites/99/2017/10/LOGO_UNQ-HD.jpg" alt='unq'></img>
+            <img style={{position:"relative", left:"20px"}} src={logo} alt='unq'></img>
             <Dropdown style={{position:"relative", right:"20px", top:"20px"}}>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         <BsFillPersonFill style={{"marginRight":5}}/>
