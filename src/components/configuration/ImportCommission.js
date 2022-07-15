@@ -97,7 +97,7 @@ export default function ImportCommission(){
             return temp === undefined ? '':temp.charAt(temp.length-1);
     }
     
-    const comisionesExample = ["Código","Actividad","Comisión,Modalidad","Ubicacion","Banda Horaria y Aula"]
+    const comisionesExample = [{"Código","Actividad","Comisión,Modalidad","Ubicacion","Banda Horaria y Aula"}]
 
     return (
         <>
