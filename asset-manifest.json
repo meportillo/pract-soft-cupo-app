@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/pract-soft-cupo-app/static/css/main.220c3481.css",
-    "main.js": "/pract-soft-cupo-app/static/js/main.0fe7b657.js",
+    "main.js": "/pract-soft-cupo-app/static/js/main.e7521aee.js",
     "static/media/unq.png": "/pract-soft-cupo-app/static/media/unq.74f93745dcd491da9463.png",
     "index.html": "/pract-soft-cupo-app/index.html",
     "main.220c3481.css.map": "/pract-soft-cupo-app/static/css/main.220c3481.css.map",
-    "main.0fe7b657.js.map": "/pract-soft-cupo-app/static/js/main.0fe7b657.js.map"
+    "main.e7521aee.js.map": "/pract-soft-cupo-app/static/js/main.e7521aee.js.map"
   },
   "entrypoints": [
     "static/css/main.220c3481.css",
-    "static/js/main.0fe7b657.js"
+    "static/js/main.e7521aee.js"
   ]
 }
