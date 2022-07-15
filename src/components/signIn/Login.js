@@ -29,6 +29,7 @@ export function Login() {
             navigate("/");
         })
         .catch(err => {
+            console.log(err)
             setError(err.message);
         })
     }
@@ -40,7 +41,7 @@ export function Login() {
             <Col className="col-md-6" >
             {
                 error ? <Alert variant="danger" onClose={() => setError(false)} dismissible>
-                           DNI o contraseña incorrectos
+                           {error}
                         </Alert>
                 : <></>
             }
