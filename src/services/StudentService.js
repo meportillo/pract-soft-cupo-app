@@ -21,14 +21,14 @@ axios.interceptors.request.use(
 
 const login = (dni,contrasenia) => {
     const body = {contrasenia,dni};
-    return axios.post(`${path}/api/auth/alumno/login`,body)
+    return axios.post(`${path}api/auth/alumno/login`,body)
     .then(res => new Promise((resolve,error)=>resolve(res.headers.authorization)))
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
 
 const loginAdmin = (email,contrasenia) => {
     const body = {contrasenia,correo:email};
-    return axios.post(`${path}/api/auth/directivo/login`,body)
+    return axios.post(`${path}api/auth/directivo/login`,body)
     .then(res => new Promise((resolve,error)=>resolve(res.headers.authorization)))
     .catch(err => new Promise((resolve,error)=>error(err.response.data)))
 }
